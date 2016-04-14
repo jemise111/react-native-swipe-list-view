@@ -77,7 +77,7 @@ class SwipeListView extends Component {
 
 }
 
-SwipeListView.PropTypes = {
+SwipeListView.propTypes = {
 	/**
 	 * How to render a row. Should return a valid React Element.
 	 */
@@ -108,8 +108,7 @@ SwipeListView.defaultProps = {
 	leftOpenValue: 0,
 	rightOpenValue: 0,
 	closeOnScroll: true,
-	closeOnRowPress: true,
-	closeOnOtherRowOpen: true,
+	closeOnRowPress: true
 }
 
 export default SwipeListView;

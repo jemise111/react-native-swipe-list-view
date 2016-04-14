@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-SwipeRow.PropTypes = {
+SwipeRow.propTypes = {
 	/**
 	 * Used by the SwipeListView to close rows on scroll events.
 	 * You shouldn't need to use this prop explicitly.
