@@ -56,7 +56,7 @@ BAD:
 renderRow={ data => (
 	<View>
 	    <TouchableHighlight onPress={this.doSomething.bind(this)}>
-	        <Text>I'm {data} in a SwipeListView</Text>
+	        <Text>I am {data} in a SwipeListView</Text>
 	    </TouchableHighlight>
 	</View>
 )}
