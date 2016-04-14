@@ -1,8 +1,8 @@
 # react-native-swipe-list-view
 
-<SwipeListView> is a ListView with rows that swipe open and closed. Handles default native behavior such as closing rows when ListView is scrolled or when other rows are opened.
+```<SwipeListView>``` is a ListView with rows that swipe open and closed. Handles default native behavior such as closing rows when ListView is scrolled or when other rows are opened.
 
-Also includes <SwipeRow> if you want to use a swipeable row outside of the SwipeListView
+Also includes ```<SwipeRow>``` if you want to use a swipeable row outside of the ```<SwipeListView>```
 
 # Installation
 ```bash
@@ -12,7 +12,6 @@ npm install --save react-native-swipe-list-view
 # Usage
 ```javascript
 import { SwipeListView } from 'react-native-swipe-list-view';
-// var SwipeListView = require('SwipeListView').SwipeListView
 
 render() {
 	const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -21,7 +20,7 @@ render() {
 			dataSource={this.ds.cloneWithRows(dataSource)}
 			renderRow={ data => (
 				<View style={styles.rowFront}>
-					<Text>I'm {data} in a SwipeListView</Text>
+					<Text>I am {data} in a SwipeListView</Text>
 				</View>
 			)}
 			renderHiddenRow={ data => (
@@ -47,7 +46,7 @@ GOOD:
 renderRow={ data => (
 	<TouchableHighlight onPress={this.doSomething.bind(this)}>
 	    <View>
-	        <Text>I'm {data} in a SwipeListView</Text>
+	        <Text>I am {data} in a SwipeListView</Text>
 	    </View>
 	</TouchableHighlight>
 )}
