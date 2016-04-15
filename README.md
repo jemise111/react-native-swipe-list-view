@@ -4,6 +4,9 @@
 
 Also includes ```<SwipeRow>``` if you want to use a swipeable row outside of the ```<SwipeListView>```
 
+# Example
+![](http://imgur.com/6fTrdZa) ![](http://imgur.com/3IdOA77)
+
 # Installation
 ```bash
 npm install --save react-native-swipe-list-view
