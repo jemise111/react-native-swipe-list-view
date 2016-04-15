@@ -1,11 +1,28 @@
 {
-  "name": "reactNativeSwipeList",
+  "name": "react-native-swipe-list-view",
   "version": "0.0.1",
-  "private": true,
+  "main": "lib/index.js",
+  "author": "Jesse Sessler <jesse.sessler@gmail.com>",
+  "description": "A ListView with rows that swipe open and closed.",
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
   },
-  "dependencies": {
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jemise111/react-native-swipe-list-view"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "react-native",
+    "react-component",
+    "ios",
+    "android",
+    "listview",
+    "swipe",
+    "swipeable",
+  ],
+  "peerDependencies": {
     "react": "^0.14.8",
     "react-native": "^0.23.1"
   }
