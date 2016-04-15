@@ -5,7 +5,7 @@
 Also includes ```<SwipeRow>``` if you want to use a swipeable row outside of the ```<SwipeListView>```
 
 # Example
-![](http://imgur.com/6fTrdZa) ![](http://imgur.com/3IdOA77)
+![](http://i.imgur.com/6fTrdZa.gif) ![](http://i.imgur.com/3IdOA77.gif)
 
 # Installation
 ```bash
