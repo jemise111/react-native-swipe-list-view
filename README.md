@@ -20,7 +20,7 @@ render() {
 	const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 	return (
 		<SwipeListView
-			dataSource={this.ds.cloneWithRows(dataSource)}
+			dataSource={ds.cloneWithRows(dataSource)}
 			renderRow={ data => (
 				<View style={styles.rowFront}>
 					<Text>I am {data} in a SwipeListView</Text>

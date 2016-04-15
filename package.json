@@ -20,7 +20,7 @@
     "android",
     "listview",
     "swipe",
-    "swipeable",
+    "swipeable"
   ],
   "peerDependencies": {
     "react": "^0.14.8",
