@@ -189,3 +189,7 @@ type: `func`
 Tension for the open / close animation
 
 type: `number`
+
+# License
+
+MIT
