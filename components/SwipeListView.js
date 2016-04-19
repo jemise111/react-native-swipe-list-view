@@ -66,6 +66,8 @@ class SwipeListView extends Component {
 						leftOpenValue={this.props.leftOpenValue}
 						rightOpenValue={this.props.rightOpenValue}
 						closeOnRowPress={this.props.closeOnRowPress}
+						disableLeftSwipe={this.props.disableLeftSwipe}
+						disableRightSwipe={this.props.disableRightSwipe}
 					>
 						{this.props.renderHiddenRow(rowData, secId, rowId)}
 						{this.props.renderRow(rowData, secId, rowId)}
@@ -102,13 +104,23 @@ SwipeListView.propTypes = {
 	 * Should open rows be closed when a row is pressed
 	 */
 	closeOnRowPress: PropTypes.bool,
+	/**
+	 * Disable ability to swipe rows left
+	 */
+	disableLeftSwipe: PropTypes.bool,
+	/**
+	 * Disable ability to swipe rows right
+	 */
+	disableRightSwipe: PropTypes.bool
 }
 
 SwipeListView.defaultProps = {
 	leftOpenValue: 0,
 	rightOpenValue: 0,
 	closeOnScroll: true,
-	closeOnRowPress: true
+	closeOnRowPress: true,
+	disableLeftSwipe: false,
+	disableRightSwipe: false
 }
 
 export default SwipeListView;

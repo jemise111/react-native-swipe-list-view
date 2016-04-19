@@ -121,6 +121,22 @@ type: `number`
 defaultValue: `0`
 
 
+### `disableLeftSwipe`
+
+Disable ability to swipe the row left
+
+type: `bool`
+defaultValue: `false`
+
+
+### `disableRightSwipe`
+
+Disable ability to swipe the row right
+
+type: `bool`
+defaultValue: `false`
+
+
 `SwipeRow` (component)
 ======================
 
@@ -189,6 +205,22 @@ type: `func`
 Tension for the open / close animation
 
 type: `number`
+
+
+### `disableLeftSwipe`
+
+Disable ability to swipe the row left
+
+type: `bool`
+defaultValue: `false`
+
+
+### `disableRightSwipe`
+
+Disable ability to swipe the row right
+
+type: `bool`
+defaultValue: `false`
 
 # License
 
