@@ -90,9 +90,14 @@ class SwipeRow extends Component {
 			}
 			this.horizontalSwipeGestureBegan = true;
 
+			let newDX = this.swipeInitialX + dx;
+			if (this.props.disableLeftSwipe  && newDX < 0) { newDX = 0; }
+			if (this.props.disableRightSwipe && newDX > 0) { newDX = 0; }
+
 			this.setState({
-				translateX: new Animated.Value(this.swipeInitialX + dx)
+				translateX: new Animated.Value(newDX)
 			});
+
 		}
 	}
 
@@ -272,14 +277,24 @@ SwipeRow.propTypes = {
 	/**
 	 * Should the row be closed when it is tapped
 	 */
-	closeOnRowPress: PropTypes.bool
+	closeOnRowPress: PropTypes.bool,
+	/**
+	 * Disable ability to swipe the row left
+	 */
+	disableLeftSwipe: PropTypes.bool,
+	/**
+	 * Disable ability to swipe the row right
+	 */
+	disableRightSwipe: PropTypes.bool
 
 };
 
 SwipeRow.defaultProps = {
 	leftOpenValue: 0,
 	rightOpenValue: 0,
-	closeOnRowPress: true
+	closeOnRowPress: true,
+	disableLeftSwipe: false,
+	disableRightSwipe: false
 };
 
 export default SwipeRow;
