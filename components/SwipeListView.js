@@ -67,8 +67,8 @@ class SwipeListView extends Component {
 						rightOpenValue={this.props.rightOpenValue}
 						closeOnRowPress={this.props.closeOnRowPress}
 					>
-						{this.props.renderHiddenRow(rowData)}
-						{this.props.renderRow(rowData)}
+						{this.props.renderHiddenRow(rowData, secId, rowId)}
+						{this.props.renderRow(rowData, secId, rowId)}
 					</SwipeRow>
 				)}
 			/>
