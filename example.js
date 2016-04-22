@@ -4,6 +4,7 @@ import React, {
 	ListView,
 	StyleSheet,
 	Text,
+	TouchableOpacity,
 	TouchableHighlight,
 	View
 } from 'react-native';
@@ -51,15 +52,15 @@ class App extends Component {
 							</View>
 						</TouchableHighlight>
 					)}
-					renderHiddenRow={ data => (
+					renderHiddenRow={ (data, secId, rowId, rowMap) => (
 						<View style={styles.rowBack}>
 							<Text>Left</Text>
 							<View style={[styles.backRightBtn, styles.backRightBtnLeft]}>
 								<Text style={styles.backTextWhite}>Right1</Text>
 							</View>
-							<View style={[styles.backRightBtn, styles.backRightBtnRight]}>
+							<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => rowMap[rowId].closeRow() }>
 								<Text style={styles.backTextWhite}>Right2</Text>
-							</View>
+							</TouchableOpacity>
 						</View>
 					)}
 					leftOpenValue={75}

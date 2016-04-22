@@ -65,6 +65,29 @@ renderRow={ data => (
 )}
 ```
 
+#### Manually closing rows:
+
+If your row or hidden row renders a touchable child and you'd like that touchable to close the row note that the ```renderRow``` and ```renderHiddenRow``` functions are passed ```rowData```, ```secId```, ```rowId```, ```rowMap```. The ```rowMap``` is an object that looks like:
+```
+{
+    rowId_1: ref_to_row_1,
+    rowId_2: ref_to_row_2
+}
+```
+
+Each row's ref has a public method called ```closeRow``` that will swipe the row closed. So you can do something like:
+```
+<SwipeList
+    renderHiddenRow={ (data, secdId, rowId, rowMap) => {
+        <TouchableOpacity onPress={ _ => rowMap[rowId].closeRow() }>
+            <Text>I close the row</Text>
+        </TouchableOpacity>
+    }}
+/>
+```
+
+If you are using the standalone ```<SwipeRow>``` you can just keep a ref to the component and call ```closeRow()``` on that ref.
+
 ## API
 
 `SwipeListView` (component)

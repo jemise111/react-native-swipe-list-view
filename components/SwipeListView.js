@@ -69,8 +69,8 @@ class SwipeListView extends Component {
 						disableLeftSwipe={this.props.disableLeftSwipe}
 						disableRightSwipe={this.props.disableRightSwipe}
 					>
-						{this.props.renderHiddenRow(rowData, secId, rowId)}
-						{this.props.renderRow(rowData, secId, rowId)}
+						{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
+						{this.props.renderRow(rowData, secId, rowId, this._rows)}
 					</SwipeRow>
 				)}
 			/>
