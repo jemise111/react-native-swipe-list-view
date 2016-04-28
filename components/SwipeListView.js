@@ -62,9 +62,9 @@ class SwipeListView extends Component {
 				onScroll={ _ => this.onScroll() }
 				renderRow={(rowData, secId, rowId) => (
 					<SwipeRow
-						ref={row => this._rows[rowId] = row}
-						onRowOpen={ _ => this.onRowOpen(rowId) }
-						onRowPress={ _ => this.onRowPress(rowId) }
+						ref={row => this._rows[`${secId}${rowId}`] = row}
+						onRowOpen={ _ => this.onRowOpen(`${secId}${rowId}`) }
+						onRowPress={ _ => this.onRowPress(`${secId}${rowId}`) }
 						setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
 						leftOpenValue={this.props.leftOpenValue}
 						rightOpenValue={this.props.rightOpenValue}

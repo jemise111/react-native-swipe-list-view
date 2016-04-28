@@ -4,6 +4,8 @@
 
 Also includes ```<SwipeRow>``` if you want to use a swipeable row outside of the ```<SwipeListView>```
 
+***v0.1.0** introduced a breaking change if you had implemented the "Manually Closing Rows functionality. See [Manually Closing Rows](https://github.com/jemise111/react-native-swipe-list-view#manually-closing-rows) or ```example.js``` for the new implementation.*
+
 # Example
 ![](http://i.imgur.com/6fTrdZa.gif) &nbsp;&nbsp;&nbsp;&nbsp; ![](http://i.imgur.com/3IdOA77.gif)
 
@@ -70,16 +72,18 @@ renderRow={ data => (
 If your row or hidden row renders a touchable child and you'd like that touchable to close the row note that the ```renderRow``` and ```renderHiddenRow``` functions are passed ```rowData```, ```secId```, ```rowId```, ```rowMap```. The ```rowMap``` is an object that looks like:
 ```
 {
-    rowId_1: ref_to_row_1,
-    rowId_2: ref_to_row_2
+    row_hash_1: ref_to_row_1,
+    row_hash_2: ref_to_row_2
 }
 ```
+
+Where each ```row_hash``` is a string that looks like ```'<section_id><row_id>'```
 
 Each row's ref has a public method called ```closeRow``` that will swipe the row closed. So you can do something like:
 ```
 <SwipeList
     renderHiddenRow={ (data, secdId, rowId, rowMap) => {
-        <TouchableOpacity onPress={ _ => rowMap[rowId].closeRow() }>
+        <TouchableOpacity onPress={ _ => rowMap[`${secId}${rowId}`].closeRow() }>
             <Text>I close the row</Text>
         </TouchableOpacity>
     }}
