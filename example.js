@@ -58,7 +58,7 @@ class App extends Component {
 							<View style={[styles.backRightBtn, styles.backRightBtnLeft]}>
 								<Text style={styles.backTextWhite}>Right1</Text>
 							</View>
-							<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => rowMap[rowId].closeRow() }>
+							<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => rowMap[`${secId}${rowId}`].closeRow() }>
 								<Text style={styles.backTextWhite}>Right2</Text>
 							</TouchableOpacity>
 						</View>
