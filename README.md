@@ -4,7 +4,7 @@
 
 Also includes ```<SwipeRow>``` if you want to use a swipeable row outside of the ```<SwipeListView>```
 
-***v0.1.0** introduced a breaking change if you had implemented the "Manually Closing Rows functionality. See [Manually Closing Rows](https://github.com/jemise111/react-native-swipe-list-view#manually-closing-rows) or ```example.js``` for the new implementation.*
+_**v0.1.0** introduced a breaking change if you had implemented the "Manually Closing Rows functionality. See [Manually Closing Rows](https://github.com/jemise111/react-native-swipe-list-view#manually-closing-rows) or ```example.js``` for the new implementation._
 
 # Example
 ![](http://i.imgur.com/6fTrdZa.gif) &nbsp;&nbsp;&nbsp;&nbsp; ![](http://i.imgur.com/3IdOA77.gif)
