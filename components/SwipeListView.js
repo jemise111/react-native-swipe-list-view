@@ -44,7 +44,10 @@ class SwipeListView extends Component {
 	onScroll() {
 		if (this.openCellId) {
 			if (this.props.closeOnScroll) {
-				this._rows[this.openCellId].closeRow();
+				// if the openCellId is stale due to deleting a row this could be undefined
+				if (this._rows[this.openCellId]) {
+					this._rows[this.openCellId].closeRow();
+				}
 				this.openCellId = null;
 			}
 		}
