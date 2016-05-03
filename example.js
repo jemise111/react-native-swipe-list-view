@@ -22,10 +22,10 @@ class App extends Component {
 	}
 
 	deleteRow(secId, rowId, rowMap) {
+		rowMap[`${secId}${rowId}`].closeRow();
 		const newData = [...this.state.listViewData];
 		newData.splice(rowId, 1);
 		this.setState({listViewData: newData});
-		rowMap[`${secId}${rowId}`].closeRow();
 	}
 
 	render() {
