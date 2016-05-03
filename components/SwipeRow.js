@@ -11,6 +11,9 @@ import React, {
 } from 'react-native';
 
 const DIRECTIONAL_DISTANCE_CHANGE_THRESHOLD = 2;
+const TAP_THRESHOLD_MS = 300;
+const TAP_DISTANCE_CHANGE_THRESHOLD = 2;
+const TAP_VELOCITY_CHANGE_THRESHOLD = 0;
 
 /**
  * Row that is generally used in a SwipeListView.
@@ -28,6 +31,7 @@ class SwipeRow extends Component {
 		super(props);
 		this.horizontalSwipeGestureBegan = false;
 		this.swipeInitialX = null;
+		this.touchInitialTimeStamp = null;
 		this.parentScrollEnabled = true;
 		this.state = {
 			dimensionsSet: false,
@@ -66,6 +70,10 @@ class SwipeRow extends Component {
 	}
 
 	handlePanResponderMove(e, gestureState) {
+		if (this.touchInitialTimeStamp === null) {
+			this.touchInitialTimeStamp = e.timeStamp;
+		}
+
 		const { dx, dy } = gestureState;
 		const absDx = Math.abs(dx);
 		const absDy = Math.abs(dy);
@@ -102,6 +110,12 @@ class SwipeRow extends Component {
 	}
 
 	handlePanResponderEnd(e, gestureState) {
+		const { dx, dy, vx, vy } = gestureState;
+		const absDx = Math.abs(dx);
+		const absDy = Math.abs(dy);
+		const absVx = Math.abs(vx);
+		const absVy = Math.abs(vy);
+
 		// re-enable scrolling on listView parent
 		if (!this.parentScrollEnabled) {
 			this.parentScrollEnabled = true;
@@ -136,7 +150,19 @@ class SwipeRow extends Component {
 			this.props.onRowOpen && this.props.onRowOpen();
 		}
 
+		// On android taps are not recognized by the TouchableOpacity wrapper
+		// We need to manually detect a tap and trigger the onPress function
+		// This means activeOpacity and underlayColor will not trigger :(
+		if (this.touchInitialTimeStamp - e.timeStamp < TAP_THRESHOLD_MS &&
+			absDx <= TAP_DISTANCE_CHANGE_THRESHOLD &&
+			absDy <= TAP_DISTANCE_CHANGE_THRESHOLD &&
+			absVx <= TAP_VELOCITY_CHANGE_THRESHOLD &&
+			absVy <= TAP_VELOCITY_CHANGE_THRESHOLD) {
+			this.refs['touchableWrapperRef'].props.onPress && this.refs['touchableWrapperRef'].props.onPress();
+		}
+
 		// reset everything
+		this.touchInitialTimeStamp = null;
 		this.swipeInitialX = null;
 		this.horizontalSwipeGestureBegan = false;
 	}
@@ -156,11 +182,10 @@ class SwipeRow extends Component {
 
 	renderVisibleContent() {
 		// handle touchables
-		let newOnPress;
 		const onPress = this.props.children[1].props.onPress;
 
 		if (onPress) {
-			newOnPress = _ => {
+			const newOnPress = _ => {
 				this.onRowPress();
 				onPress();
 			}
@@ -168,13 +193,18 @@ class SwipeRow extends Component {
 				this.props.children[1],
 				{
 					...this.props.children[1].props,
-					onPress: newOnPress
+					onPress: newOnPress,
+					ref: 'touchableWrapperRef'
 				}
 			);
 		}
 
 		return (
-			<TouchableOpacity activeOpacity={1} onPress={ _ => this.onRowPress() }>
+			<TouchableOpacity
+				activeOpacity={1}
+				onPress={ _ => this.onRowPress() }
+				ref={'touchableWrapperRef'}
+			>
 				{this.props.children[1]}
 			</TouchableOpacity>
 		)
