@@ -25,9 +25,16 @@ class SwipeListView extends Component {
 		this._listView.setNativeProps({scrollEnabled: enable});
 	}
 
+	safeCloseOpenRow() {
+		// if the openCellId is stale due to deleting a row this could be undefined
+		if (this._rows[this.openCellId]) {
+			this._rows[this.openCellId].closeRow();
+		}
+	}
+
 	onRowOpen(id) {
 		if (this.openCellId && this.openCellId !== id) {
-			this._rows[this.openCellId].closeRow();
+			this.safeCloseOpenRow();
 		}
 		this.openCellId = id;
 	}
@@ -35,7 +42,7 @@ class SwipeListView extends Component {
 	onRowPress(id) {
 		if (this.openCellId) {
 			if (this.props.closeOnRowPress) {
-				this._rows[this.openCellId].closeRow();
+				this.safeCloseOpenRow();
 				this.openCellId = null;
 			}
 		}
@@ -44,10 +51,7 @@ class SwipeListView extends Component {
 	onScroll() {
 		if (this.openCellId) {
 			if (this.props.closeOnScroll) {
-				// if the openCellId is stale due to deleting a row this could be undefined
-				if (this._rows[this.openCellId]) {
-					this._rows[this.openCellId].closeRow();
-				}
+				this.safeCloseOpenRow();
 				this.openCellId = null;
 			}
 		}
