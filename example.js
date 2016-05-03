@@ -11,13 +11,21 @@ import React, {
 
 import { SwipeListView, SwipeRow } from './lib';
 
-const dataSource = Array(20).fill('').map((_,i)=>`item #${i}`);
-
 class App extends Component {
 
 	constructor(props) {
 		super(props);
 		this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+		this.state = {
+			listViewData: Array(20).fill('').map((_,i)=>`item #${i}`)
+		};
+	}
+
+	deleteRow(secId, rowId, rowMap) {
+		const newData = [...this.state.listViewData];
+		newData.splice(rowId, 1);
+		this.setState({listViewData: newData});
+		rowMap[`${secId}${rowId}`].closeRow();
 	}
 
 	render() {
@@ -40,7 +48,7 @@ class App extends Component {
 				</View>
 
 				<SwipeListView
-					dataSource={this.ds.cloneWithRows(dataSource)}
+					dataSource={this.ds.cloneWithRows(this.state.listViewData)}
 					renderRow={ data => (
 						<TouchableHighlight
 							onPress={ _ => console.log('You touched me') }
@@ -56,10 +64,10 @@ class App extends Component {
 						<View style={styles.rowBack}>
 							<Text>Left</Text>
 							<View style={[styles.backRightBtn, styles.backRightBtnLeft]}>
-								<Text style={styles.backTextWhite}>Right1</Text>
+								<Text style={styles.backTextWhite}>Right</Text>
 							</View>
-							<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => rowMap[`${secId}${rowId}`].closeRow() }>
-								<Text style={styles.backTextWhite}>Right2</Text>
+							<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(secId, rowId, rowMap) }>
+								<Text style={styles.backTextWhite}>Delete</Text>
 							</TouchableOpacity>
 						</View>
 					)}
