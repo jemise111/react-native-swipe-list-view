@@ -4,6 +4,7 @@ import React, {
 	Animated,
 	Component,
 	PanResponder,
+	Platform,
 	PropTypes,
 	StyleSheet,
 	TouchableOpacity,
@@ -153,12 +154,14 @@ class SwipeRow extends Component {
 		// On android taps are not recognized by the TouchableOpacity wrapper
 		// We need to manually detect a tap and trigger the onPress function
 		// This means activeOpacity and underlayColor will not trigger :(
-		if (this.touchInitialTimeStamp - e.timeStamp < TAP_THRESHOLD_MS &&
-			absDx <= TAP_DISTANCE_CHANGE_THRESHOLD &&
-			absDy <= TAP_DISTANCE_CHANGE_THRESHOLD &&
-			absVx <= TAP_VELOCITY_CHANGE_THRESHOLD &&
-			absVy <= TAP_VELOCITY_CHANGE_THRESHOLD) {
-			this.refs['touchableWrapperRef'].props.onPress && this.refs['touchableWrapperRef'].props.onPress();
+		if (Platform.OS === 'android') {
+			if (this.touchInitialTimeStamp - e.timeStamp < TAP_THRESHOLD_MS &&
+				absDx <= TAP_DISTANCE_CHANGE_THRESHOLD &&
+				absDy <= TAP_DISTANCE_CHANGE_THRESHOLD &&
+				absVx <= TAP_VELOCITY_CHANGE_THRESHOLD &&
+				absVy <= TAP_VELOCITY_CHANGE_THRESHOLD) {
+				this.refs['touchableWrapperRef'].props.onPress && this.refs['touchableWrapperRef'].props.onPress();
+			}
 		}
 
 		// reset everything
