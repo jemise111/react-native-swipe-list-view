@@ -12,9 +12,6 @@ import React, {
 } from 'react-native';
 
 const DIRECTIONAL_DISTANCE_CHANGE_THRESHOLD = 2;
-const TAP_THRESHOLD_MS = 300;
-const TAP_DISTANCE_CHANGE_THRESHOLD = 2;
-const TAP_VELOCITY_CHANGE_THRESHOLD = 0;
 
 /**
  * Row that is generally used in a SwipeListView.
@@ -32,7 +29,6 @@ class SwipeRow extends Component {
 		super(props);
 		this.horizontalSwipeGestureBegan = false;
 		this.swipeInitialX = null;
-		this.touchInitialTimeStamp = null;
 		this.parentScrollEnabled = true;
 		this.state = {
 			dimensionsSet: false,
@@ -44,7 +40,7 @@ class SwipeRow extends Component {
 
 	componentWillMount() {
 		this._panResponder = PanResponder.create({
-			onMoveShouldSetPanResponder: _ => true,
+			onMoveShouldSetPanResponder: (e, gs) => this.handleOnMoveShouldSetPanResponder(e, gs),
 			onPanResponderMove: (e, gs) => this.handlePanResponderMove(e, gs),
 			onPanResponderRelease: (e, gs) => this.handlePanResponderEnd(e, gs),
 			onPanResponderTerminate: (e, gs) => this.handlePanResponderEnd(e, gs),
@@ -70,15 +66,18 @@ class SwipeRow extends Component {
 		}
 	}
 
-	handlePanResponderMove(e, gestureState) {
-		if (this.touchInitialTimeStamp === null) {
-			this.touchInitialTimeStamp = e.timeStamp;
-		}
+	handleOnMoveShouldSetPanResponder(e, gs) {
+		const { dx } = gs;
+		return Math.abs(dx) > DIRECTIONAL_DISTANCE_CHANGE_THRESHOLD;
+	}
 
+	handlePanResponderMove(e, gestureState) {
 		const { dx, dy } = gestureState;
 		const absDx = Math.abs(dx);
 		const absDy = Math.abs(dy);
 
+		// this check may not be necessary because we don't capture the move until we pass the threshold
+		// just being extra safe here
 		if (absDx > DIRECTIONAL_DISTANCE_CHANGE_THRESHOLD || absDy > DIRECTIONAL_DISTANCE_CHANGE_THRESHOLD) {
 			// we have enough to determine direction
 			if (absDy > absDx && !this.horizontalSwipeGestureBegan) {
@@ -111,12 +110,6 @@ class SwipeRow extends Component {
 	}
 
 	handlePanResponderEnd(e, gestureState) {
-		const { dx, dy, vx, vy } = gestureState;
-		const absDx = Math.abs(dx);
-		const absDy = Math.abs(dy);
-		const absVx = Math.abs(vx);
-		const absVy = Math.abs(vy);
-
 		// re-enable scrolling on listView parent
 		if (!this.parentScrollEnabled) {
 			this.parentScrollEnabled = true;
@@ -151,21 +144,7 @@ class SwipeRow extends Component {
 			this.props.onRowOpen && this.props.onRowOpen();
 		}
 
-		// On android taps are not recognized by the TouchableOpacity wrapper
-		// We need to manually detect a tap and trigger the onPress function
-		// This means activeOpacity and underlayColor will not trigger :(
-		if (Platform.OS === 'android') {
-			if (this.touchInitialTimeStamp - e.timeStamp < TAP_THRESHOLD_MS &&
-				absDx <= TAP_DISTANCE_CHANGE_THRESHOLD &&
-				absDy <= TAP_DISTANCE_CHANGE_THRESHOLD &&
-				absVx <= TAP_VELOCITY_CHANGE_THRESHOLD &&
-				absVy <= TAP_VELOCITY_CHANGE_THRESHOLD) {
-				this.refs['touchableWrapperRef'].props.onPress && this.refs['touchableWrapperRef'].props.onPress();
-			}
-		}
-
 		// reset everything
-		this.touchInitialTimeStamp = null;
 		this.swipeInitialX = null;
 		this.horizontalSwipeGestureBegan = false;
 	}
@@ -196,8 +175,7 @@ class SwipeRow extends Component {
 				this.props.children[1],
 				{
 					...this.props.children[1].props,
-					onPress: newOnPress,
-					ref: 'touchableWrapperRef'
+					onPress: newOnPress
 				}
 			);
 		}
@@ -206,7 +184,6 @@ class SwipeRow extends Component {
 			<TouchableOpacity
 				activeOpacity={1}
 				onPress={ _ => this.onRowPress() }
-				ref={'touchableWrapperRef'}
 			>
 				{this.props.children[1]}
 			</TouchableOpacity>
