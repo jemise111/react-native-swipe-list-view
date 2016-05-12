@@ -1,6 +1,8 @@
 import React, {
-	AppRegistry,
 	Component,
+} from 'react';
+import {
+	AppRegistry,
 	ListView,
 	StyleSheet,
 	Text,
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
 	},
 	rowBack: {
 		alignItems: 'center',
-		backgroundColor: '#DDD',	
+		backgroundColor: '#DDD',
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
