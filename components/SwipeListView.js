@@ -48,14 +48,14 @@ class SwipeListView extends Component {
 		}
 	}
 
-	onScroll() {
+	onScroll(e) {
 		if (this.openCellId) {
 			if (this.props.closeOnScroll) {
 				this.safeCloseOpenRow();
 				this.openCellId = null;
 			}
 		}
-		this.props.onScoll && this.props.onScroll();
+		this.props.onScroll && this.props.onScroll(e);
 	}
 
 	render() {
@@ -63,7 +63,7 @@ class SwipeListView extends Component {
 			<ListView
 				{...this.props}
 				ref={ c => this._listView = c}
-				onScroll={ _ => this.onScroll() }
+				onScroll={ e => this.onScroll(e) }
 				renderRow={(rowData, secId, rowId) => (
 					<SwipeRow
 						ref={row => this._rows[`${secId}${rowId}`] = row}
