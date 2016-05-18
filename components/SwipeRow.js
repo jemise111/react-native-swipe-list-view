@@ -134,6 +134,23 @@ class SwipeRow extends Component {
 			}
 		}
 
+		this.manuallySwipeRow(toValue);
+	}
+
+	/*
+	 * This method is called by SwipeListView
+	 */
+	closeRow() {
+		Animated.spring(this.state.translateX,
+			{
+				toValue: 0,
+				friction: this.props.friction,
+				tension: this.props.tension
+			}
+		).start();
+	}
+
+	manuallySwipeRow(toValue) {
 		Animated.spring(this.state.translateX,
 			{
 				toValue,
@@ -149,19 +166,6 @@ class SwipeRow extends Component {
 		// reset everything
 		this.swipeInitialX = null;
 		this.horizontalSwipeGestureBegan = false;
-	}
-
-	/*
-	 * This method is called by SwipeListView
-	 */
-	closeRow() {
-		Animated.spring(this.state.translateX,
-			{
-				toValue: 0,
-				friction: this.props.friction,
-				tension: this.props.tension
-			}
-		).start();
 	}
 
 	renderVisibleContent() {
