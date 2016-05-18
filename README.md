@@ -177,6 +177,19 @@ One case is a SwipeListView with rows of different heights and an options to del
 type: `bool`
 defaultValue: `false`
 
+### `onRowClose`
+
+Called when a swipe row is animating closed
+
+type: `func`
+
+
+### `onRowOpen`
+
+Called when a swipe row is animating open
+
+type: `func`
+
 
 `SwipeRow` (component)
 ======================
@@ -221,6 +234,13 @@ defaultValue: `0`
 
 Called when a swipe row is animating open. Used by the SwipeListView
 to keep references to open rows.
+
+type: `func`
+
+
+### `onRowClose`
+
+Called when a swipe row is animating closed
 
 type: `func`
 
