@@ -303,10 +303,6 @@ SwipeRow.propTypes = {
 	 */
 	recalculateHiddenLayout: PropTypes.bool,
 	/**
-	 * Called when a swipe row is animating open
-	 */
-	onRowOpen: PropTypes.func,
-	/**
 	 * Called when a swipe row is animating closed
 	 */
 	onRowClose: PropTypes.func
