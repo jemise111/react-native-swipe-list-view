@@ -141,13 +141,7 @@ class SwipeRow extends Component {
 	 * This method is called by SwipeListView
 	 */
 	closeRow() {
-		Animated.spring(this.state.translateX,
-			{
-				toValue: 0,
-				friction: this.props.friction,
-				tension: this.props.tension
-			}
-		).start();
+		this.manuallySwipeRow(0);
 	}
 
 	manuallySwipeRow(toValue) {
@@ -159,7 +153,9 @@ class SwipeRow extends Component {
 			}
 		).start();
 
-		if (toValue !== 0) {
+		if (toValue === 0) {
+			this.props.onRowClose && this.props.onRowClose();
+		} else {
 			this.props.onRowOpen && this.props.onRowOpen();
 		}
 
@@ -305,7 +301,15 @@ SwipeRow.propTypes = {
 	/**
 	 * Enable hidden row onLayout calculations to run always
 	 */
-	recalculateHiddenLayout: PropTypes.bool
+	recalculateHiddenLayout: PropTypes.bool,
+	/**
+	 * Called when a swipe row is animating open
+	 */
+	onRowOpen: PropTypes.func,
+	/**
+	 * Called when a swipe row is animating closed
+	 */
+	onRowClose: PropTypes.func
 };
 
 SwipeRow.defaultProps = {
