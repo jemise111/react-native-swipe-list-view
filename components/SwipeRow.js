@@ -52,7 +52,7 @@ class SwipeRow extends Component {
 
 	onContentLayout(e) {
 		this.setState({
-			dimensionsSet: true,
+			dimensionsSet: !this.props.recalculateHiddenLayout,
 			hiddenHeight: e.nativeEvent.layout.height,
 			hiddenWidth: e.nativeEvent.layout.width,
 		});
@@ -297,8 +297,11 @@ SwipeRow.propTypes = {
 	/**
 	 * Disable ability to swipe the row right
 	 */
-	disableRightSwipe: PropTypes.bool
-
+	disableRightSwipe: PropTypes.bool,
+	/**
+	 * Enable hidden row onLayout calculations to run always
+	 */
+	recalculateHiddenLayout: PropTypes.bool
 };
 
 SwipeRow.defaultProps = {
@@ -306,7 +309,8 @@ SwipeRow.defaultProps = {
 	rightOpenValue: 0,
 	closeOnRowPress: true,
 	disableLeftSwipe: false,
-	disableRightSwipe: false
+	disableRightSwipe: false,
+	recalculateHiddenLayout: false
 };
 
 export default SwipeRow;

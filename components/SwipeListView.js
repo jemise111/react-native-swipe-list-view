@@ -77,6 +77,7 @@ class SwipeListView extends Component {
 						closeOnRowPress={this.props.closeOnRowPress}
 						disableLeftSwipe={this.props.disableLeftSwipe}
 						disableRightSwipe={this.props.disableRightSwipe}
+						recalculateHiddenLayout={this.props.recalculateHiddenLayout}
 					>
 						{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
 						{this.props.renderRow(rowData, secId, rowId, this._rows)}
@@ -120,7 +121,17 @@ SwipeListView.propTypes = {
 	/**
 	 * Disable ability to swipe rows right
 	 */
-	disableRightSwipe: PropTypes.bool
+	disableRightSwipe: PropTypes.bool,
+	/**
+	 * Enable hidden row onLayout calculations to run always.
+	 *
+	 * By default, hidden row size calculations are only done on the first onLayout event
+	 * for performance reasons.
+	 * Passing ```true``` here will cause calculations to run on every onLayout event.
+	 * You may want to do this if your rows' sizes can change.
+	 * One case is a SwipeListView with rows of different heights and an options to delete rows.
+	 */
+	recalculateHiddenLayout: PropTypes.bool
 }
 
 SwipeListView.defaultProps = {
@@ -129,7 +140,8 @@ SwipeListView.defaultProps = {
 	closeOnScroll: true,
 	closeOnRowPress: true,
 	disableLeftSwipe: false,
-	disableRightSwipe: false
+	disableRightSwipe: false,
+	recalculateHiddenLayout: false
 }
 
 export default SwipeListView;
