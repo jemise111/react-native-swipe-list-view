@@ -164,6 +164,20 @@ type: `bool`
 defaultValue: `false`
 
 
+### `recalculateHiddenLayout`
+
+Enable hidden row onLayout calculations to run always.
+
+By default, hidden row size calculations are only done on the first onLayout event
+for performance reasons.
+Passing ```true``` here will cause calculations to run on every onLayout event.
+You may want to do this if your rows' sizes can change.
+One case is a SwipeListView with rows of different heights and an options to delete rows.
+
+type: `bool`
+defaultValue: `false`
+
+
 `SwipeRow` (component)
 ======================
 
@@ -245,6 +259,14 @@ defaultValue: `false`
 ### `disableRightSwipe`
 
 Disable ability to swipe the row right
+
+type: `bool`
+defaultValue: `false`
+
+
+### `recalculateHiddenLayout`
+
+Enable hidden row onLayout calculations to run always
 
 type: `bool`
 defaultValue: `false`
