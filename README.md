@@ -14,6 +14,15 @@ _**v0.1.0** introduced a breaking change if you had implemented the "Manually Cl
 npm install --save react-native-swipe-list-view
 ```
 
+## Running the example
+
+The application under ./SwipeListExample will product the above example. To run execute the following:
+
+* ```git clone https://github.com/jemise111/react-native-swipe-list-view.git```
+* ```cd SwipeListExample```
+* ```npm install```
+* ```react-native run-ios | react-native run-android```
+
 # Usage
 ```javascript
 import { SwipeListView } from 'react-native-swipe-list-view';
