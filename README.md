@@ -16,7 +16,7 @@ npm install --save react-native-swipe-list-view
 
 ## Running the example
 
-The application under ./SwipeListExample will product the above example. To run execute the following:
+The application under ./SwipeListExample will produce the above example. To run execute the following:
 
 * ```git clone https://github.com/jemise111/react-native-swipe-list-view.git```
 * ```cd SwipeListExample```
