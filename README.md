@@ -300,6 +300,11 @@ Enable hidden row onLayout calculations to run always
 type: `bool`
 defaultValue: `false`
 
+### *Note: Core Support*
+RN Core added a SwipeList component as of [v0.27.0](https://github.com/facebook/react-native/releases/tag/v0.27.0)
+
+It is actively being worked on and has no documentation yet. So I will continue to maintain this component until a future date.
+
 # License
 
 MIT
