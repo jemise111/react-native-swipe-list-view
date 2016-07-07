@@ -34,12 +34,13 @@ class SwipeListView extends Component {
 		}
 	}
 
-	onRowOpen(id) {
-		if (this.openCellId && this.openCellId !== id) {
+	onRowOpen(secId, rowId, rowMap) {
+		const cellIdentifier = `${secId}${rowId}`;
+		if (this.openCellId && this.openCellId !== cellIdentifier) {
 			this.safeCloseOpenRow();
 		}
-		this.openCellId = id;
-		this.props.onRowOpen && this.props.onRowOpen();
+		this.openCellId = cellIdentifier;
+		this.props.onRowOpen && this.props.onRowOpen(secId, rowId, rowMap);
 	}
 
 	onRowPress(id) {
@@ -69,8 +70,8 @@ class SwipeListView extends Component {
 				{
 					...Component.props,
 					ref: row => this._rows[`${secId}${rowId}`] = row,
-					onRowOpen: _ => this.onRowOpen(`${secId}${rowId}`),
-					onRowClose: _ => this.props.onRowClose && this.props.onRowClose(),
+					onRowOpen: _ => this.onRowOpen(secId, rowId, this._rows),
+					onRowClose: _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows),
 					onRowPress: _ => this.onRowPress(`${secId}${rowId}`),
 					setScrollEnabled: enable => this.setScrollEnabled(enable)
 				}
@@ -79,8 +80,8 @@ class SwipeListView extends Component {
 			return (
 				<SwipeRow
 					ref={row => this._rows[`${secId}${rowId}`] = row}
-					onRowOpen={ _ => this.onRowOpen(`${secId}${rowId}`) }
-					onRowClose={ _ => this.props.onRowClose && this.props.onRowClose() }
+					onRowOpen={ _ => this.onRowOpen(secId, rowId, this._rows) }
+					onRowClose={ _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows) }
 					onRowPress={ _ => this.onRowPress(`${secId}${rowId}`) }
 					setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
 					leftOpenValue={this.props.leftOpenValue}
