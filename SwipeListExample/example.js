@@ -11,7 +11,8 @@ import {
 	View
 } from 'react-native';
 
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import SwipeRow from './SwipeRow';
+import SwipeListView from './SwipeListView';
 
 class App extends Component {
 
@@ -19,6 +20,7 @@ class App extends Component {
 		super(props);
 		this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
+			basic: true,
 			listViewData: Array(20).fill('').map((_,i)=>`item #${i}`)
 		};
 	}
@@ -49,33 +51,94 @@ class App extends Component {
 					</SwipeRow>
 				</View>
 
-				<SwipeListView
-					dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-					renderRow={ data => (
-						<TouchableHighlight
-							onPress={ _ => console.log('You touched me') }
-							style={styles.rowFront}
-							underlayColor={'#AAA'}
-						>
-							<View>
-								<Text>I'm {data} in a SwipeListView</Text>
+				<View style={styles.controls}>
+					<View style={styles.switchContainer}>
+						<TouchableOpacity style={[
+							styles.switch,
+							{backgroundColor: this.state.basic ? 'grey' : 'white'}
+						]} onPress={ _ => this.setState({basic: true}) }>
+							<Text>Basic</Text>
+						</TouchableOpacity>
+
+						<TouchableOpacity style={[
+							styles.switch,
+							{backgroundColor: this.state.basic ? 'white' : 'grey'}
+						]} onPress={ _ => this.setState({basic: false}) }>
+							<Text>Advanced</Text>
+						</TouchableOpacity>
+
+					</View>
+					{
+						!this.state.basic &&
+						<Text>(per row behavior)</Text>
+					}
+				</View>
+
+				{
+					this.state.basic &&
+
+					<SwipeListView
+						dataSource={this.ds.cloneWithRows(this.state.listViewData)}
+						renderRow={ data => (
+							<TouchableHighlight
+								onPress={ _ => console.log('You touched me') }
+								style={styles.rowFront}
+								underlayColor={'#AAA'}
+							>
+								<View>
+									<Text>I'm {data} in a SwipeListView</Text>
+								</View>
+							</TouchableHighlight>
+						)}
+						renderHiddenRow={ (data, secId, rowId, rowMap) => (
+							<View style={styles.rowBack}>
+								<Text>Left</Text>
+								<View style={[styles.backRightBtn, styles.backRightBtnLeft]}>
+									<Text style={styles.backTextWhite}>Right</Text>
+								</View>
+								<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(secId, rowId, rowMap) }>
+									<Text style={styles.backTextWhite}>Delete</Text>
+								</TouchableOpacity>
 							</View>
-						</TouchableHighlight>
-					)}
-					renderHiddenRow={ (data, secId, rowId, rowMap) => (
-						<View style={styles.rowBack}>
-							<Text>Left</Text>
-							<View style={[styles.backRightBtn, styles.backRightBtnLeft]}>
-								<Text style={styles.backTextWhite}>Right</Text>
-							</View>
-							<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(secId, rowId, rowMap) }>
-								<Text style={styles.backTextWhite}>Delete</Text>
-							</TouchableOpacity>
-						</View>
-					)}
-					leftOpenValue={75}
-					rightOpenValue={-150}
-				/>
+						)}
+						leftOpenValue={75}
+						rightOpenValue={-150}
+					/>
+				}
+
+				{
+					!this.state.basic &&
+
+					<SwipeListView
+						dataSource={this.ds.cloneWithRows(this.state.listViewData)}
+						renderRow={ (data, secId, rowId) => (
+							<SwipeRow
+								disableLeftSwipe={parseInt(rowId) % 2 === 0}
+								leftOpenValue={20 + Math.random() * 150}
+								rightOpenValue={-150}
+							>
+								<View style={styles.rowBack}>
+									<Text>Left</Text>
+									<View style={[styles.backRightBtn, styles.backRightBtnLeft]}>
+										<Text style={styles.backTextWhite}>Right</Text>
+									</View>
+									<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(secId, rowId, rowMap) }>
+										<Text style={styles.backTextWhite}>Delete</Text>
+									</TouchableOpacity>
+								</View>
+								<TouchableHighlight
+									onPress={ _ => console.log('You touched me') }
+									style={styles.rowFront}
+									underlayColor={'#AAA'}
+								>
+									<View>
+										<Text>I'm {data} in a SwipeListView</Text>
+									</View>
+								</TouchableHighlight>
+							</SwipeRow>
+						)}
+					/>
+				}
 
 			</View>
 		);
@@ -88,8 +151,8 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	standalone: {
-		marginTop: 50,
-		marginBottom: 50,
+		marginTop: 30,
+		marginBottom: 30,
 	},
 	standaloneRowFront: {
 		alignItems: 'center',
@@ -139,6 +202,22 @@ const styles = StyleSheet.create({
 	backRightBtnRight: {
 		backgroundColor: 'red',
 		right: 0
+	},
+	controls: {
+		alignItems: 'center',
+		marginBottom: 30
+	},
+	switchContainer: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		marginBottom: 5
+	},
+	switch: {
+		alignItems: 'center',
+		borderWidth: 1,
+		borderColor: 'black',
+		paddingVertical: 10,
+		width: 100,
 	}
 });
 

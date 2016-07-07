@@ -101,6 +101,42 @@ Each row's ref has a public method called ```closeRow``` that will swipe the row
 
 If you are using the standalone ```<SwipeRow>``` you can just keep a ref to the component and call ```closeRow()``` on that ref.
 
+#### Per row behavior:
+
+If you need rows to behave independently you can return a ```<SwipeRow>``` in the ```renderRow``` function. Make sure you import the ```<SwipeRow>``` in addition to the ```<SwipeListView>```. See the example below and the docs under [API](https://github.com/jemise111/react-native-swipe-list-view#API) for how to implement a custom ```<SwipeRow>```. There is also a full example in ```example.js```.
+
+The following values can be dynamic by passing them as props on the ```<SwipeRow>```:
+ * ```leftOpenValue```
+ * ```rightOpenValue```
+ * ```closeOnRowPress```
+ * ```disableLeftSwipe```
+ * ```disableRightSwipe```
+ * ```recalculateHiddenLayout```
+
+```javascript
+import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+
+<SwipeListView
+	dataSource={dataSource.cloneWithRows(data)}
+	renderRow={ (data, secId, rowId) => (
+		<SwipeRow
+			disableRightSwipe={parseInt(rowId) % 2 !== 0}
+			disableLeftSwipe={parseInt(rowId) % 2 === 0}
+			leftOpenValue={20 + parseInt(rowId) * 5}
+			rightOpenValue={-150}
+		>
+			<View style={styles.rowBack}>
+				<Text>Left Hidden</Text>
+				<Text>Right Hidden</Text>
+			</View>
+			<View style={styles.rowFront}>
+				<Text>Row front | {data}</Text>
+			</View>
+		</SwipeRow>
+	)}
+/>
+```
+
 ## API
 
 `SwipeListView` (component)
@@ -135,9 +171,10 @@ type: `number`
 defaultValue: `0`
 
 
-### `renderHiddenRow` (required)
+### `renderHiddenRow`
 
 How to render a hidden row (renders behind the row). Should return a valid React Element.
+This is required unless ```renderRow``` returns a ```<SwipeRow>``` (see [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view#per-row-behavior)).
 
 type: `func`
 
