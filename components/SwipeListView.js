@@ -61,30 +61,49 @@ class SwipeListView extends Component {
 		this.props.onScroll && this.props.onScroll(e);
 	}
 
+	renderRow(rowData, secId, rowId) {
+		const Component = this.props.renderRow(rowData, secId, rowId);
+		if (Component.type.name === 'SwipeRow') {
+			return React.cloneElement(
+				Component,
+				{
+					...Component.props,
+					ref: row => this._rows[`${secId}${rowId}`] = row,
+					onRowOpen: _ => this.onRowOpen(`${secId}${rowId}`),
+					onRowClose: _ => this.props.onRowClose && this.props.onRowClose(),
+					onRowPress: _ => this.onRowPress(`${secId}${rowId}`),
+					setScrollEnabled: enable => this.setScrollEnabled(enable)
+				}
+			);
+		} else {
+			return (
+				<SwipeRow
+					ref={row => this._rows[`${secId}${rowId}`] = row}
+					onRowOpen={ _ => this.onRowOpen(`${secId}${rowId}`) }
+					onRowClose={ _ => this.props.onRowClose && this.props.onRowClose() }
+					onRowPress={ _ => this.onRowPress(`${secId}${rowId}`) }
+					setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
+					leftOpenValue={this.props.leftOpenValue}
+					rightOpenValue={this.props.rightOpenValue}
+					closeOnRowPress={this.props.closeOnRowPress}
+					disableLeftSwipe={this.props.disableLeftSwipe}
+					disableRightSwipe={this.props.disableRightSwipe}
+					recalculateHiddenLayout={this.props.recalculateHiddenLayout}
+				>
+					{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
+					{this.props.renderRow(rowData, secId, rowId, this._rows)}
+				</SwipeRow>
+			);
+		}
+	}
+
 	render() {
 		return (
 			<ListView
 				{...this.props}
 				ref={ c => this._listView = c}
 				onScroll={ e => this.onScroll(e) }
-				renderRow={(rowData, secId, rowId) => (
-					<SwipeRow
-						ref={row => this._rows[`${secId}${rowId}`] = row}
-						onRowOpen={ _ => this.onRowOpen(`${secId}${rowId}`) }
-						onRowClose={ _ => this.props.onRowClose && this.props.onRowClose() }
-						onRowPress={ _ => this.onRowPress(`${secId}${rowId}`) }
-						setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
-						leftOpenValue={this.props.leftOpenValue}
-						rightOpenValue={this.props.rightOpenValue}
-						closeOnRowPress={this.props.closeOnRowPress}
-						disableLeftSwipe={this.props.disableLeftSwipe}
-						disableRightSwipe={this.props.disableRightSwipe}
-						recalculateHiddenLayout={this.props.recalculateHiddenLayout}
-					>
-						{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
-						{this.props.renderRow(rowData, secId, rowId, this._rows)}
-					</SwipeRow>
-				)}
+				renderRow={(rowData, secId, rowId) => this.renderRow(rowData, secId, rowId)}
 			/>
 		)
 	}
@@ -98,8 +117,9 @@ SwipeListView.propTypes = {
 	renderRow: PropTypes.func.isRequired,
 	/**
 	 * How to render a hidden row (renders behind the row). Should return a valid React Element.
+	 * This is required unless renderRow is passing a SwipeRow.
 	 */
-	renderHiddenRow: PropTypes.func.isRequired,
+	renderHiddenRow: PropTypes.func,
 	/**
 	 * TranslateX value for opening the row to the left (positive number)
 	 */
