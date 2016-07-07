@@ -11,8 +11,7 @@ import {
 	View
 } from 'react-native';
 
-import SwipeRow from './SwipeRow';
-import SwipeListView from './SwipeListView';
+import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 
 class App extends Component {
 
@@ -111,7 +110,7 @@ class App extends Component {
 
 					<SwipeListView
 						dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-						renderRow={ (data, secId, rowId) => (
+						renderRow={ (data, secId, rowId, rowMap) => (
 							<SwipeRow
 								disableLeftSwipe={parseInt(rowId) % 2 === 0}
 								leftOpenValue={20 + Math.random() * 150}
