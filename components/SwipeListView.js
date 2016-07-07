@@ -61,8 +61,8 @@ class SwipeListView extends Component {
 		this.props.onScroll && this.props.onScroll(e);
 	}
 
-	renderRow(rowData, secId, rowId) {
-		const Component = this.props.renderRow(rowData, secId, rowId);
+	renderRow(rowData, secId, rowId, rowMap) {
+		const Component = this.props.renderRow(rowData, secId, rowId, rowMap);
 		if (Component.type.name === 'SwipeRow') {
 			return React.cloneElement(
 				Component,
@@ -103,7 +103,7 @@ class SwipeListView extends Component {
 				{...this.props}
 				ref={ c => this._listView = c}
 				onScroll={ e => this.onScroll(e) }
-				renderRow={(rowData, secId, rowId) => this.renderRow(rowData, secId, rowId)}
+				renderRow={(rowData, secId, rowId) => this.renderRow(rowData, secId, rowId, this._rows)}
 			/>
 		)
 	}
