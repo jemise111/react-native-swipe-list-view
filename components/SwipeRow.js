@@ -14,6 +14,9 @@ import {
 } from 'react-native';
 
 const DIRECTIONAL_DISTANCE_CHANGE_THRESHOLD = 2;
+function elastic(value, elasticity = 30) {
+	return elasticity * Math.log(value + elasticity) - elasticity * Math.log(elasticity);
+}
 
 /**
  * Row that is generally used in a SwipeListView.
@@ -74,7 +77,7 @@ class SwipeRow extends Component {
 	}
 
 	handlePanResponderMove(e, gestureState) {
-		const { dx, dy } = gestureState;
+		const { dx, dy, vx } = gestureState;
 		const absDx = Math.abs(dx);
 		const absDy = Math.abs(dy);
 
@@ -101,8 +104,37 @@ class SwipeRow extends Component {
 			this.horizontalSwipeGestureBegan = true;
 
 			let newDX = this.swipeInitialX + dx;
+			// Disabled swipe
 			if (this.props.disableLeftSwipe  && newDX < 0) { newDX = 0; }
-			if (this.props.disableRightSwipe && newDX > 0) { newDX = 0; }
+			else if (this.props.disableRightSwipe && newDX > 0) { newDX = 0; }
+			// Maximum swipe distance
+			else if (this.props.maxLeftSwipeDistance && newDX > this.props.maxLeftSwipeDistance) {
+				if (this.props.elasticOverscroll) {
+					newDX = this.props.maxLeftSwipeDistance + elastic(newDX - this.props.maxLeftSwipeDistance);
+				}
+				else {
+					newDX = this.props.maxLeftSwipeDistance;
+				}
+			}
+			else if (this.props.maxRightSwipeDistance && newDX < this.props.maxRightSwipeDistance) {
+				if (this.props.elasticOverscroll) {
+					newDX = this.props.maxRightSwipeDistance - elastic(this.props.maxRightSwipeDistance - newDX);
+				}
+				else {
+					newDX = this.props.maxRightSwipeDistance;
+				}
+			}
+			// Fast swipe
+			if (this.props.onFastSwipeLeft && newDX < 0 && vx >= this.props.fastSwipeVelocity) {
+				this.props.onFastSwipeLeft()
+			}
+			else if (this.props.onFastSwipeRight && newDX > 0 && vx >= this.props.fastSwipeVelocity) {
+				this.props.onFastSwipeRight()
+			}
+
+			// elasticOverscroll
+			// let scale = 200;
+			// newDX = scale * Math.log(newDX + scale) - scale * Math.log(scale);
 
 			this.setState({
 				translateX: new Animated.Value(newDX)
@@ -291,9 +323,17 @@ SwipeRow.propTypes = {
 	 */
 	closeOnRowPress: PropTypes.bool,
 	/**
+	 * Maximum distance row can be swiped
+	 */
+	maxLeftSwipeDistance: PropTypes.number,
+	/**
 	 * Disable ability to swipe the row left
 	 */
 	disableLeftSwipe: PropTypes.bool,
+	/**
+	 * Maximum distance row can be swiped
+	 */
+	maxRightSwipeDistance: PropTypes.number,
 	/**
 	 * Disable ability to swipe the row right
 	 */
@@ -309,12 +349,14 @@ SwipeRow.propTypes = {
 };
 
 SwipeRow.defaultProps = {
-	leftOpenValue: 0,
-	rightOpenValue: 0,
 	closeOnRowPress: true,
 	disableLeftSwipe: false,
 	disableRightSwipe: false,
-	recalculateHiddenLayout: false
+	elasticOverscroll: true,
+	fastSwipeVelocity: 2.5,
+	leftOpenValue: 0,
+	recalculateHiddenLayout: false,
+	rightOpenValue: 0
 };
 
 export default SwipeRow;
