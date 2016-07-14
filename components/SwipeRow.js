@@ -228,7 +228,7 @@ class SwipeRow extends Component {
 
 	render() {
 		return (
-			<View style={styles.container}>
+			<View style={this.props.style ? this.props.style : styles.container}>
 				<View style={[
 					styles.hidden,
 					{
@@ -305,7 +305,11 @@ SwipeRow.propTypes = {
 	/**
 	 * Called when a swipe row is animating closed
 	 */
-	onRowClose: PropTypes.func
+	onRowClose: PropTypes.func,
+	/**
+	 * Styles for the parent wrapper View of the SwipeRow
+	 */
+	style: PropTypes.object
 };
 
 SwipeRow.defaultProps = {

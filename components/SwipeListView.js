@@ -90,6 +90,7 @@ class SwipeListView extends Component {
 					disableLeftSwipe={this.props.disableLeftSwipe}
 					disableRightSwipe={this.props.disableRightSwipe}
 					recalculateHiddenLayout={this.props.recalculateHiddenLayout}
+					style={this.props.swipeRowStyle}
 				>
 					{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
 					{this.props.renderRow(rowData, secId, rowId, this._rows)}
@@ -162,7 +163,11 @@ SwipeListView.propTypes = {
 	/**
 	 * Called when a swipe row is animating closed
 	 */
-	onRowClose: PropTypes.func
+	onRowClose: PropTypes.func,
+	/**
+	 * Styles for the parent wrapper View of the SwipeRow
+	 */
+	swipeRowStyle: PropTypes.object
 }
 
 SwipeListView.defaultProps = {

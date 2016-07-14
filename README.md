@@ -237,6 +237,13 @@ Called when a swipe row is animating open
 type: `func`
 
 
+### `swipeRowStyle`
+
+Styles for the parent wrapper View of the SwipeRow
+
+type: `object`
+
+
 `SwipeRow` (component)
 ======================
 
@@ -336,6 +343,13 @@ Enable hidden row onLayout calculations to run always
 
 type: `bool`
 defaultValue: `false`
+
+
+### `style`
+
+Styles for the parent wrapper View of the SwipeRow
+
+type: `object`
 
 ### *Note: Core Support*
 RN Core added a SwipeList component as of [v0.27.0](https://github.com/facebook/react-native/releases/tag/v0.27.0)
