@@ -137,6 +137,10 @@ import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 />
 ```
 
+#### *Note on RN 0.28 and {flex: 1}*:
+
+React Native 0.28 introduced new behavior when using flex: 1. The ```<SwipeRow>``` container ```<View>``` no longer has flex: 1 by default. If this is causing issues in your app you can maintain the old behavior by passing ```swipeRowStyle={{flex: 1}}``` to your ```<SwipeListView>``` or ```style={{flex: 1}}``` to your ```<SwipeRow>```.
+
 ## API
 
 `SwipeListView` (component)
