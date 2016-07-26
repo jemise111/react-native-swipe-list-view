@@ -248,6 +248,14 @@ Styles for the parent wrapper View of the SwipeRow
 type: `object`
 
 
+### `listViewRef`
+
+Called when the ListView ref is set and passes a ref to the ListView
+e.g. ```listViewRef={ ref => this._swipeListViewRef = ref }```
+
+type: `func`
+
+
 `SwipeRow` (component)
 ======================
 

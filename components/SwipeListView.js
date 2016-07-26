@@ -62,6 +62,11 @@ class SwipeListView extends Component {
 		this.props.onScroll && this.props.onScroll(e);
 	}
 
+	setRefs(ref) {
+		this._listView = ref;
+		this.props.listViewRef && this.props.listViewRef(ref);
+	}
+
 	renderRow(rowData, secId, rowId, rowMap) {
 		const Component = this.props.renderRow(rowData, secId, rowId, rowMap);
 		if (!this.props.renderHiddenRow) {
@@ -103,7 +108,7 @@ class SwipeListView extends Component {
 		return (
 			<ListView
 				{...this.props}
-				ref={ c => this._listView = c}
+				ref={ c => this.setRefs(c) }
 				onScroll={ e => this.onScroll(e) }
 				renderRow={(rowData, secId, rowId) => this.renderRow(rowData, secId, rowId, this._rows)}
 			/>
@@ -167,7 +172,12 @@ SwipeListView.propTypes = {
 	/**
 	 * Styles for the parent wrapper View of the SwipeRow
 	 */
-	swipeRowStyle: PropTypes.object
+	swipeRowStyle: PropTypes.object,
+	/**
+	 * Called when the ListView ref is set and passes a ref to the ListView
+	 * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
+	 */
+	listViewRef: PropTypes.func
 }
 
 SwipeListView.defaultProps = {
