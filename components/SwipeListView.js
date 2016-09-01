@@ -82,6 +82,7 @@ class SwipeListView extends Component {
 				}
 			);
 		} else {
+			const firstRowId = this.props.dataSource && this.props.dataSource.getRowIDForFlatIndex(0);
 			return (
 				<SwipeRow
 					ref={row => this._rows[`${secId}${rowId}`] = row}
@@ -96,6 +97,9 @@ class SwipeListView extends Component {
 					disableRightSwipe={this.props.disableRightSwipe}
 					recalculateHiddenLayout={this.props.recalculateHiddenLayout}
 					style={this.props.swipeRowStyle}
+					preview={this.props.previewFirstRow && rowId === firstRowId}
+					previewDuration={this.props.previewDuration}
+					previewOpenValue={this.props.previewOpenValue}
 				>
 					{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
 					{this.props.renderRow(rowData, secId, rowId, this._rows)}
@@ -177,7 +181,20 @@ SwipeListView.propTypes = {
 	 * Called when the ListView ref is set and passes a ref to the ListView
 	 * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
 	 */
-	listViewRef: PropTypes.func
+	listViewRef: PropTypes.func,
+	/**
+	 * Should the first SwipeRow do a slide out preview to show that the list is swipeable
+	 */
+	previewFirstRow: PropTypes.bool,
+	/**
+	 * Duration of the slide out preview animation
+	 */
+	previewDuration: PropTypes.number,
+	/**
+	 * TranslateX value for the slide out preview animation
+	 * Default: 0.5 * props.rightOpenValue
+	 */
+	previewOpenValue: PropTypes.number
 }
 
 SwipeListView.defaultProps = {
@@ -187,7 +204,8 @@ SwipeListView.defaultProps = {
 	closeOnRowPress: true,
 	disableLeftSwipe: false,
 	disableRightSwipe: false,
-	recalculateHiddenLayout: false
+	recalculateHiddenLayout: false,
+	previewFirstRow: false
 }
 
 export default SwipeListView;

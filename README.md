@@ -256,6 +256,29 @@ e.g. ```listViewRef={ ref => this._swipeListViewRef = ref }```
 type: `func`
 
 
+### `previewFirstRow`
+
+Should the first SwipeRow do a slide out preview to show that the list is swipeable
+
+type: `bool`
+defaultValue: `false`
+
+
+### `previewDuration`
+
+Duration of the slide out preview animation
+
+type: `number`
+
+
+### `previewOpenValue`
+
+TranslateX value for the slide out preview animation
+Default: 0.5 * props.rightOpenValue
+
+type: `number`
+
+
 `SwipeRow` (component)
 ======================
 
@@ -362,6 +385,31 @@ defaultValue: `false`
 Styles for the parent wrapper View of the SwipeRow
 
 type: `object`
+
+
+### `preview`
+
+Should the row do a slide out preview to show that it is swipeable
+
+type: `bool`
+defaultValue: `false`
+
+
+### `previewDuration`
+
+Duration of the slide out preview animation
+
+type: `number`
+defaultValue: `300`
+
+
+### `previewOpenValue`
+
+TranslateX value for the slide out preview animation
+Default: 0.5 * props.rightOpenValue
+
+type: `number`
+
 
 ### *Note: Core Support*
 RN Core added a SwipeList component as of [v0.27.0](https://github.com/facebook/react-native/releases/tag/v0.27.0)
