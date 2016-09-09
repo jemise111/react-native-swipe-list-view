@@ -317,6 +317,11 @@ TranslateX value for opening the row to the left (positive number)
 type: `number`
 defaultValue: `0`
 
+### `onRowPress`
+
+Called when a swipe row is pressed.
+
+type: `func`
 
 ### `onRowOpen`
 
