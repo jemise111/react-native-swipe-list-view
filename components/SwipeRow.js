@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {
 	Component,
 	PropTypes,
@@ -14,6 +12,9 @@ import {
 } from 'react-native';
 
 const DIRECTIONAL_DISTANCE_CHANGE_THRESHOLD = 2;
+const PREVIEW_OPEN_DELAY = 700;
+const PREVIEW_CLOSE_DELAY = 300;
+
 function elastic(value, elasticity = 30) {
 	return elasticity * Math.log(value + elasticity) - elasticity * Math.log(elasticity);
 }
@@ -28,13 +29,14 @@ function elastic(value, elasticity = 30) {
       <View style={visibleRowStyle} />
   </SwipeRow>
  */
-class SwipeRow extends Component {
+export default class SwipeRow extends Component {
 
 	constructor(props) {
 		super(props);
 		this.horizontalSwipeGestureBegan = false;
 		this.swipeInitialX = null;
 		this.parentScrollEnabled = true;
+		this.ranPreview = false;
 		this.state = {
 			dimensionsSet: false,
 			hiddenHeight: 0,
@@ -53,17 +55,45 @@ class SwipeRow extends Component {
 		});
 	}
 
+	fireEvent = (fn) => {
+		console.log('firing event', fn, this.props);
+		fn && fn(this.props.rowId, this.props.sectionId);
+	}
+	onFastSwipeLeft = () => this.fireEvent(this.props.onFastSwipeLeft)
+	onFastSwipeRight = () => this.fireEvent(this.props.onFastSwipeRight)
+	onOverscrollLeft = () => this.fireEvent(this.props.onOverscrollLeft)
+	onOverscrollRight = () => this.fireEvent(this.props.onOverscrollRight)
+	onRowClose = () => this.fireEvent(this.props.onRowClose)
+	onRowOpen = () => this.fireEvent(this.props.onRowOpen)
+	onRowPress = () => this.fireEvent(this.props.onRowPress)
+
+	getPreviewAnimation(toValue, delay) {
+		return Animated.timing(
+			this.state.translateX,
+			{ duration: this.props.previewDuration, toValue, delay }
+		);
+	}
+
 	onContentLayout(e) {
 		this.setState({
 			dimensionsSet: !this.props.recalculateHiddenLayout,
 			hiddenHeight: e.nativeEvent.layout.height,
 			hiddenWidth: e.nativeEvent.layout.width,
 		});
+
+		if (this.props.preview && !this.ranPreview) {
+			this.ranPreview = true;
+			let previewOpenValue = this.props.previewOpenValue || this.props.rightOpenValue * 0.5;
+			this.getPreviewAnimation(previewOpenValue, PREVIEW_OPEN_DELAY)
+			.start( _ => {
+				this.getPreviewAnimation(0, PREVIEW_CLOSE_DELAY).start();
+			});
+		}
 	}
 
 	onRowPress() {
-		if (this.props.onRowPress) {
-			this.props.onRowPress();
+		if (this.onRowPress) {
+			this.onRowPress();
 		} else {
 			if (this.props.closeOnRowPress) {
 				this.closeRow();
@@ -111,6 +141,11 @@ class SwipeRow extends Component {
 			else if (this.props.maxLeftSwipeDistance && newDX > this.props.maxLeftSwipeDistance) {
 				if (this.props.elasticOverscroll) {
 					newDX = this.props.maxLeftSwipeDistance + elastic(newDX - this.props.maxLeftSwipeDistance);
+
+					if (this.onOverscrollLeft && newDX > this.props.maxLeftSwipeDistance + this.props.overscrollDistanceLeft) {
+						this.onOverscrollLeft()
+					}
+
 				}
 				else {
 					newDX = this.props.maxLeftSwipeDistance;
@@ -119,22 +154,23 @@ class SwipeRow extends Component {
 			else if (this.props.maxRightSwipeDistance && newDX < this.props.maxRightSwipeDistance) {
 				if (this.props.elasticOverscroll) {
 					newDX = this.props.maxRightSwipeDistance - elastic(this.props.maxRightSwipeDistance - newDX);
+
+					if (this.onOverscrollRight && newDX < -this.props.maxRightSwipeDistance + this.props.overScrollDistanceRight) {
+						this.onOverscrollRight()
+					}
+
 				}
 				else {
 					newDX = this.props.maxRightSwipeDistance;
 				}
 			}
 			// Fast swipe
-			if (this.props.onFastSwipeLeft && newDX < 0 && vx >= this.props.fastSwipeVelocity) {
-				this.props.onFastSwipeLeft()
+			if (this.onFastSwipeLeft && newDX < 0 && vx >= this.props.fastSwipeVelocity) {
+				this.onFastSwipeLeft()
 			}
-			else if (this.props.onFastSwipeRight && newDX > 0 && vx >= this.props.fastSwipeVelocity) {
-				this.props.onFastSwipeRight()
+			else if (this.onFastSwipeRight && newDX > 0 && vx >= this.props.fastSwipeVelocity) {
+				this.onFastSwipeRight()
 			}
-
-			// elasticOverscroll
-			// let scale = 200;
-			// newDX = scale * Math.log(newDX + scale) - scale * Math.log(scale);
 
 			this.setState({
 				translateX: new Animated.Value(newDX)
@@ -153,13 +189,13 @@ class SwipeRow extends Component {
 		// finish up the animation
 		let toValue = 0;
 		if (this.state.translateX._value >= 0) {
-			// trying to open right
+			// trying to open left
 			if (this.state.translateX._value > this.props.leftOpenValue / 2) {
 				// we're more than halfway
 				toValue = this.props.leftOpenValue;
 			}
 		} else {
-			// trying to open left
+			// trying to open right
 			if (this.state.translateX._value < this.props.rightOpenValue / 2) {
 				// we're more than halfway
 				toValue = this.props.rightOpenValue
@@ -186,9 +222,9 @@ class SwipeRow extends Component {
 		).start();
 
 		if (toValue === 0) {
-			this.props.onRowClose && this.props.onRowClose();
+			this.onRowClose();
 		} else {
-			this.props.onRowOpen && this.props.onRowOpen();
+			this.onRowOpen();
 		}
 
 		// reset everything
@@ -208,7 +244,6 @@ class SwipeRow extends Component {
 			return React.cloneElement(
 				this.props.children[1],
 				{
-					...this.props.children[1].props,
 					onPress: newOnPress
 				}
 			);
@@ -260,7 +295,7 @@ class SwipeRow extends Component {
 
 	render() {
 		return (
-			<View style={styles.container}>
+			<View style={this.props.style ? this.props.style : styles.container}>
 				<View style={[
 					styles.hidden,
 					{
@@ -279,7 +314,8 @@ class SwipeRow extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		// As of RN 0.29 flex: 1 is causing all rows to be the same height
+		// flex: 1
 	},
 	hidden: {
 		bottom: 0,
@@ -292,6 +328,40 @@ const styles = StyleSheet.create({
 });
 
 SwipeRow.propTypes = {
+	/**
+	 * Called when fastSwipe left is triggered
+	 */
+	onFastSwipeLeft: PropTypes.func,
+	/**
+	 * Called when fastSwipe right is triggered
+	 */
+	onFastSwipeRight: PropTypes.func,
+	/**
+	 * Called when left overscroll is triggered
+	 */
+	onOverscrollLeft: PropTypes.func,
+	/**
+	 * Called when right overscroll is triggered
+	 */
+	onOverscrollRight: PropTypes.func,
+	/**
+	 * How far beyond maxLeftSwipeDistance the row must be dragged before
+	 * onOverscrollLeft is triggered
+	 */
+	overscrollDistanceLeft: PropTypes.number,
+	/**
+	 * How far beyond maxRightSwipeDistance the row must be dragged before
+	 * onOverscrollRight is triggered
+	 */
+	overScrollDistanceRight: PropTypes.number,
+  /**
+	 * Use elasticity when maximum drag distance is reached?
+	 */
+	elasticOverscroll: PropTypes.bool,
+	/**
+	 * Velocity of drag to trigger fastSwipe
+	 */
+	fastSwipeVelocity: PropTypes.number,
 	/**
 	 * Used by the SwipeListView to close rows on scroll events.
 	 * You shouldn't need to use this prop explicitly.
@@ -345,7 +415,24 @@ SwipeRow.propTypes = {
 	/**
 	 * Called when a swipe row is animating closed
 	 */
-	onRowClose: PropTypes.func
+	onRowClose: PropTypes.func,
+	/**
+	 * Styles for the parent wrapper View of the SwipeRow
+	 */
+	style: PropTypes.object,
+	/**
+	 * Should the row do a slide out preview to show that it is swipeable
+	 */
+	preview: PropTypes.bool,
+	/**
+	 * Duration of the slide out preview animation
+	 */
+	previewDuration: PropTypes.number,
+	/**
+	 * TranslateX value for the slide out preview animation
+	 * Default: 0.5 * props.rightOpenValue
+	 */
+	previewOpenValue: PropTypes.number
 };
 
 SwipeRow.defaultProps = {
@@ -355,8 +442,10 @@ SwipeRow.defaultProps = {
 	elasticOverscroll: true,
 	fastSwipeVelocity: 2.5,
 	leftOpenValue: 0,
+	overscrollDistanceLeft: 25,
+	overScrollDistanceRight: 25,
+	preview: false,
+	previewDuration: 300,
 	recalculateHiddenLayout: false,
-	rightOpenValue: 0
+	rightOpenValue: 0,
 };
-
-export default SwipeRow;

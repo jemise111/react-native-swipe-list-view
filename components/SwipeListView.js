@@ -1,5 +1,3 @@
-'use strict';
-
 import React, {
 	Component,
 	PropTypes,
@@ -15,7 +13,7 @@ import SwipeRow from './SwipeRow';
 /**
  * ListView that renders SwipeRows.
  */
-class SwipeListView extends Component {
+export default class SwipeListView extends Component {
 
 	constructor(props){
 		super(props);
@@ -34,16 +32,17 @@ class SwipeListView extends Component {
 		}
 	}
 
-	onRowOpen(secId, rowId, rowMap) {
-		const cellIdentifier = `${secId}${rowId}`;
-		if (this.openCellId && this.openCellId !== cellIdentifier) {
+	onRowOpen = (rowId, secId, rowMap = this._rows) => {
+		const id = `${secId}${rowId}`;
+		if (this.openCellId && this.openCellId !== id) {
 			this.safeCloseOpenRow();
 		}
-		this.openCellId = cellIdentifier;
+		this.openCellId = id;
 		this.props.onRowOpen && this.props.onRowOpen(secId, rowId, rowMap);
 	}
 
-	onRowPress(id) {
+	onRowPress = () => {
+		// const id = `${secId}${rowId}`;
 		if (this.openCellId) {
 			if (this.props.closeOnRowPress) {
 				this.safeCloseOpenRow();
@@ -62,34 +61,56 @@ class SwipeListView extends Component {
 		this.props.onScroll && this.props.onScroll(e);
 	}
 
+	setRefs(ref) {
+		this._listView = ref;
+		this.props.listViewRef && this.props.listViewRef(ref);
+	}
+
 	renderRow(rowData, secId, rowId, rowMap) {
-		const Component = this.props.renderRow(rowData, secId, rowId, rowMap);
-		if (Component.type.name === 'SwipeRow') {
+		if (!this.props.renderHiddenRow) {
 			return React.cloneElement(
-				Component,
+				this.props.renderRow(rowData, secId, rowId, rowMap),
 				{
-					...Component.props,
 					ref: row => this._rows[`${secId}${rowId}`] = row,
 					onRowOpen: _ => this.onRowOpen(secId, rowId, this._rows),
 					onRowClose: _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows),
 					onRowPress: _ => this.onRowPress(`${secId}${rowId}`),
-					setScrollEnabled: enable => this.setScrollEnabled(enable)
+					setScrollEnabled: enable => this.setScrollEnabled(enable),
 				}
 			);
 		} else {
+			const firstRowId = this.props.dataSource && this.props.dataSource.getRowIDForFlatIndex(0);
 			return (
 				<SwipeRow
-					ref={row => this._rows[`${secId}${rowId}`] = row}
-					onRowOpen={ _ => this.onRowOpen(secId, rowId, this._rows) }
-					onRowClose={ _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows) }
-					onRowPress={ _ => this.onRowPress(`${secId}${rowId}`) }
-					setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
-					leftOpenValue={this.props.leftOpenValue}
-					rightOpenValue={this.props.rightOpenValue}
+					rowId={rowId}
+					sectionId={secId}
 					closeOnRowPress={this.props.closeOnRowPress}
 					disableLeftSwipe={this.props.disableLeftSwipe}
 					disableRightSwipe={this.props.disableRightSwipe}
+					elasticOverscroll={this.props.elasticOverscroll}
+					fastSwipeVelocity={this.props.fastSwipeVelocity}
+					friction={this.props.friction}
+					leftOpenValue={this.props.leftOpenValue}
+					maxLeftSwipeDistance={this.props.maxLeftSwipeDistance}
+					maxRightSwipeDistance={this.props.maxRightSwipeDistance}
+					onFastSwipeLeft={this.props.onFastSwipeLeft}
+					onFastSwipeRight={this.props.onFastSwipeRight}
+					onOverscrollLeft={this.props.onOverscrollLeft}
+					onOverscrollRight={this.props.onOverscrollRight}
+					onRowClose={this.props.onRowClose}
+					onRowOpen={this.onRowOpen}
+					onRowPress={this.onRowPress}
+					overscrollDistanceLeft={this.props.overscrollDistanceLeft}
+					overScrollDistanceRight={this.props.overScrollDistanceRight}
+					preview={this.props.previewFirstRow && rowId === firstRowId}
+					previewDuration={this.props.previewDuration}
+					previewOpenValue={this.props.previewOpenValue}
 					recalculateHiddenLayout={this.props.recalculateHiddenLayout}
+					ref={row => this._rows[`${secId}${rowId}`] = row}
+					rightOpenValue={this.props.rightOpenValue}
+					setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
+					style={this.props.swipeRowStyle}
+					tension={this.props.tension}
 				>
 					{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
 					{this.props.renderRow(rowData, secId, rowId, this._rows)}
@@ -102,7 +123,7 @@ class SwipeListView extends Component {
 		return (
 			<ListView
 				{...this.props}
-				ref={ c => this._listView = c}
+				ref={ c => this.setRefs(c) }
 				onScroll={ e => this.onScroll(e) }
 				renderRow={(rowData, secId, rowId) => this.renderRow(rowData, secId, rowId, this._rows)}
 			/>
@@ -162,7 +183,29 @@ SwipeListView.propTypes = {
 	/**
 	 * Called when a swipe row is animating closed
 	 */
-	onRowClose: PropTypes.func
+	onRowClose: PropTypes.func,
+	/**
+	 * Styles for the parent wrapper View of the SwipeRow
+	 */
+	swipeRowStyle: PropTypes.object,
+	/**
+	 * Called when the ListView ref is set and passes a ref to the ListView
+	 * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
+	 */
+	listViewRef: PropTypes.func,
+	/**
+	 * Should the first SwipeRow do a slide out preview to show that the list is swipeable
+	 */
+	previewFirstRow: PropTypes.bool,
+	/**
+	 * Duration of the slide out preview animation
+	 */
+	previewDuration: PropTypes.number,
+	/**
+	 * TranslateX value for the slide out preview animation
+	 * Default: 0.5 * props.rightOpenValue
+	 */
+	previewOpenValue: PropTypes.number
 }
 
 SwipeListView.defaultProps = {
@@ -172,7 +215,6 @@ SwipeListView.defaultProps = {
 	closeOnRowPress: true,
 	disableLeftSwipe: false,
 	disableRightSwipe: false,
-	recalculateHiddenLayout: false
+	recalculateHiddenLayout: false,
+	previewFirstRow: false
 }
-
-export default SwipeListView;
