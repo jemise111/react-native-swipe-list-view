@@ -55,10 +55,7 @@ export default class SwipeRow extends Component {
 		});
 	}
 
-	fireEvent = (fn) => {
-		console.log('firing event', fn, this.props);
-		fn && fn(this.props.rowId, this.props.sectionId);
-	}
+	fireEvent = (fn) => fn && fn(this.props.rowData, this.props.rowId, this.props.sectionId);
 	onFastSwipeLeft = () => this.fireEvent(this.props.onFastSwipeLeft)
 	onFastSwipeRight = () => this.fireEvent(this.props.onFastSwipeRight)
 	onOverscrollLeft = () => this.fireEvent(this.props.onOverscrollLeft)

@@ -82,6 +82,7 @@ export default class SwipeListView extends Component {
 			const firstRowId = this.props.dataSource && this.props.dataSource.getRowIDForFlatIndex(0);
 			return (
 				<SwipeRow
+					rowData={rowData}
 					rowId={rowId}
 					sectionId={secId}
 					closeOnRowPress={this.props.closeOnRowPress}
