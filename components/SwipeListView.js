@@ -94,6 +94,7 @@ export default class SwipeListView extends Component {
 					leftOpenValue={this.props.leftOpenValue}
 					maxLeftSwipeDistance={this.props.maxLeftSwipeDistance}
 					maxRightSwipeDistance={this.props.maxRightSwipeDistance}
+					onAnimationEnd={this.props.onAnimationEnd}
 					onFastSwipeLeft={this.props.onFastSwipeLeft}
 					onFastSwipeRight={this.props.onFastSwipeRight}
 					onOverscrollLeft={this.props.onOverscrollLeft}

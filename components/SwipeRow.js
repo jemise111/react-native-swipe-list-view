@@ -63,6 +63,7 @@ export default class SwipeRow extends Component {
 	onRowClose = () => this.fireEvent(this.props.onRowClose)
 	onRowOpen = () => this.fireEvent(this.props.onRowOpen)
 	onRowPress = () => this.fireEvent(this.props.onRowPress)
+	onAnimationEnd = () => this.fireEvent(this.props.onAnimationEnd)
 
 	getPreviewAnimation(toValue, delay) {
 		return Animated.timing(
@@ -166,7 +167,7 @@ export default class SwipeRow extends Component {
 				this.onFastSwipeLeft()
 			}
 			else if (this.onFastSwipeRight && newDX < 0 && -vx >= this.props.fastSwipeVelocity) {
-			
+
 				this.onFastSwipeRight()
 			}
 
@@ -217,7 +218,7 @@ export default class SwipeRow extends Component {
 				friction: this.props.friction,
 				tension: this.props.tension
 			}
-		).start();
+		).start(this.onAnimationEnd);
 
 		if (toValue === 0) {
 			this.onRowClose();
