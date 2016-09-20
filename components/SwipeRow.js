@@ -162,10 +162,11 @@ export default class SwipeRow extends Component {
 				}
 			}
 			// Fast swipe
-			if (this.onFastSwipeLeft && newDX < 0 && vx >= this.props.fastSwipeVelocity) {
+			if (this.onFastSwipeLeft && newDX > 0 && vx >= this.props.fastSwipeVelocity) {
 				this.onFastSwipeLeft()
 			}
-			else if (this.onFastSwipeRight && newDX > 0 && vx >= this.props.fastSwipeVelocity) {
+			else if (this.onFastSwipeRight && newDX < 0 && -vx >= this.props.fastSwipeVelocity) {
+			
 				this.onFastSwipeRight()
 			}
 
