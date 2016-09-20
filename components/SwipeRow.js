@@ -207,18 +207,18 @@ export default class SwipeRow extends Component {
 	/*
 	 * This method is called by SwipeListView
 	 */
-	closeRow() {
-		this.manuallySwipeRow(0);
+	closeRow(fn) {
+		this.manuallySwipeRow(0, fn);
 	}
 
-	manuallySwipeRow(toValue) {
+	manuallySwipeRow(toValue, fn = this.onAnimationEnd) {
 		Animated.spring(this.state.translateX,
 			{
 				toValue,
 				friction: this.props.friction,
 				tension: this.props.tension
 			}
-		).start(this.onAnimationEnd);
+		).start(fn);
 
 		if (toValue === 0) {
 			this.onRowClose();
