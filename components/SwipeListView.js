@@ -52,15 +52,6 @@ export default class SwipeListView extends Component {
     this.props.onRowOpen && this.props.onRowOpen(rowData, secId, rowId, rowMap);
   }
 
-  onRowPress = () => {
-    // const id = `${secId}${rowId}`;
-    if (this.openCellId) {
-      if (this.props.closeOnRowPress) {
-        this.closeOpenRow();
-      }
-    }
-  }
-
   onScroll(e) {
     if (this.openCellId) {
       if (this.props.closeOnScroll) {
@@ -107,7 +98,7 @@ export default class SwipeListView extends Component {
           onOverscrollRight={this.props.onOverscrollRight}
           onRowClose={this.props.onRowClose}
           onRowOpen={this.onRowOpen}
-          onRowPress={this.onRowPress}
+          onRowPress={this.props.onRowPress}
           onDragStart={this.props.onDragStart}
           onDragEnd={this.props.onDragEnd}
           overscrollDistanceLeft={this.props.overscrollDistanceLeft}

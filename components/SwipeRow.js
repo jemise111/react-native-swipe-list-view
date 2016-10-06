@@ -90,15 +90,18 @@ export default class SwipeRow extends Component {
     this.isOpen = true;
     this.fireEvent('onRowOpen', this.props.onRowOpen);
   }
-  onRowPress = () => this.fireEvent('onRowPress', this.props.onRowPress)
-  onAnimationEnd = () => this.fireEvent('onAnimationEnd', this.props.onAnimationEnd)
-
-  // onRowPress
-  onRowPress() {
-    if (this.isDisabledTouch) return;
-    this.onRowPress && this.onRowPress();
-    this.props.closeOnRowPress && this.closeRow();
+  onRowPress = (fn) => {
+    if (this.isDisabledTouch) {
+      return;
+    }
+    else if (this.isOpen && this.props.closeOnRowPress) {
+      this.closeRow();
+    }
+    else {
+      this.fireEvent('onRowPress', typeof fn === 'function' ? fn : this.props.onRowPress);
+    }
   }
+  onAnimationEnd = () => this.fireEvent('onAnimationEnd', this.props.onAnimationEnd)
 
   getPreviewAnimation(toValue, delay) {
     return Animated.timing(
@@ -272,28 +275,26 @@ export default class SwipeRow extends Component {
   }
 
   renderVisibleContent() {
-    // handle touchables
-    const onPress = this.props.children[1].props.onPress;
+    const visibleChild = this.props.children[1];
+    // Pull onPress prop from second child
+    const {onPress} = visibleChild.props;
 
+    // If onPress exists on child, it's a Touchable*, so let's
+    // wrap their callback with our own.
     if (onPress) {
-      const newOnPress = _ => {
-        this.onRowPress();
-        onPress();
-      };
       return React.cloneElement(
-        this.props.children[1],
-        {
-          onPress: newOnPress,
-        }
-      );
+        visibleChild, {
+          onPress: () => this.onRowPress(onPress),
+        });
     }
 
+    // Otherwise, let's wrap their whole component with a TouchableOpacity.
     return (
       <TouchableOpacity
         activeOpacity={1}
-        onPress={_ => this.onRowPress()}
+        onPress={this.onRowPress}
       >
-        {this.props.children[1]}
+        {visibleChild}
       </TouchableOpacity>
     );
 
