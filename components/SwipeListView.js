@@ -77,6 +77,7 @@ class SwipeListView extends Component {
 					ref: row => this._rows[`${secId}${rowId}`] = row,
 					onRowOpen: _ => this.onRowOpen(secId, rowId, this._rows),
 					onRowClose: _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows),
+          onRowDidClose: _ => this.props.onRowDidClose && this.props.onRowDidClose(secId, rowId, this._rows),
 					onRowPress: _ => this.onRowPress(`${secId}${rowId}`),
 					setScrollEnabled: enable => this.setScrollEnabled(enable)
 				}
@@ -88,6 +89,7 @@ class SwipeListView extends Component {
 					ref={row => this._rows[`${secId}${rowId}`] = row}
 					onRowOpen={ _ => this.onRowOpen(secId, rowId, this._rows) }
 					onRowClose={ _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows) }
+          onRowDidClose={ _ => this.props.onRowDidClose && this.props.onRowDidClose(secId, rowId, this._rows) }
 					onRowPress={ _ => this.onRowPress(`${secId}${rowId}`) }
 					setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
 					leftOpenValue={this.props.leftOpenValue}
@@ -172,7 +174,11 @@ SwipeListView.propTypes = {
 	/**
 	 * Called when a swipe row is animating closed
 	 */
-	onRowClose: PropTypes.func,
+  onRowClose: PropTypes.func,
+  /**
+	 * Called when a swipe row has aniamted closed
+	 */
+  onRowDidClose: PropTypes.func,
 	/**
 	 * Styles for the parent wrapper View of the SwipeRow
 	 */

@@ -164,13 +164,16 @@ class SwipeRow extends Component {
 	}
 
 	manuallySwipeRow(toValue) {
-		Animated.spring(this.state.translateX,
+		Animated.spring(
+      this.state.translateX,
 			{
 				toValue,
 				friction: this.props.friction,
 				tension: this.props.tension
 			}
-		).start();
+		).start(function(){
+      this.props.onRowDidClose && this.props.onRowDidClose();
+    });
 
 		if (toValue === 0) {
 			this.props.onRowClose && this.props.onRowClose();
@@ -326,6 +329,10 @@ SwipeRow.propTypes = {
 	 * Called when a swipe row is animating closed
 	 */
 	onRowClose: PropTypes.func,
+  /**
+   * Called when a swipe row has animated closed
+   */
+  onRowDidClose: PropTypes.func,
 	/**
 	 * Styles for the parent wrapper View of the SwipeRow
 	 */
