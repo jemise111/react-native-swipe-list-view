@@ -123,6 +123,10 @@ class SwipeRow extends Component {
 			if (this.props.disableLeftSwipe  && newDX < 0) { newDX = 0; }
 			if (this.props.disableRightSwipe && newDX > 0) { newDX = 0; }
 
+
+			if (this.props.stopLeftSwipe && newDX > this.props.stopLeftSwipe) { newDX = this.props.stopLeftSwipe; }
+			if (this.props.stopRightSwipe && newDX < this.props.stopRightSwipe) { newDX = this.props.stopRightSwipe; }
+
 			this.setState({
 				translateX: new Animated.Value(newDX)
 			});
@@ -298,6 +302,14 @@ SwipeRow.propTypes = {
 	 * TranslateX value for opening the row to the right (negative number)
 	 */
 	rightOpenValue: PropTypes.number,
+	/**
+	 * TranslateX value for stop the row to the left (positive number)
+	 */
+	stopLeftSwipe: PropTypes.number,
+	/**
+	 * TranslateX value for stop the row to the right (negative number)
+	 */
+	stopRightSwipe: PropTypes.number,
 	/**
 	 * Friction for the open / close animation
 	 */
