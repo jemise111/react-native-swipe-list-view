@@ -177,18 +177,6 @@ TranslateX value for opening the row to the left (positive number)
 type: `number`
 defaultValue: `0`
 
-### `stopLeftSwipe`
-
-TranslateX value for stop the row to the left (positive number)
-
-type: `number`
-
-### `stopRightSwipe`
-
-TranslateX value for stop the row to the right (negative number)
-
-type: `number`
-
 
 ### `renderHiddenRow`
 
@@ -331,6 +319,19 @@ TranslateX value for opening the row to the left (positive number)
 
 type: `number`
 defaultValue: `0`
+
+### `stopLeftSwipe`
+
+TranslateX value for stop the row to the left (positive number)
+
+type: `number`
+
+### `stopRightSwipe`
+
+TranslateX value for stop the row to the right (negative number)
+
+type: `number`
+
 
 ### `onRowPress`
 
