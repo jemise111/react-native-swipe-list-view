@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "react": "^15.2.0",
-    "react-native": "^0.28.0",
+    "react-native": "^0.36.0",
     "react-native-swipe-list-view": "file:../"
   }
 }
