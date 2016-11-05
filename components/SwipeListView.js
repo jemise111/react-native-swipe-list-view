@@ -82,7 +82,7 @@ class SwipeListView extends Component {
 				}
 			);
 		} else {
-			const firstRowId = this.props.dataSource && this.props.dataSource.getRowIDForFlatIndex(0);
+			const previewRowId = this.props.dataSource && this.props.dataSource.getRowIDForFlatIndex(this.props.previewRowIndex || 0);
 			return (
 				<SwipeRow
 					ref={row => this._rows[`${secId}${rowId}`] = row}
@@ -99,7 +99,7 @@ class SwipeListView extends Component {
 					stopRightSwipe={this.props.stopRightSwipe}
 					recalculateHiddenLayout={this.props.recalculateHiddenLayout}
 					style={this.props.swipeRowStyle}
-					preview={this.props.previewFirstRow && rowId === firstRowId}
+					preview={(this.props.previewFirstRow || this.props.previewRowIndex) && rowId === previewRowId}
 					previewDuration={this.props.previewDuration}
 					previewOpenValue={this.props.previewOpenValue}
 				>
@@ -197,7 +197,13 @@ SwipeListView.propTypes = {
 	 */
 	previewFirstRow: PropTypes.bool,
 	/**
-	 * Duration of the slide out preview animation
+	 * Should the specified rowId do a slide out preview to show that the list is swipeable
+	 * Note: This ID will be passed to this function to get the correct row index
+	 * https://facebook.github.io/react-native/docs/listviewdatasource.html#getrowidforflatindex
+	 */
+	previewRowIndex: PropTypes.number,
+	/**
+	 * Duration of the slide out preview animation (milliseconds)
 	 */
 	previewDuration: PropTypes.number,
 	/**
