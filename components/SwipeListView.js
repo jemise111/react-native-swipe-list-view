@@ -102,6 +102,8 @@ class SwipeListView extends Component {
 					preview={(this.props.previewFirstRow || this.props.previewRowIndex) && rowId === previewRowId}
 					previewDuration={this.props.previewDuration}
 					previewOpenValue={this.props.previewOpenValue}
+					tension={this.props.tension}
+					friction={this.props.friction}
 				>
 					{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
 					{this.props.renderRow(rowData, secId, rowId, this._rows)}
@@ -210,7 +212,15 @@ SwipeListView.propTypes = {
 	 * TranslateX value for the slide out preview animation
 	 * Default: 0.5 * props.rightOpenValue
 	 */
-	previewOpenValue: PropTypes.number
+	previewOpenValue: PropTypes.number,
+	/**
+	 * Friction for the open / close animation
+	 */
+	friction: PropTypes.number,
+	/**
+	 * Tension for the open / close animation
+	 */
+	tension: PropTypes.number,
 }
 
 SwipeListView.defaultProps = {

@@ -290,6 +290,20 @@ Default: 0.5 * props.rightOpenValue
 type: `number`
 
 
+### `friction`
+
+Friction for the open / close animation
+
+type: `number`
+
+
+### `tension`
+
+Tension for the open / close animation
+
+type: `number`
+
+
 `SwipeRow` (component)
 ======================
 
