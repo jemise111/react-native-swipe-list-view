@@ -109,6 +109,8 @@ If you need rows to behave independently you can return a ```<SwipeRow>``` in th
 The following values can be dynamic by passing them as props on the ```<SwipeRow>```:
  * ```leftOpenValue```
  * ```rightOpenValue```
+ * ```stopLeftSwipe```
+ * ```stopRightSwipe```
  * ```closeOnRowPress```
  * ```disableLeftSwipe```
  * ```disableRightSwipe```
@@ -317,6 +319,19 @@ TranslateX value for opening the row to the left (positive number)
 
 type: `number`
 defaultValue: `0`
+
+### `stopLeftSwipe`
+
+TranslateX value for stop the row to the left (positive number)
+
+type: `number`
+
+### `stopRightSwipe`
+
+TranslateX value for stop the row to the right (negative number)
+
+type: `number`
+
 
 ### `onRowPress`
 
