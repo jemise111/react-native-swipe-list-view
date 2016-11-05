@@ -77,7 +77,6 @@ class App extends Component {
 					this.state.basic &&
 
 					<SwipeListView
-						onRowDidClose={_ => console.log('row closed')}
 						dataSource={this.ds.cloneWithRows(this.state.listViewData)}
 						renderRow={ data => (
 							<TouchableHighlight
