@@ -266,6 +266,14 @@ Should the first SwipeRow do a slide out preview to show that the list is swipea
 type: `bool`
 defaultValue: `false`
 
+### `previewRowIndex`
+
+Should the specified rowId do a slide out preview to show that the list is swipeable
+ * ***Note***: This ID will be passed to this function to get the correct row index
+ * https://facebook.github.io/react-native/docs/listviewdatasource.html#getrowidforflatindex
+
+type: `number`
+
 
 ### `previewDuration`
 
