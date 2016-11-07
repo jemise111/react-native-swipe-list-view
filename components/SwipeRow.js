@@ -172,6 +172,7 @@ class SwipeRow extends Component {
 				tension: this.props.tension
 			}
 		).start(function(){
+      console.log("testing", toValue)
       if (toValue === 0) {
         this.props.onRowDidClose && this.props.onRowDidClose();
       } else {
