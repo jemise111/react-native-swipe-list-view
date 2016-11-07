@@ -172,7 +172,11 @@ class SwipeRow extends Component {
 				tension: this.props.tension
 			}
 		).start(function(){
-      this.props.onRowDidClose && this.props.onRowDidClose();
+      if (toValue === 0) {
+        this.props.onRowDidClose && this.props.onRowDidClose();
+      } else {
+        this.props.onRowDidOpen && this.props.onRowDidOpen();
+      }
     }.bind(this));
 
 		if (toValue === 0) {
@@ -293,6 +297,10 @@ SwipeRow.propTypes = {
 	 * to keep references to open rows.
 	 */
 	onRowOpen: PropTypes.func,
+  /**
+	 * Called when a swipe row has animated open.
+	 */
+  onRowDidOpen: PropTypes.func,
 	/**
 	 * TranslateX value for opening the row to the left (positive number)
 	 */
