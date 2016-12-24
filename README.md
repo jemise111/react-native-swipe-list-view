@@ -237,9 +237,23 @@ Called when a swipe row is animating closed
 type: `func`
 
 
+### `onRowDidClose`
+
+Called when a swipe row has animated closed
+
+type: `func`
+
+
 ### `onRowOpen`
 
 Called when a swipe row is animating open
+
+type: `func`
+
+
+### `onRowDidOpen`
+
+Called when a swipe row has animated open
 
 type: `func`
 
