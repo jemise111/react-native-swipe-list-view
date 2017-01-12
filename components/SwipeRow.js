@@ -167,6 +167,13 @@ class SwipeRow extends Component {
 		this.manuallySwipeRow(0);
 	}
 
+	/*
+	 * Closes the row immediately, without animation.
+	 */
+	setRowClosed() {
+		this.state.translateX.setValue(0);
+	}
+
 	manuallySwipeRow(toValue) {
 		Animated.spring(
 			this.state.translateX,
