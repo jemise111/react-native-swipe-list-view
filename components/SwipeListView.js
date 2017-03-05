@@ -23,10 +23,6 @@ class SwipeListView extends Component {
 		this.openCellId = null;
 	}
 
-	horizontalSwipeGestureBegan() {
-		this.safeCloseOpenRow();
-	}
-
 	setScrollEnabled(enable) {
 		this._listView.setNativeProps({scrollEnabled: enable});
 	}
