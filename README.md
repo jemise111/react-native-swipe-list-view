@@ -170,7 +170,7 @@ type: `bool`
 defaultValue: `true`
 
 
-### `closeOnScroll`
+### `closeOnRowBeginSwipe`
 
 Should open rows be closed when a row begins to swipe open
 
