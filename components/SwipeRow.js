@@ -117,7 +117,10 @@ class SwipeRow extends Component {
 				// set tranlateX value when user started swiping
 				this.swipeInitialX = this.state.translateX._value
 			}
-			this.horizontalSwipeGestureBegan = true;
+			if (!this.horizontalSwipeGestureBegan) {
+				this.horizontalSwipeGestureBegan = true;
+				this.props.swipeGestureBegan && this.props.swipeGestureBegan();
+			}
 
 			let newDX = this.swipeInitialX + dx;
 			if (this.props.disableLeftSwipe  && newDX < 0) { newDX = 0; }
@@ -297,14 +300,18 @@ SwipeRow.propTypes = {
 	 */
 	setScrollEnabled: PropTypes.func,
 	/**
+	 * Called when it has been detected that a row should be swiped open.
+	 */
+	swipeGestureBegan: PropTypes.func,
+	/**
 	 * Called when a swipe row is animating open. Used by the SwipeListView
 	 * to keep references to open rows.
 	 */
 	onRowOpen: PropTypes.func,
-  /**
+	/**
 	 * Called when a swipe row has animated open.
 	 */
-  onRowDidOpen: PropTypes.func,
+	onRowDidOpen: PropTypes.func,
 	/**
 	 * TranslateX value for opening the row to the left (positive number)
 	 */
@@ -349,10 +356,10 @@ SwipeRow.propTypes = {
 	 * Called when a swipe row is animating closed
 	 */
 	onRowClose: PropTypes.func,
-  /**
-   * Called when a swipe row has animated closed
-   */
-  onRowDidClose: PropTypes.func,
+	/**
+	 * Called when a swipe row has animated closed
+	 */
+	onRowDidClose: PropTypes.func,
 	/**
 	 * Styles for the parent wrapper View of the SwipeRow
 	 */
@@ -369,7 +376,7 @@ SwipeRow.propTypes = {
 	 * TranslateX value for the slide out preview animation
 	 * Default: 0.5 * props.rightOpenValue
 	 */
-	previewOpenValue: PropTypes.number
+	previewOpenValue: PropTypes.number,
 };
 
 SwipeRow.defaultProps = {
