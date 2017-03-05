@@ -209,6 +209,15 @@ type: `number`
 defaultValue: `0`
 
 
+### `swipeToOpenPercent`
+
+What % of the left/right openValue does the user need to swipe
+past to trigger the row opening.
+
+type: `number`
+defaultValue: `50`
+
+
 ### `disableLeftSwipe`
 
 Disable ability to swipe the row left
@@ -406,6 +415,15 @@ TranslateX value for opening the row to the right (negative number)
 
 type: `number`
 defaultValue: `0`
+
+
+### `swipeToOpenPercent`
+
+What % of the left/right openValue does the user need to swipe
+past to trigger the row opening.
+
+type: `number`
+defaultValue: `50`
 
 
 ### `setScrollEnabled`

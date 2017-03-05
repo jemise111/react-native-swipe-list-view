@@ -147,13 +147,13 @@ class SwipeRow extends Component {
 		let toValue = 0;
 		if (this.state.translateX._value >= 0) {
 			// trying to open right
-			if (this.state.translateX._value > this.props.leftOpenValue / 2) {
+			if (this.state.translateX._value > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
 				// we're more than halfway
 				toValue = this.props.leftOpenValue;
 			}
 		} else {
 			// trying to open left
-			if (this.state.translateX._value < this.props.rightOpenValue / 2) {
+			if (this.state.translateX._value < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
 				// we're more than halfway
 				toValue = this.props.rightOpenValue
 			}
@@ -379,7 +379,12 @@ SwipeRow.propTypes = {
 	/**
 	 * The dx value used to detect when a user has begun a swipe gesture
 	 */
-	directionalDistanceChangeThreshold: PropTypes.number
+	directionalDistanceChangeThreshold: PropTypes.number,
+	/**
+	 * What % of the left/right openValue does the user need to swipe
+	 * past to trigger the row opening.
+	 */
+	swipeToOpenPercent: PropTypes.number,
 };
 
 SwipeRow.defaultProps = {
@@ -391,7 +396,8 @@ SwipeRow.defaultProps = {
 	recalculateHiddenLayout: false,
 	preview: false,
 	previewDuration: 300,
-	directionalDistanceChangeThreshold: 2
+	directionalDistanceChangeThreshold: 2,
+	swipeToOpenPercent: 50
 };
 
 export default SwipeRow;
