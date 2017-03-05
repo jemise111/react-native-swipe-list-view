@@ -246,7 +246,9 @@ type: `func`
 
 ### `onRowOpen`
 
-Called when a swipe row is animating open
+Called when a swipe row is animating open.
+
+This has a param of `toValue` which is the new X value the row (after it has opened). This can be used to calculate which direction the row has been swiped open.
 
 type: `func`
 
