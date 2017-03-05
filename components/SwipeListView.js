@@ -117,6 +117,7 @@ class SwipeListView extends Component {
 					tension={this.props.tension}
 					friction={this.props.friction}
 					directionalDistanceChangeThreshold={this.props.directionalDistanceChangeThreshold}
+					swipeToOpenPercent={this.props.swipeToOpenPercent}
 				>
 					{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
 					{this.props.renderRow(rowData, secId, rowId, this._rows)}
@@ -249,7 +250,12 @@ SwipeListView.propTypes = {
 	/**
 	 * The dx value used to detect when a user has begun a swipe gesture
 	 */
-	directionalDistanceChangeThreshold: PropTypes.number
+	directionalDistanceChangeThreshold: PropTypes.number,
+	/**
+	 * What % of the left/right openValue does the user need to swipe
+	 * past to trigger the row opening.
+	 */
+	swipeToOpenPercent: PropTypes.number,
 }
 
 SwipeListView.defaultProps = {
@@ -262,7 +268,8 @@ SwipeListView.defaultProps = {
 	disableRightSwipe: false,
 	recalculateHiddenLayout: false,
 	previewFirstRow: false,
-	directionalDistanceChangeThreshold: 2
+	directionalDistanceChangeThreshold: 2,
+	swipeToOpenPercent: 50
 }
 
 export default SwipeListView;
