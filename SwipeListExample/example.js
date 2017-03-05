@@ -45,7 +45,7 @@ class App extends Component {
 							<Text style={styles.backTextWhite}>Right</Text>
 						</View>
 						<View style={styles.standaloneRowFront}>
-							<Text>I'm a standalone SwipeRow</Text>
+							<Text>I am a standalone SwipeRow</Text>
 						</View>
 					</SwipeRow>
 				</View>
@@ -85,7 +85,7 @@ class App extends Component {
 								underlayColor={'#AAA'}
 							>
 								<View>
-									<Text>I'm {data} in a SwipeListView</Text>
+									<Text>I am {data} in a SwipeListView</Text>
 								</View>
 							</TouchableHighlight>
 						)}
@@ -131,7 +131,7 @@ class App extends Component {
 									underlayColor={'#AAA'}
 								>
 									<View>
-										<Text>I'm {data} in a SwipeListView</Text>
+										<Text>I am {data} in a SwipeListView</Text>
 									</View>
 								</TouchableHighlight>
 							</SwipeRow>
