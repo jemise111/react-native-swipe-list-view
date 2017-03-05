@@ -23,6 +23,10 @@ class SwipeListView extends Component {
 		this.openCellId = null;
 	}
 
+	horizontalSwipeGestureBegan() {
+		this.safeCloseOpenRow();
+	}
+
 	setScrollEnabled(enable) {
 		this._listView.setNativeProps({scrollEnabled: enable});
 	}
@@ -31,6 +35,12 @@ class SwipeListView extends Component {
 		// if the openCellId is stale due to deleting a row this could be undefined
 		if (this._rows[this.openCellId]) {
 			this._rows[this.openCellId].closeRow();
+		}
+	}
+
+	rowSwipeGestureBegan(id) {
+		if (this.props.closeOnRowBeginSwipe && this.openCellId && this.openCellId !== id) {
+			this.safeCloseOpenRow();
 		}
 	}
 
@@ -80,7 +90,8 @@ class SwipeListView extends Component {
 					onRowClose: _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows),
 					onRowDidClose: _ => this.props.onRowDidClose && this.props.onRowDidClose(secId, rowId, this._rows),
 					onRowPress: _ => this.onRowPress(`${secId}${rowId}`),
-					setScrollEnabled: enable => this.setScrollEnabled(enable)
+					setScrollEnabled: enable => this.setScrollEnabled(enable),
+					swipeGestureBegan: _ => this.rowSwipeGestureBegan(`${secId}${rowId}`)
 				}
 			);
 		} else {
@@ -88,6 +99,7 @@ class SwipeListView extends Component {
 			return (
 				<SwipeRow
 					ref={row => this._rows[`${secId}${rowId}`] = row}
+					swipeGestureBegan={ _ => this.rowSwipeGestureBegan(`${secId}${rowId}`) }
 					onRowOpen={ _ => this.onRowOpen(secId, rowId, this._rows) }
 					onRowDidOpen={ _ => this.props.onRowDidOpen && this.props.onRowDidOpen(secId, rowId, this._rows)}
 					onRowClose={ _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows) }
@@ -164,6 +176,10 @@ SwipeListView.propTypes = {
 	 */
 	closeOnRowPress: PropTypes.bool,
 	/**
+	 * Should open rows be closed when a row begins to swipe open
+	 */
+	closeOnRowBeginSwipe: PropTypes.bool,
+	/**
 	 * Disable ability to swipe rows left
 	 */
 	disableLeftSwipe: PropTypes.bool,
@@ -238,6 +254,7 @@ SwipeListView.propTypes = {
 SwipeListView.defaultProps = {
 	leftOpenValue: 0,
 	rightOpenValue: 0,
+	closeOnRowBeginSwipe: false,
 	closeOnScroll: true,
 	closeOnRowPress: true,
 	disableLeftSwipe: false,
