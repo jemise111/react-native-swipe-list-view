@@ -170,6 +170,14 @@ type: `bool`
 defaultValue: `true`
 
 
+### `closeOnScroll`
+
+Should open rows be closed when a row begins to swipe open
+
+type: `bool`
+defaultValue: `false`
+
+
 ### `leftOpenValue`
 
 TranslateX value for opening the row to the left (positive number)
