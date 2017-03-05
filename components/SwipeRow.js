@@ -13,7 +13,6 @@ import {
 	View
 } from 'react-native';
 
-const DIRECTIONAL_DISTANCE_CHANGE_THRESHOLD = 2;
 const PREVIEW_OPEN_DELAY = 700;
 const PREVIEW_CLOSE_DELAY = 300;
 
@@ -89,7 +88,7 @@ class SwipeRow extends Component {
 
 	handleOnMoveShouldSetPanResponder(e, gs) {
 		const { dx } = gs;
-		return Math.abs(dx) > DIRECTIONAL_DISTANCE_CHANGE_THRESHOLD;
+		return Math.abs(dx) > this.props.directionalDistanceChangeThreshold;
 	}
 
 	handlePanResponderMove(e, gestureState) {
@@ -99,7 +98,7 @@ class SwipeRow extends Component {
 
 		// this check may not be necessary because we don't capture the move until we pass the threshold
 		// just being extra safe here
-		if (absDx > DIRECTIONAL_DISTANCE_CHANGE_THRESHOLD || absDy > DIRECTIONAL_DISTANCE_CHANGE_THRESHOLD) {
+		if (absDx > this.props.directionalDistanceChangeThreshold || absDy > this.props.directionalDistanceChangeThreshold) {
 			// we have enough to determine direction
 			if (absDy > absDx && !this.horizontalSwipeGestureBegan) {
 				// user is moving vertically, do nothing, listView will handle
@@ -377,6 +376,10 @@ SwipeRow.propTypes = {
 	 * Default: 0.5 * props.rightOpenValue
 	 */
 	previewOpenValue: PropTypes.number,
+	/**
+	 * The dx value used to detect when a user has begun a swipe gesture
+	 */
+	directionalDistanceChangeThreshold: PropTypes.number
 };
 
 SwipeRow.defaultProps = {
@@ -387,7 +390,8 @@ SwipeRow.defaultProps = {
 	disableRightSwipe: false,
 	recalculateHiddenLayout: false,
 	preview: false,
-	previewDuration: 300
+	previewDuration: 300,
+	directionalDistanceChangeThreshold: 2
 };
 
 export default SwipeRow;
