@@ -1,3 +1,5 @@
+[![npm](https://img.shields.io/npm/v/react-native-swipe-list-view.svg)]() [![npm](https://img.shields.io/npm/dm/react-native-swipe-list-view.svg)]()
+
 # react-native-swipe-list-view
 
 ```<SwipeListView>``` is a ListView with rows that swipe open and closed. Handles default native behavior such as closing rows when ListView is scrolled or when other rows are opened.
