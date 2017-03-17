@@ -37,8 +37,7 @@ class SwipeRow extends Component {
 		this.state = {
 			dimensionsSet: false,
 			hiddenHeight: 0,
-			hiddenWidth: 0,
-			// translateX: new Animated.Value(0)
+			hiddenWidth: 0
 		};
 		this._translateX = new Animated.Value(0);
 	}
@@ -130,9 +129,6 @@ class SwipeRow extends Component {
 			if (this.props.stopLeftSwipe && newDX > this.props.stopLeftSwipe) { newDX = this.props.stopLeftSwipe; }
 			if (this.props.stopRightSwipe && newDX < this.props.stopRightSwipe) { newDX = this.props.stopRightSwipe; }
 
-			// this.setState({
-			// 	translateX: new Animated.Value(newDX)
-			// });
 			this._translateX.setValue(newDX);
 
 		}
