@@ -38,8 +38,9 @@ class SwipeRow extends Component {
 			dimensionsSet: false,
 			hiddenHeight: 0,
 			hiddenWidth: 0,
-			translateX: new Animated.Value(0)
+			// translateX: new Animated.Value(0)
 		};
+		this._translateX = new Animated.Value(0);
 	}
 
 	componentWillMount() {
@@ -54,7 +55,7 @@ class SwipeRow extends Component {
 
 	getPreviewAnimation(toValue, delay) {
 		return Animated.timing(
-			this.state.translateX,
+			this._translateX,
 			{ duration: this.props.previewDuration, toValue, delay }
 		);
 	}
@@ -114,7 +115,7 @@ class SwipeRow extends Component {
 
 			if (this.swipeInitialX === null) {
 				// set tranlateX value when user started swiping
-				this.swipeInitialX = this.state.translateX._value
+				this.swipeInitialX = this._translateX._value
 			}
 			if (!this.horizontalSwipeGestureBegan) {
 				this.horizontalSwipeGestureBegan = true;
@@ -129,9 +130,10 @@ class SwipeRow extends Component {
 			if (this.props.stopLeftSwipe && newDX > this.props.stopLeftSwipe) { newDX = this.props.stopLeftSwipe; }
 			if (this.props.stopRightSwipe && newDX < this.props.stopRightSwipe) { newDX = this.props.stopRightSwipe; }
 
-			this.setState({
-				translateX: new Animated.Value(newDX)
-			});
+			// this.setState({
+			// 	translateX: new Animated.Value(newDX)
+			// });
+			this._translateX.setValue(newDX);
 
 		}
 	}
@@ -145,15 +147,15 @@ class SwipeRow extends Component {
 
 		// finish up the animation
 		let toValue = 0;
-		if (this.state.translateX._value >= 0) {
+		if (this._translateX._value >= 0) {
 			// trying to open right
-			if (this.state.translateX._value > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if (this._translateX._value > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
 				// we're more than halfway
 				toValue = this.props.leftOpenValue;
 			}
 		} else {
 			// trying to open left
-			if (this.state.translateX._value < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if (this._translateX._value < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
 				// we're more than halfway
 				toValue = this.props.rightOpenValue
 			}
@@ -171,7 +173,7 @@ class SwipeRow extends Component {
 
 	manuallySwipeRow(toValue) {
 		Animated.spring(
-			this.state.translateX,
+			this._translateX,
 			{
 				toValue,
 				friction: this.props.friction,
@@ -234,7 +236,7 @@ class SwipeRow extends Component {
 					{...this._panResponder.panHandlers}
 					style={{
 						transform: [
-							{translateX: this.state.translateX}
+							{translateX: this._translateX}
 						]
 					}}
 				>
@@ -248,7 +250,7 @@ class SwipeRow extends Component {
 					onLayout={ (e) => this.onContentLayout(e) }
 					style={{
 						transform: [
-							{translateX: this.state.translateX}
+							{translateX: this._translateX}
 						]
 					}}
 				>
