@@ -117,6 +117,7 @@ The following values can be dynamic by passing them as props on the ```<SwipeRow
  * ```disableLeftSwipe```
  * ```disableRightSwipe```
  * ```recalculateHiddenLayout```
+ * ```directionalDistanceChangeThreshold```
 
 ```javascript
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
@@ -178,6 +179,13 @@ Should open rows be closed when a row begins to swipe open
 
 type: `bool`
 defaultValue: `false`
+
+### `directionalDistanceChangeThreshold`
+
+Change the sensitivity of the row
+
+type: `number`
+defaultValue: `2`
 
 
 ### `leftOpenValue`
@@ -362,6 +370,12 @@ Should the row be closed when it is tapped
 type: `bool`
 defaultValue: `true`
 
+### `directionalDistanceChangeThreshold`
+
+Change the sensitivity of the row
+
+type: `number`
+defaultValue: `2`
 
 ### `friction`
 
