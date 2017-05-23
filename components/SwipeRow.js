@@ -443,6 +443,7 @@ SwipeRow.propTypes = {
 };
 
 SwipeRow.defaultProps = {
+	shouldBounceOnMount: false,
 	leftOpenValue: 0,
 	rightOpenValue: 0,
 	closeOnRowPress: true,
