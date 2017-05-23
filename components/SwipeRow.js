@@ -4,17 +4,30 @@ import React, {
 	Component,
 	PropTypes,
 } from 'react';
+
 import {
 	Animated,
 	PanResponder,
-	Platform,
 	StyleSheet,
 	TouchableOpacity,
-	View
+	View,
 } from 'react-native';
 
 const PREVIEW_OPEN_DELAY = 700;
 const PREVIEW_CLOSE_DELAY = 300;
+
+const CLOSED_POSITION = 0;
+
+/**
+ * On SwipeableListView mount, the 1st item will bounce to show users it's
+ * possible to swipe
+ */
+const ON_MOUNT_BOUNCE_DELAY = 700;
+const ON_MOUNT_BOUNCE_DURATION = 400;
+
+// Distance left of closed position to bounce back when right-swiping from closed
+const RIGHT_SWIPE_BOUNCE_BACK_DISTANCE = 30;
+const RIGHT_SWIPE_BOUNCE_BACK_DURATION = 300;
 
 /**
  * Row that is generally used in a SwipeListView.
@@ -52,10 +65,50 @@ class SwipeRow extends Component {
 		});
 	}
 
-	getPreviewAnimation(toValue, delay) {
+	componentDidMount() {
+		const { shouldBounceOnMount } = this.props;
+
+		if (shouldBounceOnMount) {
+			/**
+			* Do the on mount bounce after a delay because if we animate when other
+			* components are loading, the animation will be laggy
+			*/
+			this._timer = setTimeout(() => {
+				this._animateBounceBack(ON_MOUNT_BOUNCE_DURATION);
+			}, ON_MOUNT_BOUNCE_DELAY);
+		}
+	}
+
+	componentWillUnmount() {
+		if (this._timer) {
+			clearTimeout(this._timer);
+		}
+	}
+
+	_animateBounceBack(duration) {
+		/**
+		 * When swiping right, we want to bounce back past closed position on release
+		 * so users know they should swipe right to get content.
+		 */
+		const swipeBounceBackDistance = RIGHT_SWIPE_BOUNCE_BACK_DISTANCE;
+
+		this.getPreviewAnimation(
+			-swipeBounceBackDistance,
+			0,
+			duration,
+		).start(() => {
+			this.getPreviewAnimation(
+				CLOSED_POSITION,
+				0,
+				RIGHT_SWIPE_BOUNCE_BACK_DURATION,
+			).start(() => {});
+		});
+	}
+
+	getPreviewAnimation(toValue, delay, duration = this.props.previewDuration) {
 		return Animated.timing(
 			this._translateX,
-			{ duration: this.props.previewDuration, toValue, delay }
+			{ duration, toValue, delay }
 		);
 	}
 
@@ -114,7 +167,7 @@ class SwipeRow extends Component {
 
 			if (this.swipeInitialX === null) {
 				// set tranlateX value when user started swiping
-				this.swipeInitialX = this._translateX._value
+				this.swipeInitialX = this._translateX._value;
 			}
 			if (!this.horizontalSwipeGestureBegan) {
 				this.horizontalSwipeGestureBegan = true;
@@ -145,15 +198,15 @@ class SwipeRow extends Component {
 		let toValue = 0;
 		if (this._translateX._value >= 0) {
 			// trying to open right
-			if (this._translateX._value > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if (this._translateX._value > this.props.leftOpenValue * (this.props.swipeToOpenPercent / 100)) {
 				// we're more than halfway
 				toValue = this.props.leftOpenValue;
 			}
 		} else {
 			// trying to open left
-			if (this._translateX._value < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if (this._translateX._value < this.props.rightOpenValue * (this.props.swipeToOpenPercent / 100)) {
 				// we're more than halfway
-				toValue = this.props.rightOpenValue
+				toValue = this.props.rightOpenValue;
 			}
 		}
 
@@ -202,7 +255,7 @@ class SwipeRow extends Component {
 			const newOnPress = _ => {
 				this.onRowPress();
 				onPress();
-			}
+			};
 			return React.cloneElement(
 				this.props.children[1],
 				{
@@ -219,7 +272,7 @@ class SwipeRow extends Component {
 			>
 				{this.props.children[1]}
 			</TouchableOpacity>
-		)
+		);
 
 	}
 
@@ -291,6 +344,10 @@ const styles = StyleSheet.create({
 });
 
 SwipeRow.propTypes = {
+	/**
+	 * Should Bounce on Mount
+	 */
+	shouldBounceOnMount: PropTypes.bool,
 	/**
 	 * Used by the SwipeListView to close rows on scroll events.
 	 * You shouldn't need to use this prop explicitly.
