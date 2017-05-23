@@ -102,6 +102,7 @@ class SwipeListView extends Component {
 					onRowDidClose={ _ => this.props.onRowDidClose && this.props.onRowDidClose(secId, rowId, this._rows) }
 					onRowPress={ _ => this.onRowPress(`${secId}${rowId}`) }
 					setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
+					shouldBounceOnMount={this.props.shouldBounceOnMount && rowId === 0}
 					leftOpenValue={this.props.leftOpenValue}
 					rightOpenValue={this.props.rightOpenValue}
 					closeOnRowPress={this.props.closeOnRowPress}
@@ -140,6 +141,10 @@ class SwipeListView extends Component {
 }
 
 SwipeListView.propTypes = {
+	/**
+	 * Should Bounce on Mount
+	 */
+	shouldBounceOnMount: PropTypes.bool,
 	/**
 	 * How to render a row. Should return a valid React Element.
 	 */
