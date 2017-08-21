@@ -34,6 +34,7 @@ class SwipeRow extends Component {
 		this.swipeInitialX = null;
 		this.parentScrollEnabled = true;
 		this.ranPreview = false;
+		this._ensureScrollEnabledTimer = null;
 		this.state = {
 			dimensionsSet: false,
 			hiddenHeight: 0,
@@ -51,6 +52,10 @@ class SwipeRow extends Component {
 			onPanResponderTerminate: (e, gs) => this.handlePanResponderEnd(e, gs),
 			onShouldBlockNativeResponder: _ => false,
 		});
+	}
+
+	componentWillUnmount() {
+		clearTimer(this._ensureScrollEnabledTimer)
 	}
 
 	getPreviewAnimation(toValue, delay) {
@@ -144,27 +149,26 @@ class SwipeRow extends Component {
 
 	handlePanResponderEnd(e, gestureState) {
 		// a velocity factor of 0 means that the velocity will have no baring on whether the swipe settles on a closed or open position.
-		// a velocity factor of 1 means that a horizontal swipe velocity of 5 or more will project a further this.props.rightOpenValue more pixels.
-		const velocityFactor = 5
-		const possibleExtraPixels = this.props.rightOpenValue * (velocityFactor)
-		const velocity = gestureState.vx
-		const clampedVelocity = velocity > 5 ? 5 : velocity
-		const projected = possibleExtraPixels * (velocity / 5)
+		// a velocity factor of n means that a horizontal swipe velocity of 5 or more will project a further n*rightOpenValue more to the _translateX when camparing.
+		const velocityFactor = this.props.velocityFactor;
+		const possibleExtraPixels = this.props.rightOpenValue * (this.props.velocityFactor);
+		const clampedVelocity = gestureState.vx > 5 ? 5 : gestureState.vx;
+		const projectedExtraPixels = possibleExtraPixels * (gestureState.vx / 5);
 
 		// re-enable scrolling on listView parent
-		setTimeout(this.ensureScrollEnabled, 300)
+		this._ensureScrollEnabledTimer = setTimeout(this.ensureScrollEnabled, 300);
 
 		// finish up the animation
 		let toValue = 0;
 		if (this._translateX._value >= 0) {
 			// trying to open right
-			if ((this._translateX._value - projected) > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if ((this._translateX._value - projectedExtraPixels) > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
 				// we're more than halfway
 				toValue = this.props.leftOpenValue;
 			}
 		} else {
 			// trying to open left
-			if ((this._translateX._value - projected) < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if ((this._translateX._value - projectedExtraPixels) < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
 				// we're more than halfway
 				toValue = this.props.rightOpenValue
 			}
