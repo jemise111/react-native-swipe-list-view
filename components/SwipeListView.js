@@ -118,7 +118,7 @@ class SwipeListView extends Component {
 					friction={this.props.friction}
 					directionalDistanceChangeThreshold={this.props.directionalDistanceChangeThreshold}
 					swipeToOpenPercent={this.props.swipeToOpenPercent}
-					velocityFactor={this.props.velocityFactor}
+					swipeToOpenVelocityContribution={this.props.swipeToOpenVelocityContribution}
 				>
 					{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
 					{this.props.renderRow(rowData, secId, rowId, this._rows)}
@@ -262,7 +262,7 @@ SwipeListView.propTypes = {
 	 * A velocity factor of 0 means that the velocity will have no bearing on whether the swipe settles on a closed or open position
 	 * and it'll just take into consideration the swipeToOpenPercent.
 	 */
-	velocityFactor: PropTypes.number,
+	swipeToOpenVelocityContribution: PropTypes.number,
 }
 
 SwipeListView.defaultProps = {
@@ -277,7 +277,7 @@ SwipeListView.defaultProps = {
 	previewFirstRow: false,
 	directionalDistanceChangeThreshold: 2,
 	swipeToOpenPercent: 50,
-	velocityFactor: 0
+	swipeToOpenVelocityContribution: 0
 }
 
 export default SwipeListView;
