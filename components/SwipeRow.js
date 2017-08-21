@@ -152,7 +152,8 @@ class SwipeRow extends Component {
 		// decide how much the velocity will affect the final position that the list item settles in.
 		const swipeToOpenVelocityContribution = this.props.swipeToOpenVelocityContribution;
 		const possibleExtraPixels = this.props.rightOpenValue * (swipeToOpenVelocityContribution);
-		const projectedExtraPixels = possibleExtraPixels * (gestureState.vx / 5);
+		const clampedVelocity = gestureState.vx > 5 ? 5 : gestureState.vx
+		const projectedExtraPixels = possibleExtraPixels * (clampedVelocity / 5);
 
 		// re-enable scrolling on listView parent
 		this._ensureScrollEnabledTimer = setTimeout(this.ensureScrollEnabled, 300);
