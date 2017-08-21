@@ -148,11 +148,10 @@ class SwipeRow extends Component {
 	}
 
 	handlePanResponderEnd(e, gestureState) {
-		// a velocity factor of 0 means that the velocity will have no baring on whether the swipe settles on a closed or open position.
-		// a velocity factor of n means that a horizontal swipe velocity of 5 or more will project a further n*rightOpenValue more to the _translateX when camparing.
+		
+		// decide how much the velocity will affect the final position that the list item settles in.
 		const velocityFactor = this.props.velocityFactor;
-		const possibleExtraPixels = this.props.rightOpenValue * (this.props.velocityFactor);
-		const clampedVelocity = gestureState.vx > 5 ? 5 : gestureState.vx;
+		const possibleExtraPixels = this.props.rightOpenValue * (velocityFactor);
 		const projectedExtraPixels = possibleExtraPixels * (gestureState.vx / 5);
 
 		// re-enable scrolling on listView parent
@@ -401,6 +400,12 @@ SwipeRow.propTypes = {
 	 * past to trigger the row opening.
 	 */
 	swipeToOpenPercent: PropTypes.number,
+	/**
+	 * Describes how much the ending velocity of the gesture affects whether the swipe will result in the item being closed or open.
+	 * A velocity factor of 0 means that the velocity will have no bearing on whether the swipe settles on a closed or open position
+	 * and it'll just take into consideration the swipeToOpenPercent.
+	 */
+	velocityFactor: PropTypes.number,
 };
 
 SwipeRow.defaultProps = {
@@ -413,7 +418,8 @@ SwipeRow.defaultProps = {
 	preview: false,
 	previewDuration: 300,
 	directionalDistanceChangeThreshold: 2,
-	swipeToOpenPercent: 50
+	swipeToOpenPercent: 50,
+	velocityFactor: 0
 };
 
 export default SwipeRow;
