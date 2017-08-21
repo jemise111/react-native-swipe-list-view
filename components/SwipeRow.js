@@ -40,6 +40,7 @@ class SwipeRow extends Component {
 			hiddenWidth: 0
 		};
 		this._translateX = new Animated.Value(0);
+		this.ensureScrollEnabled = this.ensureScrollEnabled.bind(this)
 	}
 
 	componentWillMount() {
@@ -134,24 +135,36 @@ class SwipeRow extends Component {
 		}
 	}
 
-	handlePanResponderEnd(e, gestureState) {
-		// re-enable scrolling on listView parent
+	ensureScrollEnabled() {
 		if (!this.parentScrollEnabled) {
 			this.parentScrollEnabled = true;
 			this.props.setScrollEnabled && this.props.setScrollEnabled(true);
 		}
+	}
+
+	handlePanResponderEnd(e, gestureState) {
+		// a velocity factor of 0 means that the velocity will have no baring on whether the swipe settles on a closed or open position.
+		// a velocity factor of 1 means that a horizontal swipe velocity of 5 or more will project a further this.props.rightOpenValue more pixels.
+		const velocityFactor = 5
+		const possibleExtraPixels = this.props.rightOpenValue * (velocityFactor)
+		const velocity = gestureState.vx
+		const clampedVelocity = velocity > 5 ? 5 : velocity
+		const projected = possibleExtraPixels * (velocity / 5)
+
+		// re-enable scrolling on listView parent
+		setTimeout(this.ensureScrollEnabled, 300)
 
 		// finish up the animation
 		let toValue = 0;
 		if (this._translateX._value >= 0) {
 			// trying to open right
-			if (this._translateX._value > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if ((this._translateX._value - projected) > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
 				// we're more than halfway
 				toValue = this.props.leftOpenValue;
 			}
 		} else {
 			// trying to open left
-			if (this._translateX._value < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if ((this._translateX._value - projected) < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
 				// we're more than halfway
 				toValue = this.props.rightOpenValue
 			}
@@ -176,6 +189,7 @@ class SwipeRow extends Component {
 				tension: this.props.tension
 			}
 		).start( _ => {
+			this.ensureScrollEnabled()
 			if (toValue === 0) {
 				this.props.onRowDidClose && this.props.onRowDidClose();
 			} else {
