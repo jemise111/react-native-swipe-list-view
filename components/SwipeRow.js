@@ -55,7 +55,7 @@ class SwipeRow extends Component {
 	}
 
 	componentWillUnmount() {
-		clearTimer(this._ensureScrollEnabledTimer)
+		clearTimeout(this._ensureScrollEnabledTimer)
 	}
 
 	getPreviewAnimation(toValue, delay) {
