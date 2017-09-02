@@ -39,6 +39,11 @@ class SwipeListView extends Component {
 		if (this.props.closeOnRowBeginSwipe && this.openCellId && this.openCellId !== id) {
 			this.safeCloseOpenRow();
 		}
+
+    if (this.props.swipeGestureBegan) {
+      this.props.swipeGestureBegan(id);
+    }
+
 	}
 
 	onRowOpen(secId, rowId, rowMap) {
