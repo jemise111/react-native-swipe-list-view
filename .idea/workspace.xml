@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="aa6fac86-e7d4-4914-a013-ae99002a0ad7" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/components/SwipeListView.js" afterPath="$PROJECT_DIR$/components/SwipeListView.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/components/SwipeRow.js" afterPath="$PROJECT_DIR$/components/SwipeRow.js" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="SwipeRow.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/components/SwipeRow.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="35" lean-forward="false" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SwipeListView.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/components/SwipeListView.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="35" lean-forward="true" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
+              <folding>
+                <marker date="1507693470000" expanded="true" signature="22:187" ph="..." />
+                <marker date="1507693470000" expanded="true" signature="189:232" ph="/** ListView that renders SwipeRows. ...*/" />
+                <marker date="1507693470000" expanded="true" signature="271:4445" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="293:358" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="386:448" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="470:636" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="585:633" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="664:786" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="750:783" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="821:1071" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="929:962" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="1089:1221" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="1114:1218" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="1151:1214" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="1236:1415" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="1261:1363" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="1296:1359" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="1431:1516" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="1560:4207" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="1670:2382" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="2388:4204" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="4219:4442" ph="{...}" />
+                <marker date="1507693470000" expanded="true" signature="4473:7970" ph="{&quot;renderRow&quot;: PropTypes.func.isRequired...}" />
+                <marker date="1507693470000" expanded="true" signature="4476:4546" ph="/** How to render a row. Should return a valid React Element. ...*/" />
+                <marker date="1507693470000" expanded="true" signature="4587:4750" ph="/** How to render a hidden row (renders behind the row). Should return a valid React Element. ...*/" />
+                <marker date="1507693470000" expanded="true" signature="4786:4865" ph="/** TranslateX value for opening the row to the left (positive number) ...*/" />
+                <marker date="1507693470000" expanded="true" signature="4901:4981" ph="/** TranslateX value for opening the row to the right (negative number) ...*/" />
+                <marker date="1507693470000" expanded="true" signature="5018:5094" ph="/** TranslateX value for stop the row to the left (positive number) ...*/" />
+                <marker date="1507693470000" expanded="true" signature="5130:5207" ph="/** TranslateX value for stop the row to the right (negative number) ...*/" />
+                <marker date="1507693470000" expanded="true" signature="5244:5318" ph="/** Should open rows be closed when the listView begins scrolling ...*/" />
+                <marker date="1507693470000" expanded="true" signature="5352:5413" ph="/** Should open rows be closed when a row is pressed ...*/" />
+                <marker date="1507693470000" expanded="true" signature="5449:5520" ph="/** Should open rows be closed when a row begins to swipe open ...*/" />
+                <marker date="1507693470000" expanded="true" signature="5561:5608" ph="/** Disable ability to swipe rows left ...*/" />
+                <marker date="1507693470000" expanded="true" signature="5645:5693" ph="/** Disable ability to swipe rows right ...*/" />
+                <marker date="1507693470000" expanded="true" signature="5731:6156" ph="/** Enable hidden row onLayout calculations to run always. ...*/" />
+                <marker date="1507693470000" expanded="true" signature="6200:6254" ph="/** Called when a swipe row is animating open ...*/" />
+                <marker date="1507693470000" expanded="true" signature="6284:6338" ph="/** Called when a swipe row has animated open ...*/" />
+                <marker date="1507693470000" expanded="true" signature="6371:6427" ph="/** Called when a swipe row is animating closed ...*/" />
+                <marker date="1507693470000" expanded="true" signature="6458:6514" ph="/** Called when a swipe row has animated closed ...*/" />
+                <marker date="1507693470000" expanded="true" signature="6548:6611" ph="/** Styles for the parent wrapper View of the SwipeRow ...*/" />
+                <marker date="1507693470000" expanded="true" signature="6651:6793" ph="/** Called when the ListView ref is set and passes a ref to the ListView ...*/" />
+                <marker date="1507693470000" expanded="true" signature="6825:6921" ph="/** Should the first SwipeRow do a slide out preview to show that the list is swipeable ...*/" />
+                <marker date="1507693470000" expanded="true" signature="6957:7227" ph="/** Should the specified rowId do a slide out preview to show that the list is swipeable ...*/" />
+                <marker date="1507693470000" expanded="true" signature="7265:7336" ph="/** Duration of the slide out preview animation (milliseconds) ...*/" />
+                <marker date="1507693470000" expanded="true" signature="7374:7479" ph="/** TranslateX value for the slide out preview animation ...*/" />
+                <marker date="1507693470000" expanded="true" signature="7518:7570" ph="/** Friction for the open / close animation ...*/" />
+                <marker date="1507693470000" expanded="true" signature="7601:7652" ph="/** Tension for the open / close animation ...*/" />
+                <marker date="1507693470000" expanded="true" signature="7682:7760" ph="/** The dx value used to detect when a user has begun a swipe gesture ...*/" />
+                <marker date="1507693470000" expanded="true" signature="7817:7929" ph="/** What % of the left/right openValue does the user need to swipe ...*/" />
+                <marker date="1507693470000" expanded="true" signature="8001:8294" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>PropTypes.</find>
+      <find>PropTypes,</find>
+    </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/components/SwipeListView.js" />
+        <option value="$PROJECT_DIR$/components/SwipeRow.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER">
+    <package-json value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="624" />
+    <option name="y" value="358" />
+    <option name="width" value="1879" />
+    <option name="height" value="1177" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="react-native-swipe-list-view" type="b2602c69:ProjectViewProjectNode" />
+              <item name="react-native-swipe-list-view" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="react-native-swipe-list-view" type="b2602c69:ProjectViewProjectNode" />
+              <item name="react-native-swipe-list-view" type="462c0819:PsiDirectoryNode" />
+              <item name="SwipeListExample" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aa6fac86-e7d4-4914-a013-ae99002a0ad7" name="Default" comment="" />
+      <created>1507693355180</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1507693355180</updated>
+      <workItem from="1507693357021" duration="134000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="134000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="41" y="23" width="1879" height="1177" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2497309" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/components/SwipeListView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="35" lean-forward="true" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
+          <folding>
+            <marker date="1507693470000" expanded="true" signature="22:187" ph="..." />
+            <marker date="1507693470000" expanded="true" signature="189:232" ph="/** ListView that renders SwipeRows. ...*/" />
+            <marker date="1507693470000" expanded="true" signature="271:4445" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="293:358" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="386:448" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="470:636" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="585:633" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="664:786" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="750:783" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="821:1071" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="929:962" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="1089:1221" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="1114:1218" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="1151:1214" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="1236:1415" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="1261:1363" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="1296:1359" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="1431:1516" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="1560:4207" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="1670:2382" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="2388:4204" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="4219:4442" ph="{...}" />
+            <marker date="1507693470000" expanded="true" signature="4473:7970" ph="{&quot;renderRow&quot;: PropTypes.func.isRequired...}" />
+            <marker date="1507693470000" expanded="true" signature="4476:4546" ph="/** How to render a row. Should return a valid React Element. ...*/" />
+            <marker date="1507693470000" expanded="true" signature="4587:4750" ph="/** How to render a hidden row (renders behind the row). Should return a valid React Element. ...*/" />
+            <marker date="1507693470000" expanded="true" signature="4786:4865" ph="/** TranslateX value for opening the row to the left (positive number) ...*/" />
+            <marker date="1507693470000" expanded="true" signature="4901:4981" ph="/** TranslateX value for opening the row to the right (negative number) ...*/" />
+            <marker date="1507693470000" expanded="true" signature="5018:5094" ph="/** TranslateX value for stop the row to the left (positive number) ...*/" />
+            <marker date="1507693470000" expanded="true" signature="5130:5207" ph="/** TranslateX value for stop the row to the right (negative number) ...*/" />
+            <marker date="1507693470000" expanded="true" signature="5244:5318" ph="/** Should open rows be closed when the listView begins scrolling ...*/" />
+            <marker date="1507693470000" expanded="true" signature="5352:5413" ph="/** Should open rows be closed when a row is pressed ...*/" />
+            <marker date="1507693470000" expanded="true" signature="5449:5520" ph="/** Should open rows be closed when a row begins to swipe open ...*/" />
+            <marker date="1507693470000" expanded="true" signature="5561:5608" ph="/** Disable ability to swipe rows left ...*/" />
+            <marker date="1507693470000" expanded="true" signature="5645:5693" ph="/** Disable ability to swipe rows right ...*/" />
+            <marker date="1507693470000" expanded="true" signature="5731:6156" ph="/** Enable hidden row onLayout calculations to run always. ...*/" />
+            <marker date="1507693470000" expanded="true" signature="6200:6254" ph="/** Called when a swipe row is animating open ...*/" />
+            <marker date="1507693470000" expanded="true" signature="6284:6338" ph="/** Called when a swipe row has animated open ...*/" />
+            <marker date="1507693470000" expanded="true" signature="6371:6427" ph="/** Called when a swipe row is animating closed ...*/" />
+            <marker date="1507693470000" expanded="true" signature="6458:6514" ph="/** Called when a swipe row has animated closed ...*/" />
+            <marker date="1507693470000" expanded="true" signature="6548:6611" ph="/** Styles for the parent wrapper View of the SwipeRow ...*/" />
+            <marker date="1507693470000" expanded="true" signature="6651:6793" ph="/** Called when the ListView ref is set and passes a ref to the ListView ...*/" />
+            <marker date="1507693470000" expanded="true" signature="6825:6921" ph="/** Should the first SwipeRow do a slide out preview to show that the list is swipeable ...*/" />
+            <marker date="1507693470000" expanded="true" signature="6957:7227" ph="/** Should the specified rowId do a slide out preview to show that the list is swipeable ...*/" />
+            <marker date="1507693470000" expanded="true" signature="7265:7336" ph="/** Duration of the slide out preview animation (milliseconds) ...*/" />
+            <marker date="1507693470000" expanded="true" signature="7374:7479" ph="/** TranslateX value for the slide out preview animation ...*/" />
+            <marker date="1507693470000" expanded="true" signature="7518:7570" ph="/** Friction for the open / close animation ...*/" />
+            <marker date="1507693470000" expanded="true" signature="7601:7652" ph="/** Tension for the open / close animation ...*/" />
+            <marker date="1507693470000" expanded="true" signature="7682:7760" ph="/** The dx value used to detect when a user has begun a swipe gesture ...*/" />
+            <marker date="1507693470000" expanded="true" signature="7817:7929" ph="/** What % of the left/right openValue does the user need to swipe ...*/" />
+            <marker date="1507693470000" expanded="true" signature="8001:8294" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/components/SwipeRow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="35" lean-forward="false" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
