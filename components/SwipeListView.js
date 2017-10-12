@@ -84,7 +84,7 @@ class SwipeListView extends Component {
 					onRowOpen: toValue => this.onRowOpen(secId, rowId, this._rows, toValue),
 					onRowDidOpen: _ => this.props.onRowDidOpen && this.props.onRowDidOpen(secId, rowId, this._rows),
 					onRowClose: _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows),
-					onRowDidClose: _ => this.props.onRowDidClose && this.props.onRowDidClose(secId, rowId, this._rows),
+					onRowDidClose: releaseValue => this.props.onRowDidClose && this.props.onRowDidClose(secId, rowId, this._rows, releaseValue),
 					onRowPress: _ => this.onRowPress(`${secId}${rowId}`),
 					setScrollEnabled: enable => this.setScrollEnabled(enable),
 					swipeGestureBegan: _ => this.rowSwipeGestureBegan(`${secId}${rowId}`)

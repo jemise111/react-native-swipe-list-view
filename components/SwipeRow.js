@@ -141,6 +141,8 @@ class SwipeRow extends Component {
 			this.props.setScrollEnabled && this.props.setScrollEnabled(true);
 		}
 
+		this._releaseValue = this._translateX._value;
+
 		// finish up the animation
 		let toValue = 0;
 		if (this._translateX._value >= 0) {
@@ -177,7 +179,7 @@ class SwipeRow extends Component {
 			}
 		).start( _ => {
 			if (toValue === 0) {
-				this.props.onRowDidClose && this.props.onRowDidClose();
+				this.props.onRowDidClose && this.props.onRowDidClose(this._releaseValue);
 			} else {
 				this.props.onRowDidOpen && this.props.onRowDidOpen();
 			}
