@@ -2,8 +2,8 @@
 
 import React, {
 	Component,
-	PropTypes,
 } from 'react';
+import PropTypes from 'prop-types';
 import {
 	ListView,
 	Text,
@@ -214,7 +214,7 @@ SwipeListView.propTypes = {
 	/**
 	 * Styles for the parent wrapper View of the SwipeRow
 	 */
-	swipeRowStyle: View.propTypes.style,
+	swipeRowStyle: PropTypes.style,
 	/**
 	 * Called when the ListView ref is set and passes a ref to the ListView
 	 * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
