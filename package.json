@@ -23,6 +23,7 @@
     "swipeable"
   ],
   "peerDependencies": {
+    "prop-types": ">=15.6.0",
     "react": ">=0.14.8",
     "react-native": ">=0.23.1"
   }
