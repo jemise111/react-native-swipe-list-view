@@ -2,11 +2,12 @@
 
 import React, {
 	Component,
-	PropTypes,
 } from 'react';
+import PropTypes from 'prop-types';
 import {
 	ListView,
 	Text,
+	ViewPropTypes,
 	View,
 } from 'react-native';
 
@@ -214,7 +215,7 @@ SwipeListView.propTypes = {
 	/**
 	 * Styles for the parent wrapper View of the SwipeRow
 	 */
-	swipeRowStyle: View.propTypes.style,
+	swipeRowStyle: ViewPropTypes.style,
 	/**
 	 * Called when the ListView ref is set and passes a ref to the ListView
 	 * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
