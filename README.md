@@ -23,7 +23,7 @@ The application under ./SwipeListExample will produce the above example. To run 
 * ```git clone https://github.com/jemise111/react-native-swipe-list-view.git```
 * ```cd react-native-swipe-list-view```
 * ```cd SwipeListExample```
-* ```npm install```
+* ```yarn```
 * ```react-native run-ios | react-native run-android```
 
 # Usage
