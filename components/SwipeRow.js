@@ -232,6 +232,7 @@ class SwipeRow extends Component {
 				<Animated.View
 					{...this._panResponder.panHandlers}
 					style={{
+						zIndex: 2,
 						transform: [
 							{translateX: this._translateX}
 						]
@@ -246,6 +247,7 @@ class SwipeRow extends Component {
 					{...this._panResponder.panHandlers}
 					onLayout={ (e) => this.onContentLayout(e) }
 					style={{
+						zIndex: 2,
 						transform: [
 							{translateX: this._translateX}
 						]
@@ -282,6 +284,7 @@ const styles = StyleSheet.create({
 		// flex: 1
 	},
 	hidden: {
+		zIndex: 1,
 		bottom: 0,
 		left: 0,
 		overflow: 'hidden',
