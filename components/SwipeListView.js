@@ -103,13 +103,13 @@ class SwipeListView extends Component {
 					onRowDidClose={ _ => this.props.onRowDidClose && this.props.onRowDidClose(secId, rowId, this._rows) }
 					onRowPress={ _ => this.onRowPress(`${secId}${rowId}`) }
 					setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
-					leftOpenValue={this.props.leftOpenValue}
-					rightOpenValue={this.props.rightOpenValue}
-					closeOnRowPress={this.props.closeOnRowPress}
-					disableLeftSwipe={this.props.disableLeftSwipe}
-					disableRightSwipe={this.props.disableRightSwipe}
-					stopLeftSwipe={this.props.stopLeftSwipe}
-					stopRightSwipe={this.props.stopRightSwipe}
+					leftOpenValue={rowData.leftOpenValue || this.props.leftOpenValue}
+					rightOpenValue={rowData.rightOpenValue || this.props.rightOpenValue}
+					closeOnRowPress={rowData.closeOnRowPress || this.props.closeOnRowPress}
+					disableLeftSwipe={rowData.disableLeftSwipe || this.props.disableLeftSwipe}
+					disableRightSwipe={rowData.disableRightSwipe || this.props.disableRightSwipe}
+					stopLeftSwipe={rowData.stopLeftSwipe || this.props.stopLeftSwipe}
+					stopRightSwipe={rowData.stopRightSwipe || this.props.stopRightSwipe}
 					recalculateHiddenLayout={this.props.recalculateHiddenLayout}
 					style={this.props.swipeRowStyle}
 					preview={(this.props.previewFirstRow || this.props.previewRowIndex) && rowId === previewRowId}
