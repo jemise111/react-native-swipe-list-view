@@ -56,7 +56,7 @@ class SwipeRow extends Component {
 	getPreviewAnimation(toValue, delay) {
 		return Animated.timing(
 			this._translateX,
-			{ duration: this.props.previewDuration, toValue, delay, useNativeDriver: true }
+			{ duration: this.props.previewDuration, toValue, delay }
 		);
 	}
 
@@ -175,7 +175,6 @@ class SwipeRow extends Component {
 				toValue,
 				friction: this.props.friction,
 				tension: this.props.tension,
-				useNativeDriver: true,
 			}
 		).start( _ => {
 			if (toValue === 0) {
