@@ -15,6 +15,8 @@ import {
 
 const PREVIEW_OPEN_DELAY = 700;
 const PREVIEW_CLOSE_DELAY = 300;
+const MAX_VELOCITY_CONTRIBUTION = 5;
+const SCROLL_LOCK_MILLISECONDS = 300;
 
 /**
  * Row that is generally used in a SwipeListView.
@@ -41,7 +43,6 @@ class SwipeRow extends Component {
 			hiddenWidth: 0
 		};
 		this._translateX = new Animated.Value(0);
-		this.ensureScrollEnabled = this.ensureScrollEnabled.bind(this)
 	}
 
 	componentWillMount() {
@@ -140,7 +141,7 @@ class SwipeRow extends Component {
 		}
 	}
 
-	ensureScrollEnabled() {
+	ensureScrollEnabled = () => {
 		if (!this.parentScrollEnabled) {
 			this.parentScrollEnabled = true;
 			this.props.setScrollEnabled && this.props.setScrollEnabled(true);
@@ -152,11 +153,11 @@ class SwipeRow extends Component {
 		// decide how much the velocity will affect the final position that the list item settles in.
 		const swipeToOpenVelocityContribution = this.props.swipeToOpenVelocityContribution;
 		const possibleExtraPixels = this.props.rightOpenValue * (swipeToOpenVelocityContribution);
-		const clampedVelocity = gestureState.vx > 5 ? 5 : gestureState.vx
-		const projectedExtraPixels = possibleExtraPixels * (clampedVelocity / 5);
+		const clampedVelocity = Math.min(gestureState.vx, MAX_VELOCITY_CONTRIBUTION);
+		const projectedExtraPixels = possibleExtraPixels * (clampedVelocity / MAX_VELOCITY_CONTRIBUTION);
 
 		// re-enable scrolling on listView parent
-		this._ensureScrollEnabledTimer = setTimeout(this.ensureScrollEnabled, 300);
+		this._ensureScrollEnabledTimer = setTimeout(this.ensureScrollEnabled, SCROLL_LOCK_MILLISECONDS);
 
 		// finish up the animation
 		let toValue = 0;
