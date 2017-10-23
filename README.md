@@ -228,6 +228,14 @@ type: `number`
 defaultValue: `50`
 
 
+### `swipeToOpenVelocityContribution`
+
+Describes how much the ending velocity of the gesture affects whether the swipe will result in the item being closed or open. A velocity factor of 0 (the default) means that the velocity will have no bearing on whether the swipe settles on a closed or open position and it'll just take into consideration the swipeToOpenPercent. Ideal values for this prop tend to be between 5 and 15.
+
+type: `number`
+defaultValue: `0`
+
+
 ### `disableLeftSwipe`
 
 Disable ability to swipe the row left

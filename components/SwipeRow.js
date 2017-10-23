@@ -16,6 +16,8 @@ import {
 
 const PREVIEW_OPEN_DELAY = 700;
 const PREVIEW_CLOSE_DELAY = 300;
+const MAX_VELOCITY_CONTRIBUTION = 5;
+const SCROLL_LOCK_MILLISECONDS = 300;
 
 /**
  * Row that is generally used in a SwipeListView.
@@ -35,6 +37,7 @@ class SwipeRow extends Component {
 		this.swipeInitialX = null;
 		this.parentScrollEnabled = true;
 		this.ranPreview = false;
+		this._ensureScrollEnabledTimer = null;
 		this.state = {
 			dimensionsSet: false,
 			hiddenHeight: 0,
@@ -51,6 +54,10 @@ class SwipeRow extends Component {
 			onPanResponderTerminate: (e, gs) => this.handlePanResponderEnd(e, gs),
 			onShouldBlockNativeResponder: _ => false,
 		});
+	}
+
+	componentWillUnmount() {
+		clearTimeout(this._ensureScrollEnabledTimer)
 	}
 
 	getPreviewAnimation(toValue, delay) {
@@ -135,24 +142,35 @@ class SwipeRow extends Component {
 		}
 	}
 
-	handlePanResponderEnd(e, gestureState) {
-		// re-enable scrolling on listView parent
+	ensureScrollEnabled = () => {
 		if (!this.parentScrollEnabled) {
 			this.parentScrollEnabled = true;
 			this.props.setScrollEnabled && this.props.setScrollEnabled(true);
 		}
+	}
+
+	handlePanResponderEnd(e, gestureState) {
+
+		// decide how much the velocity will affect the final position that the list item settles in.
+		const swipeToOpenVelocityContribution = this.props.swipeToOpenVelocityContribution;
+		const possibleExtraPixels = this.props.rightOpenValue * (swipeToOpenVelocityContribution);
+		const clampedVelocity = Math.min(gestureState.vx, MAX_VELOCITY_CONTRIBUTION);
+		const projectedExtraPixels = possibleExtraPixels * (clampedVelocity / MAX_VELOCITY_CONTRIBUTION);
+
+		// re-enable scrolling on listView parent
+		this._ensureScrollEnabledTimer = setTimeout(this.ensureScrollEnabled, SCROLL_LOCK_MILLISECONDS);
 
 		// finish up the animation
 		let toValue = 0;
 		if (this._translateX._value >= 0) {
 			// trying to open right
-			if (this._translateX._value > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if ((this._translateX._value - projectedExtraPixels) > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
 				// we're more than halfway
 				toValue = this.props.leftOpenValue;
 			}
 		} else {
 			// trying to open left
-			if (this._translateX._value < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if ((this._translateX._value - projectedExtraPixels) < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
 				// we're more than halfway
 				toValue = this.props.rightOpenValue
 			}
@@ -177,6 +195,7 @@ class SwipeRow extends Component {
 				tension: this.props.tension,
 			}
 		).start( _ => {
+			this.ensureScrollEnabled()
 			if (toValue === 0) {
 				this.props.onRowDidClose && this.props.onRowDidClose();
 			} else {
@@ -387,6 +406,12 @@ SwipeRow.propTypes = {
 	 * past to trigger the row opening.
 	 */
 	swipeToOpenPercent: PropTypes.number,
+	/**
+	 * Describes how much the ending velocity of the gesture contributes to whether the swipe will result in the item being closed or open.
+	 * A velocity factor of 0 means that the velocity will have no bearing on whether the swipe settles on a closed or open position
+	 * and it'll just take into consideration the swipeToOpenPercent.
+	 */
+	swipeToOpenVelocityContribution: PropTypes.number,
 };
 
 SwipeRow.defaultProps = {
@@ -399,7 +424,8 @@ SwipeRow.defaultProps = {
 	preview: false,
 	previewDuration: 300,
 	directionalDistanceChangeThreshold: 2,
-	swipeToOpenPercent: 50
+	swipeToOpenPercent: 50,
+	swipeToOpenVelocityContribution: 0
 };
 
 export default SwipeRow;
