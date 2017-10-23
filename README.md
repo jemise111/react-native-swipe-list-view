@@ -79,6 +79,60 @@ renderRow={ data => (
 )}
 ```
 
+#### Customizing individual rows (optional)
+Also you can customize your individual rows by passing in your row's `data` next props:
+ * ```leftOpenValue```
+ * ```rightOpenValue```
+ * ```closeOnRowPress```
+ * ```disableLeftSwipe```
+ * ```disableRightSwipe```
+ * ```stopLeftSwipe```
+ * ```stopRightSwipe```
+
+Example:
+```javascript
+const dataSource = [
+    {
+        ...yourRowsData,
+    },
+    {
+        ...yourRowsData,
+    },
+    {
+        ...yourRowsData,
+        disableRightSwipe: true,
+    },
+    {
+        ...yourRowsData,
+        leftOpenValue: 150,
+    },
+];
+
+render() {
+	const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+	return (
+		<SwipeListView
+			dataSource={ds.cloneWithRows(dataSource)}
+			renderRow={ data => (
+				<View style={styles.rowFront}>
+					<Text>I am {data} in a SwipeListView</Text>
+				</View>
+			)}
+			renderHiddenRow={ data => (
+				<View style={styles.rowBack}>
+					<Text>Left</Text>
+					<Text>Right</Text>
+				</View>
+			)}
+			leftOpenValue={75}
+			rightOpenValue={-75}
+			disableRightSwipe={false}
+			disableLeftSwipe={true}
+		/>
+	)
+}
+```
+
 #### Manually closing rows:
 
 If your row or hidden row renders a touchable child and you'd like that touchable to close the row note that the ```renderRow``` and ```renderHiddenRow``` functions are passed ```rowData```, ```secId```, ```rowId```, ```rowMap```. The ```rowMap``` is an object that looks like:
