@@ -1,6 +1,6 @@
 {
   "name": "react-native-swipe-list-view",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "main": "lib/index.js",
   "author": "Jesse Sessler <jesse.sessler@gmail.com>",
   "description": "A ListView with rows that swipe open and closed.",
