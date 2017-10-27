@@ -129,9 +129,20 @@ class SwipeListView extends Component {
 	}
 
 	render() {
+		const { renderListView, ...props } = this.props;
+
+		if (renderListView) {
+			return renderListView(
+				props,
+				this.setRefs.bind(this),
+				this.onScroll.bind(this),
+				this.renderRow.bind(this, this._rows),
+			);
+		}
+
 		return (
 			<ListView
-				{...this.props}
+				{...props}
 				ref={ c => this.setRefs(c) }
 				onScroll={ e => this.onScroll(e) }
 				renderRow={(rowData, secId, rowId) => this.renderRow(rowData, secId, rowId, this._rows)}
@@ -142,6 +153,10 @@ class SwipeListView extends Component {
 }
 
 SwipeListView.propTypes = {
+	/**
+	 * To render a custom ListView component, if you don't want to use ReactNative one.
+	 */
+	renderListView: PropTypes.func,
 	/**
 	 * How to render a row. Should return a valid React Element.
 	 */
