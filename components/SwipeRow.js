@@ -424,7 +424,7 @@ SwipeRow.propTypes = {
 	 * and it'll just take into consideration the swipeToOpenPercent.
 	 */
 	swipeToOpenVelocityContribution: PropTypes.number,
-  /**
+	/**
 	 * What % of the left/right openValue does the user need to swipe
 	 * past to trigger the row closing.
 	 */

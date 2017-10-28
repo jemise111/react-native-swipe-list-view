@@ -319,6 +319,14 @@ One case is a SwipeListView with rows of different heights and an options to del
 type: `bool`
 defaultValue: `false`
 
+
+### `swipeGestureBegan`
+
+Called when a swipe row is animating swipe
+
+type: `func`
+
+
 ### `onRowClose`
 
 Called when a swipe row is animating closed
