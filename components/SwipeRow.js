@@ -163,16 +163,28 @@ class SwipeRow extends Component {
 		// finish up the animation
 		let toValue = 0;
 		if (this._translateX._value >= 0) {
-			// trying to open right
-			if ((this._translateX._value - projectedExtraPixels) > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
-				// we're more than halfway
-				toValue = this.props.leftOpenValue;
+			// trying to swipe right
+			if (this.swipeInitialX < this._translateX._value) {
+				if ((this._translateX._value - projectedExtraPixels) > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
+					// we're more than halfway
+					toValue = this.props.leftOpenValue;
+				}
+			} else {
+				if ((this._translateX._value - projectedExtraPixels) > this.props.leftOpenValue * (1 - (this.props.swipeToClosePercent/100))) {
+					toValue = this.props.leftOpenValue;
+				}
 			}
 		} else {
-			// trying to open left
-			if ((this._translateX._value - projectedExtraPixels) < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
-				// we're more than halfway
-				toValue = this.props.rightOpenValue
+			// trying to swipe left
+			if (this.swipeInitialX > this._translateX._value) {
+				if ((this._translateX._value - projectedExtraPixels) < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
+					// we're more than halfway
+					toValue = this.props.rightOpenValue;
+				}
+			} else {
+				if ((this._translateX._value - projectedExtraPixels) < this.props.rightOpenValue * (1 - (this.props.swipeToClosePercent/100))) {
+					toValue = this.props.rightOpenValue;
+				}
 			}
 		}
 
@@ -412,6 +424,11 @@ SwipeRow.propTypes = {
 	 * and it'll just take into consideration the swipeToOpenPercent.
 	 */
 	swipeToOpenVelocityContribution: PropTypes.number,
+	/**
+	 * What % of the left/right openValue does the user need to swipe
+	 * past to trigger the row closing.
+	 */
+	swipeToClosePercent: PropTypes.number
 };
 
 SwipeRow.defaultProps = {
@@ -425,7 +442,8 @@ SwipeRow.defaultProps = {
 	previewDuration: 300,
 	directionalDistanceChangeThreshold: 2,
 	swipeToOpenPercent: 50,
-	swipeToOpenVelocityContribution: 0
+	swipeToOpenVelocityContribution: 0,
+	swipeToClosePercent: 50
 };
 
 export default SwipeRow;

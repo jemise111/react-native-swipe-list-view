@@ -39,6 +39,10 @@ class SwipeListView extends Component {
 		if (this.props.closeOnRowBeginSwipe && this.openCellId && this.openCellId !== id) {
 			this.safeCloseOpenRow();
 		}
+
+		if (this.props.swipeGestureBegan) {
+			this.props.swipeGestureBegan(id);
+		}
 	}
 
 	onRowOpen(secId, rowId, rowMap) {
@@ -120,6 +124,7 @@ class SwipeListView extends Component {
 					directionalDistanceChangeThreshold={this.props.directionalDistanceChangeThreshold}
 					swipeToOpenPercent={this.props.swipeToOpenPercent}
 					swipeToOpenVelocityContribution={this.props.swipeToOpenVelocityContribution}
+					swipeToClosePercent={this.props.swipeToClosePercent}
 				>
 					{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
 					{this.props.renderRow(rowData, secId, rowId, this._rows)}
@@ -198,6 +203,10 @@ SwipeListView.propTypes = {
 	 */
 	recalculateHiddenLayout: PropTypes.bool,
 	/**
+	 * Called when a swipe row is animating swipe
+	 */
+	swipeGestureBegan: PropTypes.func,
+	/**
 	 * Called when a swipe row is animating open
 	 */
 	onRowOpen: PropTypes.func,
@@ -264,6 +273,11 @@ SwipeListView.propTypes = {
 	 * and it'll just take into consideration the swipeToOpenPercent.
 	 */
 	swipeToOpenVelocityContribution: PropTypes.number,
+	/**
+	 * What % of the left/right openValue does the user need to swipe
+	 * past to trigger the row closing.
+	 */
+	swipeToClosePercent: PropTypes.number
 }
 
 SwipeListView.defaultProps = {
@@ -278,7 +292,8 @@ SwipeListView.defaultProps = {
 	previewFirstRow: false,
 	directionalDistanceChangeThreshold: 2,
 	swipeToOpenPercent: 50,
-	swipeToOpenVelocityContribution: 0
+	swipeToOpenVelocityContribution: 0,
+	swipeToClosePercent: 50
 }
 
 export default SwipeListView;
