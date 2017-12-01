@@ -11,6 +11,10 @@ _**v0.1.0** introduced a breaking change if you had implemented the "Manually Cl
 # Example
 ![](http://i.imgur.com/6fTrdZa.gif) &nbsp;&nbsp;&nbsp;&nbsp; ![](http://i.imgur.com/3IdOA77.gif)
 
+Try it out! https://snack.expo.io/@jemise111/react-native-swipe-list-view
+
+([What's a Snack?](https://blog.expo.io/sketch-a-playground-for-react-native-16b2401f44a2))
+
 # Installation
 ```bash
 npm install --save react-native-swipe-list-view
