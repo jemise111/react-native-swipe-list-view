@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
+	FlatList,
 	ListView,
 	Text,
 	ViewPropTypes,
@@ -21,7 +22,7 @@ class SwipeListView extends Component {
 	constructor(props){
 		super(props);
 		this._rows = {};
-		this.openCellId = null;
+		this.openCellKey = null;
 	}
 
 	setScrollEnabled(enable) {
@@ -29,45 +30,44 @@ class SwipeListView extends Component {
 	}
 
 	safeCloseOpenRow() {
-		// if the openCellId is stale due to deleting a row this could be undefined
-		if (this._rows[this.openCellId]) {
-			this._rows[this.openCellId].closeRow();
+		// if the openCellKey is stale due to deleting a row this could be undefined
+		if (this._rows[this.openCellKey]) {
+			this._rows[this.openCellKey].closeRow();
 		}
 	}
 
-	rowSwipeGestureBegan(id) {
-		if (this.props.closeOnRowBeginSwipe && this.openCellId && this.openCellId !== id) {
+	rowSwipeGestureBegan(key) {
+		if (this.props.closeOnRowBeginSwipe && this.openCellKey && this.openCellKey !== key) {
 			this.safeCloseOpenRow();
 		}
 
 		if (this.props.swipeGestureBegan) {
-			this.props.swipeGestureBegan(id);
+			this.props.swipeGestureBegan(key);
 		}
 	}
 
-	onRowOpen(secId, rowId, rowMap) {
-		const cellIdentifier = `${secId}${rowId}`;
-		if (this.openCellId && this.openCellId !== cellIdentifier) {
+	onRowOpen(key) {
+		if (this.openCellKey && this.openCellKey !== key) {
 			this.safeCloseOpenRow();
 		}
-		this.openCellId = cellIdentifier;
-		this.props.onRowOpen && this.props.onRowOpen(secId, rowId, rowMap);
+		this.openCellKey = key;
+		this.props.onRowOpen && this.props.onRowOpen(key, this._rows);
 	}
 
-	onRowPress(id) {
-		if (this.openCellId) {
+	onRowPress() {
+		if (this.openCellKey) {
 			if (this.props.closeOnRowPress) {
 				this.safeCloseOpenRow();
-				this.openCellId = null;
+				this.openCellKey = null;
 			}
 		}
 	}
 
 	onScroll(e) {
-		if (this.openCellId) {
+		if (this.openCellKey) {
 			if (this.props.closeOnScroll) {
 				this.safeCloseOpenRow();
-				this.openCellId = null;
+				this.openCellKey = null;
 			}
 		}
 		this.props.onScroll && this.props.onScroll(e);
@@ -78,45 +78,43 @@ class SwipeListView extends Component {
 		this.props.listViewRef && this.props.listViewRef(ref);
 	}
 
-	renderRow(rowData, secId, rowId, rowMap) {
-		const Component = this.props.renderRow(rowData, secId, rowId, rowMap);
-		if (!this.props.renderHiddenRow) {
+	renderCell(VisibleComponent, HiddenComponent, key, item, shouldPreviewRow) {
+		if (!HiddenComponent) {
 			return React.cloneElement(
-				Component,
+				VisibleComponent,
 				{
-					...Component.props,
-					ref: row => this._rows[`${secId}${rowId}`] = row,
-					onRowOpen: _ => this.onRowOpen(secId, rowId, this._rows),
-					onRowDidOpen: _ => this.props.onRowDidOpen && this.props.onRowDidOpen(secId, rowId, this._rows),
-					onRowClose: _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows),
-					onRowDidClose: _ => this.props.onRowDidClose && this.props.onRowDidClose(secId, rowId, this._rows),
-					onRowPress: _ => this.onRowPress(`${secId}${rowId}`),
+					...VisibleComponent.props,
+					ref: row => this._rows[key] = row,
+					onRowOpen: _ => this.onRowOpen(key),
+					onRowDidOpen: _ => this.props.onRowDidOpen && this.props.onRowDidOpen(key, this._rows),
+					onRowClose: _ => this.props.onRowClose && this.props.onRowClose(key, this._rows),
+					onRowDidClose: _ => this.props.onRowDidClose && this.props.onRowDidClose(key, this._rows),
+					onRowPress: _ => this.onRowPress(),
 					setScrollEnabled: enable => this.setScrollEnabled(enable),
-					swipeGestureBegan: _ => this.rowSwipeGestureBegan(`${secId}${rowId}`)
+					swipeGestureBegan: _ => this.rowSwipeGestureBegan(key)
 				}
 			);
 		} else {
-			const previewRowId = this.props.dataSource && this.props.dataSource.getRowIDForFlatIndex(this.props.previewRowIndex || 0);
 			return (
 				<SwipeRow
-					ref={row => this._rows[`${secId}${rowId}`] = row}
-					swipeGestureBegan={ _ => this.rowSwipeGestureBegan(`${secId}${rowId}`) }
-					onRowOpen={ _ => this.onRowOpen(secId, rowId, this._rows) }
-					onRowDidOpen={ _ => this.props.onRowDidOpen && this.props.onRowDidOpen(secId, rowId, this._rows)}
-					onRowClose={ _ => this.props.onRowClose && this.props.onRowClose(secId, rowId, this._rows) }
-					onRowDidClose={ _ => this.props.onRowDidClose && this.props.onRowDidClose(secId, rowId, this._rows) }
-					onRowPress={ _ => this.onRowPress(`${secId}${rowId}`) }
+					ref={row => this._rows[key] = row}
+					swipeGestureBegan={ _ => this.rowSwipeGestureBegan(key) }
+					onRowOpen={ _ => this.onRowOpen(key) }
+					onRowDidOpen={ _ => this.props.onRowDidOpen && this.props.onRowDidOpen(key, this._rows)}
+					onRowClose={ _ => this.props.onRowClose && this.props.onRowClose(key, this._rows) }
+					onRowDidClose={ _ => this.props.onRowDidClose && this.props.onRowDidClose(key, this._rows) }
+					onRowPress={ _ => this.onRowPress(key) }
 					setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
-					leftOpenValue={rowData.leftOpenValue || this.props.leftOpenValue}
-					rightOpenValue={rowData.rightOpenValue || this.props.rightOpenValue}
-					closeOnRowPress={rowData.closeOnRowPress || this.props.closeOnRowPress}
-					disableLeftSwipe={rowData.disableLeftSwipe || this.props.disableLeftSwipe}
-					disableRightSwipe={rowData.disableRightSwipe || this.props.disableRightSwipe}
-					stopLeftSwipe={rowData.stopLeftSwipe || this.props.stopLeftSwipe}
-					stopRightSwipe={rowData.stopRightSwipe || this.props.stopRightSwipe}
+					leftOpenValue={item.leftOpenValue || this.props.leftOpenValue}
+					rightOpenValue={item.rightOpenValue || this.props.rightOpenValue}
+					closeOnRowPress={item.closeOnRowPress || this.props.closeOnRowPress}
+					disableLeftSwipe={item.disableLeftSwipe || this.props.disableLeftSwipe}
+					disableRightSwipe={item.disableRightSwipe || this.props.disableRightSwipe}
+					stopLeftSwipe={item.stopLeftSwipe || this.props.stopLeftSwipe}
+					stopRightSwipe={item.stopRightSwipe || this.props.stopRightSwipe}
 					recalculateHiddenLayout={this.props.recalculateHiddenLayout}
 					style={this.props.swipeRowStyle}
-					preview={(this.props.previewFirstRow || this.props.previewRowIndex) && rowId === previewRowId}
+					preview={shouldPreviewRow}
 					previewDuration={this.props.previewDuration}
 					previewOpenValue={this.props.previewOpenValue}
 					tension={this.props.tension}
@@ -126,15 +124,39 @@ class SwipeListView extends Component {
 					swipeToOpenVelocityContribution={this.props.swipeToOpenVelocityContribution}
 					swipeToClosePercent={this.props.swipeToClosePercent}
 				>
-					{this.props.renderHiddenRow(rowData, secId, rowId, this._rows)}
-					{this.props.renderRow(rowData, secId, rowId, this._rows)}
+					{HiddenComponent}
+					{VisibleComponent}
 				</SwipeRow>
 			);
 		}
 	}
 
+	renderRow(rowData, secId, rowId, rowMap) {
+		const key = `${secId}${rowId}`;
+		const Component = this.props.renderRow(rowData, secId, rowId, rowMap);
+		const HiddenComponent = this.props.renderHiddenRow && this.props.renderHiddenRow(rowData, secId, rowId, rowMap);
+		const previewRowId = this.props.dataSource && this.props.dataSource.getRowIDForFlatIndex(this.props.previewRowIndex || 0);
+		const shouldPreviewRow = (this.props.previewFirstRow || this.props.previewRowIndex) && rowId === previewRowId;
+
+		return this.renderCell(Component, HiddenComponent, key, rowData, shouldPreviewRow);
+	}
+
+	renderItem(rowData, rowMap) {
+		const Component = this.props.renderItem(rowData, rowMap);
+		const HiddenComponent = this.props.renderHiddenItem && this.props.renderHiddenItem(rowData, rowMap);
+		let { item, index } = rowData;
+		let { key } = item;
+		if (!key && this.props.keyExtractor) {
+			key = this.props.keyExtractor(item, index);
+		}
+
+		const shouldPreviewRow = this.props.previewRowKey === key;
+
+		return this.renderCell(Component, HiddenComponent, key, item, shouldPreviewRow);
+	}
+
 	render() {
-		const { renderListView, ...props } = this.props;
+		const { useFlatList, renderListView, ...props } = this.props;
 
 		if (renderListView) {
 			return renderListView(
@@ -142,6 +164,17 @@ class SwipeListView extends Component {
 				this.setRefs.bind(this),
 				this.onScroll.bind(this),
 				this.renderRow.bind(this, this._rows),
+			);
+		}
+
+		if (useFlatList) {
+			return (
+				<FlatList
+					{...props}
+					ref={ c => this.setRefs(c) }
+					onScroll={ e => this.onScroll(e) }
+					renderItem={(rowData) => this.renderItem(rowData, this._rows)}
+				/>
 			);
 		}
 
@@ -160,14 +193,24 @@ class SwipeListView extends Component {
 SwipeListView.propTypes = {
 	/**
 	 * To render a custom ListView component, if you don't want to use ReactNative one.
+	 * Note: This will call `renderRow`, not `renderItem`
 	 */
-	renderListView: PropTypes.func,
+	renderListView: PropTypes.func, 
 	/**
-	 * How to render a row. Should return a valid React Element.
+	 * How to render a row in a FlatList. Should return a valid React Element.
 	 */
-	renderRow: PropTypes.func.isRequired,
+	renderItem: PropTypes.func,
 	/**
-	 * How to render a hidden row (renders behind the row). Should return a valid React Element.
+	 * How to render a hidden row in a FlatList (renders behind the row). Should return a valid React Element.
+	 * This is required unless renderItem is passing a SwipeRow.
+	 */
+	renderHiddenItem: PropTypes.func,
+	/**
+	 * [DEPRECATED] How to render a row in a ListView. Should return a valid React Element.
+	 */
+	renderRow: PropTypes.func,
+	/**
+	 * [DEPRECATED] How to render a hidden row in a ListView (renders behind the row). Should return a valid React Element.
 	 * This is required unless renderRow is passing a SwipeRow.
 	 */
 	renderHiddenRow: PropTypes.func,
@@ -242,16 +285,20 @@ SwipeListView.propTypes = {
 	 */
 	swipeRowStyle: ViewPropTypes.style,
 	/**
-	 * Called when the ListView ref is set and passes a ref to the ListView
+	 * Called when the ListView (or FlatList) ref is set and passes a ref to the ListView (or FlatList)
 	 * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
 	 */
 	listViewRef: PropTypes.func,
 	/**
-	 * Should the first SwipeRow do a slide out preview to show that the list is swipeable
+	 * Should the row with this key do a slide out preview to show that the list is swipeable
+	 */
+	previewRowKey: PropTypes.string,
+	/**
+	 * [DEPRECATED] Should the first SwipeRow do a slide out preview to show that the list is swipeable
 	 */
 	previewFirstRow: PropTypes.bool,
 	/**
-	 * Should the specified rowId do a slide out preview to show that the list is swipeable
+	 * [DEPRECATED] Should the specified rowId do a slide out preview to show that the list is swipeable
 	 * Note: This ID will be passed to this function to get the correct row index
 	 * https://facebook.github.io/react-native/docs/listviewdatasource.html#getrowidforflatindex
 	 */

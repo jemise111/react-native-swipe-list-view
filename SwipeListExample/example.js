@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import {
 	AppRegistry,
+	Dimensions,
 	ListView,
 	StyleSheet,
 	Text,
@@ -11,7 +12,8 @@ import {
 	View
 } from 'react-native';
 
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import SwipeListView from './SwipeListView';
+import SwipeRow from './SwipeRow';
 
 class App extends Component {
 
@@ -19,16 +21,28 @@ class App extends Component {
 		super(props);
 		this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
-			basic: true,
-			listViewData: Array(20).fill('').map((_,i)=>`item #${i}`)
+			listType: 'FlatList',
+			listViewData: Array(20).fill('').map((_,i) => ({key: `${i}`, text: `item #${i}`})),
 		};
 	}
 
-	deleteRow(secId, rowId, rowMap) {
-		rowMap[`${secId}${rowId}`].closeRow();
+	closeRow(rowMap, rowKey) {
+		rowMap[rowKey].closeRow();
+	}
+
+	deleteRow(rowMap, rowKey) {
+		this.closeRow(rowMap, rowKey);
 		const newData = [...this.state.listViewData];
-		newData.splice(rowId, 1);
+		const prevIndex = this.state.listViewData.findIndex(item => item.key === rowKey);
+		newData.splice(prevIndex, 1);
 		this.setState({listViewData: newData});
+	}
+
+	onRowDidOpen = (rowKey, rowMap) => {
+		console.log('This row opened', rowKey);
+		setTimeout(() => {
+			this.closeRow(rowMap, rowKey);
+		}, 2000);
 	}
 
 	render() {
@@ -52,29 +66,27 @@ class App extends Component {
 
 				<View style={styles.controls}>
 					<View style={styles.switchContainer}>
-						<TouchableOpacity style={[
-							styles.switch,
-							{backgroundColor: this.state.basic ? 'grey' : 'white'}
-						]} onPress={ _ => this.setState({basic: true}) }>
-							<Text>Basic</Text>
-						</TouchableOpacity>
-
-						<TouchableOpacity style={[
-							styles.switch,
-							{backgroundColor: this.state.basic ? 'white' : 'grey'}
-						]} onPress={ _ => this.setState({basic: false}) }>
-							<Text>Advanced</Text>
-						</TouchableOpacity>
-
+						{ ['Basic', 'Advanced', 'FlatList', 'SectionList'].map( type => (
+							<TouchableOpacity
+								key={type}
+								style={[
+									styles.switch,
+									{backgroundColor: this.state.listType === type ? 'grey' : 'white'}
+								]}
+								onPress={ _ => this.setState({listType: type}) }
+							>
+								<Text>{type}</Text>
+							</TouchableOpacity>
+						))}
 					</View>
 					{
-						!this.state.basic &&
+						this.state.listType === 'Advanced' &&
 						<Text>(per row behavior)</Text>
 					}
 				</View>
 
 				{
-					this.state.basic &&
+					this.state.listType === 'Basic' &&
 
 					<SwipeListView
 						dataSource={this.ds.cloneWithRows(this.state.listViewData)}
@@ -85,17 +97,17 @@ class App extends Component {
 								underlayColor={'#AAA'}
 							>
 								<View>
-									<Text>I am {data} in a SwipeListView</Text>
+									<Text>I am {data.text} in a SwipeListView</Text>
 								</View>
 							</TouchableHighlight>
 						)}
 						renderHiddenRow={ (data, secId, rowId, rowMap) => (
 							<View style={styles.rowBack}>
 								<Text>Left</Text>
-								<View style={[styles.backRightBtn, styles.backRightBtnLeft]}>
-									<Text style={styles.backTextWhite}>Right</Text>
-								</View>
-								<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(secId, rowId, rowMap) }>
+								<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={ _ => this.closeRow(rowMap, `${secId}${rowId}`) }>
+									<Text style={styles.backTextWhite}>Close</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(rowMap, `${secId}${rowId}`) }>
 									<Text style={styles.backTextWhite}>Delete</Text>
 								</TouchableOpacity>
 							</View>
@@ -106,7 +118,7 @@ class App extends Component {
 				}
 
 				{
-					!this.state.basic &&
+					this.state.listType === 'Advanced' &&
 
 					<SwipeListView
 						dataSource={this.ds.cloneWithRows(this.state.listViewData)}
@@ -118,10 +130,10 @@ class App extends Component {
 							>
 								<View style={styles.rowBack}>
 									<Text>Left</Text>
-									<View style={[styles.backRightBtn, styles.backRightBtnLeft]}>
-										<Text style={styles.backTextWhite}>Right</Text>
-									</View>
-									<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(secId, rowId, rowMap) }>
+									<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={ _ => this.closeRow(rowMap, `${secId}${rowId}`) }>
+										<Text style={styles.backTextWhite}>Close</Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(rowMap, `${secId}${rowId}`) }>
 										<Text style={styles.backTextWhite}>Delete</Text>
 									</TouchableOpacity>
 								</View>
@@ -131,12 +143,52 @@ class App extends Component {
 									underlayColor={'#AAA'}
 								>
 									<View>
-										<Text>I am {data} in a SwipeListView</Text>
+										<Text>I am {data.text} in a SwipeListView</Text>
 									</View>
 								</TouchableHighlight>
 							</SwipeRow>
 						)}
 					/>
+				}
+
+				{
+					this.state.listType === 'FlatList' &&
+
+					<SwipeListView
+						useFlatList
+						data={this.state.listViewData}
+						renderItem={ (data, rowMap) => (
+							<TouchableHighlight
+								onPress={ _ => console.log('You touched me') }
+								style={styles.rowFront}
+								underlayColor={'#AAA'}
+							>
+								<View>
+									<Text>I am {data.item.text} in a SwipeListView</Text>
+								</View>
+							</TouchableHighlight>
+						)}
+						renderHiddenItem={ (data, rowMap) => (
+							<View style={styles.rowBack}>
+								<Text>Left</Text>
+								<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={ _ => this.closeRow(rowMap, data.item.key) }>
+									<Text style={styles.backTextWhite}>Close</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(rowMap, data.item.key) }>
+									<Text style={styles.backTextWhite}>Delete</Text>
+								</TouchableOpacity>
+							</View>
+						)}
+						leftOpenValue={75}
+						rightOpenValue={-150}
+						onRowDidOpen={this.onRowDidOpen}
+					/>
+				}
+
+				{
+					this.state.listType === 'SectionList' &&
+
+					<Text>Coming soon...</Text>
 				}
 
 			</View>
@@ -216,7 +268,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: 'black',
 		paddingVertical: 10,
-		width: 100,
+		width: Dimensions.get('window').width / 4,
 	}
 });
 
