@@ -225,27 +225,27 @@ BEFORE:
 
 ```javascript
 <SwipeListView
-	dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-	renderRow={ (data, secId, rowId, rowMap) => (
-		<View>
-			<Text>I am {data} in a SwipeListView</Text>
-		</View>
-	)}
-	renderHiddenRow={ (data, secId, rowId, rowMap) => (
-		<View style={styles.rowBack}>
-			<TouchableOpacity onPress={ _ => rowMap[`${secId}${rowId}`].closeRow() }>
-				<Text>Close</Text>
-			</TouchableOpacity>
-		</View>
-	)}
-	leftOpenValue={75}
-	rightOpenValue={-150}
-	onRowOpen={(secId, rowId, rowMap) => {
-		setTimeout(() => {
-			rowMap[`${secId}${rowId}`].closeRow()
-		}, 2000)
-	}}
-	previewFirstRow={true}
+    dataSource={this.ds.cloneWithRows(this.state.listViewData)}
+    renderRow={ (data, secId, rowId, rowMap) => (
+        <View>
+            <Text>I am {data} in a SwipeListView</Text>
+        </View>
+    )}
+    renderHiddenRow={ (data, secId, rowId, rowMap) => (
+        <View style={styles.rowBack}>
+            <TouchableOpacity onPress={ _ => rowMap[`${secId}${rowId}`].closeRow() }>
+                <Text>Close</Text>
+            </TouchableOpacity>
+        </View>
+    )}
+    leftOpenValue={75}
+    rightOpenValue={-150}
+    onRowOpen={(secId, rowId, rowMap) => {
+        setTimeout(() => {
+            rowMap[`${secId}${rowId}`].closeRow()
+        }, 2000)
+    }}
+    previewFirstRow={true}
 />
 ```
 
@@ -253,28 +253,28 @@ AFTER (Using FlatList):
 
 ```javascript
 <SwipeListView
-	useFlatList={true}
-	data={this.ds.cloneWithRows(this.state.flatListData)}
-	renderItem={ (rowData, rowMap) => (
-		<View>
-			<Text>I am {data.item.text} in a SwipeListView</Text>
-		</View>
-	)}
-	renderHiddenItem={ (rowData, rowMap) => (
-		<View style={styles.rowBack}>
-			<TouchableOpacity onPress={ _ => rowMap[rowData.item.key].closeRow() }>
-				<Text>Close</Text>
-			</TouchableOpacity>
-		</View>
-	)}
-	leftOpenValue={75}
-	rightOpenValue={-150}
-	onRowOpen={(rowKey, rowMap) => {
-		setTimeout(() => {
-			rowMap[rowKey].closeRow()
-		}, 2000)
-	}}
-	previewRowKey={this.state.flatListData[0].key} 
+    useFlatList={true}
+    data={this.ds.cloneWithRows(this.state.flatListData)}
+    renderItem={ (rowData, rowMap) => (
+        <View>
+            <Text>I am {data.item.text} in a SwipeListView</Text>
+        </View>
+    )}
+    renderHiddenItem={ (rowData, rowMap) => (
+        <View style={styles.rowBack}>
+            <TouchableOpacity onPress={ _ => rowMap[rowData.item.key].closeRow() }>
+                <Text>Close</Text>
+            </TouchableOpacity>
+        </View>
+    )}
+    leftOpenValue={75}
+    rightOpenValue={-150}
+    onRowOpen={(rowKey, rowMap) => {
+        setTimeout(() => {
+            rowMap[rowKey].closeRow()
+        }, 2000)
+    }}
+    previewRowKey={this.state.flatListData[0].key} 
 />
 ```
 
