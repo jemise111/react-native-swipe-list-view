@@ -43,25 +43,25 @@ The application under ./SwipeListExample will produce the above example. To run 
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 render() {
-	return (
-		<SwipeListView
-			useFlatList
-			data={this.state.listViewData}
-			renderItem={ (data, rowMap) => (
-				<View style={styles.rowFront}>
-					<Text>I am {data.item} in a SwipeListView</Text>
-				</View>
-			)}
-			renderHiddenItem={ (data, rowMap) => (
-				<View style={styles.rowBack}>
-					<Text>Left</Text>
-					<Text>Right</Text>
-				</View>
-			)}
-			leftOpenValue={75}
-			rightOpenValue={-75}
-		/>
-	)
+    return (
+        <SwipeListView
+            useFlatList
+            data={this.state.listViewData}
+            renderItem={ (data, rowMap) => (
+                <View style={styles.rowFront}>
+                    <Text>I am {data.item} in a SwipeListView</Text>
+                </View>
+            )}
+            renderHiddenItem={ (data, rowMap) => (
+                <View style={styles.rowBack}>
+                    <Text>Left</Text>
+                    <Text>Right</Text>
+                </View>
+            )}
+            leftOpenValue={75}
+            rightOpenValue={-75}
+        />
+    )
 }
 ```
 
@@ -83,11 +83,11 @@ renderItem={ data => (
 BAD:
 ```javascript
 renderItem={ data => (
-	<View>
-	    <TouchableHighlight onPress={this.doSomething.bind(this)}>
-	        <Text>I am {data.item} in a SwipeListView</Text>
-	    </TouchableHighlight>
-	</View>
+    <View>
+        <TouchableHighlight onPress={this.doSomething.bind(this)}>
+            <Text>I am {data.item} in a SwipeListView</Text>
+        </TouchableHighlight>
+    </View>
 )}
 ```
 
@@ -135,23 +135,23 @@ The following values can be dynamic by passing them as props on the ```<SwipeRow
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 
 <SwipeListView
-	dataSource={dataSource.cloneWithRows(data)}
-	renderItem={ (rowData, rowMap) => (
-		<SwipeRow
-			disableRightSwipe={parseInt(rowId) % 2 !== 0}
-			disableLeftSwipe={parseInt(rowId) % 2 === 0}
-			leftOpenValue={20 + parseInt(rowId) * 5}
-			rightOpenValue={-150}
-		>
-			<View style={styles.rowBack}>
-				<Text>Left Hidden</Text>
-				<Text>Right Hidden</Text>
-			</View>
-			<View style={styles.rowFront}>
-				<Text>Row front | {data.item.key}</Text>
-			</View>
-		</SwipeRow>
-	)}
+    dataSource={dataSource.cloneWithRows(data)}
+    renderItem={ (rowData, rowMap) => (
+        <SwipeRow
+            disableRightSwipe={parseInt(rowId) % 2 !== 0}
+            disableLeftSwipe={parseInt(rowId) % 2 === 0}
+            leftOpenValue={20 + parseInt(rowId) * 5}
+            rightOpenValue={-150}
+        >
+            <View style={styles.rowBack}>
+                <Text>Left Hidden</Text>
+                <Text>Right Hidden</Text>
+            </View>
+            <View style={styles.rowFront}>
+                <Text>Row front | {data.item.key}</Text>
+            </View>
+        </SwipeRow>
+    )}
 />
 ```
 
@@ -170,19 +170,19 @@ Example:
 ```javascript
 const dataSource = [
     {
-		name: 'Andy',
-		age: 12,
-		disableRightSwipe: true,
+        name: 'Andy',
+        age: 12,
+        disableRightSwipe: true,
     },
     {
-		name: 'Betty',
-		age: 11,
-		leftOpenValue: 150,
-	},
-	{
-		name: 'Carl',
-		age: 11,
-	},
+        name: 'Betty',
+        age: 11,
+        leftOpenValue: 150,
+    },
+    {
+        name: 'Carl',
+        age: 11,
+    },
 ];
 ```
 
@@ -196,11 +196,11 @@ e.g.
 
 ```
 onRowOpen(secId, rowId, rowMap) {
-	// Grab reference to this row
-	const rowRef = rowMap[`${secId}${rowId}`];
+    // Grab reference to this row
+    const rowRef = rowMap[`${secId}${rowId}`];
 
-	// Do something with the row
-	rowRef.closeRow();
+    // Do something with the row
+    rowRef.closeRow();
 }
 ```
 
@@ -208,11 +208,11 @@ would now look like:
 
 ```
 onRowOpen(rowKey, rowMap) {
-	// Grab reference to this row
-	const rowRef = rowMap[rowKey];
+    // Grab reference to this row
+    const rowRef = rowMap[rowKey];
 
-	// Do something with the row
-	rowRef.closeRow();
+    // Do something with the row
+    rowRef.closeRow();
 }
 ```
 
@@ -224,58 +224,58 @@ Here is a typical migration example:
 BEFORE:
 
 ```
-	<SwipeListView
-		dataSource={this.ds.cloneWithRows(this.state.listViewData)}
-		renderRow={ (data, secId, rowId, rowMap) => (
-			<View>
-				<Text>I am {data} in a SwipeListView</Text>
-			</View>
-		)}
-		renderHiddenRow={ (data, secId, rowId, rowMap) => (
-			<View style={styles.rowBack}>
-				<TouchableOpacity onPress={ _ => rowMap[`${secId}${rowId}`].closeRow() }>
-					<Text>Close</Text>
-				</TouchableOpacity>
-			</View>
-		)}
-		leftOpenValue={75}
-		rightOpenValue={-150}
-		onRowOpen={(secId, rowId, rowMap) => {
-			setTimeout(() => {
-				rowMap[`${secId}${rowId}`].closeRow()
-			}, 2000)
-		}}
-		previewFirstRow={true}
-	/>
+    <SwipeListView
+        dataSource={this.ds.cloneWithRows(this.state.listViewData)}
+        renderRow={ (data, secId, rowId, rowMap) => (
+            <View>
+                <Text>I am {data} in a SwipeListView</Text>
+            </View>
+        )}
+        renderHiddenRow={ (data, secId, rowId, rowMap) => (
+            <View style={styles.rowBack}>
+                <TouchableOpacity onPress={ _ => rowMap[`${secId}${rowId}`].closeRow() }>
+                    <Text>Close</Text>
+                </TouchableOpacity>
+            </View>
+        )}
+        leftOpenValue={75}
+        rightOpenValue={-150}
+        onRowOpen={(secId, rowId, rowMap) => {
+            setTimeout(() => {
+                rowMap[`${secId}${rowId}`].closeRow()
+            }, 2000)
+        }}
+        previewFirstRow={true}
+    />
 ```
 
 AFTER (Using FlatList):
 
 ```
-	<SwipeListView
-		useFlatList={true}
-		data={this.ds.cloneWithRows(this.state.flatListData)}
-		renderItem={ (rowData, rowMap) => (
-			<View>
-				<Text>I am {data.item.text} in a SwipeListView</Text>
-			</View>
-		)}
-		renderHiddenItem={ (rowData, rowMap) => (
-			<View style={styles.rowBack}>
-				<TouchableOpacity onPress={ _ => rowMap[rowData.item.key].closeRow() }>
-					<Text>Close</Text>
-				</TouchableOpacity>
-			</View>
-		)}
-		leftOpenValue={75}
-		rightOpenValue={-150}
-		onRowOpen={(rowKey, rowMap) => {
-			setTimeout(() => {
-				rowMap[rowKey].closeRow()
-			}, 2000)
-		}}
-		previewRowKey={this.state.flatListData[0].key} 
-	/>
+    <SwipeListView
+        useFlatList={true}
+        data={this.ds.cloneWithRows(this.state.flatListData)}
+        renderItem={ (rowData, rowMap) => (
+            <View>
+                <Text>I am {data.item.text} in a SwipeListView</Text>
+            </View>
+        )}
+        renderHiddenItem={ (rowData, rowMap) => (
+            <View style={styles.rowBack}>
+                <TouchableOpacity onPress={ _ => rowMap[rowData.item.key].closeRow() }>
+                    <Text>Close</Text>
+                </TouchableOpacity>
+            </View>
+        )}
+        leftOpenValue={75}
+        rightOpenValue={-150}
+        onRowOpen={(rowKey, rowMap) => {
+            setTimeout(() => {
+                rowMap[rowKey].closeRow()
+            }, 2000)
+        }}
+        previewRowKey={this.state.flatListData[0].key} 
+    />
 ```
 
 
@@ -564,10 +564,10 @@ If you are rendering a SwipeRow explicitly you must pass the SwipeRow exactly tw
 The first will be rendered behind the second.
 e.g.
 ```javascript
-  <SwipeRow>
-      <View style={hiddenRowStyle} />
-      <View style={visibleRowStyle} />
-  </SwipeRow>
+<SwipeRow>
+    <View style={hiddenRowStyle} />
+    <View style={visibleRowStyle} />
+</SwipeRow>
 ```
 Props
 -----
