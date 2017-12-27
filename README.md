@@ -2,7 +2,7 @@
 
 # react-native-swipe-list-view
 
-**Breaking Changes in v1.0.0:**
+**💥🔥Breaking Changes in v1.0.0:🔥💥**
 
 `SwipeListView` now supports `FlatList`!
 
