@@ -26,7 +26,9 @@ class App extends Component {
 	}
 
 	closeRow(rowMap, rowKey) {
-		rowMap[rowKey].closeRow();
+		if (rowMap[rowKey]) {
+			rowMap[rowKey].closeRow();
+		}
 	}
 
 	deleteRow(rowMap, rowKey) {
