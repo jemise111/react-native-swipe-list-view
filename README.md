@@ -1,12 +1,16 @@
 [![npm](https://img.shields.io/npm/v/react-native-swipe-list-view.svg)](https://www.npmjs.com/package/react-native-swipe-list-view) [![npm](https://img.shields.io/npm/dm/react-native-swipe-list-view.svg)](https://www.npmjs.com/package/react-native-swipe-list-view)
 
-# **FlatList Update!** As of v1.0.0 `SwipeListView` supports `FlatList`.
+# react-native-swipe-list-view
+
+**Breaking Changes in v1.0.0:**
+
+`SwipeListView` now supports `FlatList`!
 
 Please see the section [Migrating To FlatList](https://github.com/jemise111/react-native-swipe-list-view#migrating-to-flatlist) for all details.
 
-You can continue to use the (deprecated) `ListView` component, however there are some BREAKING CHANGES that should be explained in the migration section as well.
+You can continue to use the (deprecated) `ListView` component, however there are some BREAKING CHANGES that are explained in that section as well
 
-# react-native-swipe-list-view
+--------
 
 ```<SwipeListView>``` is a ListView with rows that swipe open and closed. Handles default native behavior such as closing rows when ListView is scrolled or when other rows are opened.
 
@@ -87,36 +91,6 @@ renderItem={ data => (
 )}
 ```
 
-#### Customizing individual rows (optional)
-Also you can customize your individual rows by passing in your row's `data` next props:
- * ```leftOpenValue```
- * ```rightOpenValue```
- * ```closeOnRowPress```
- * ```disableLeftSwipe```
- * ```disableRightSwipe```
- * ```stopLeftSwipe```
- * ```stopRightSwipe```
-
-Example:
-```javascript
-const dataSource = [
-    {
-		name: 'Andy',
-		age: 12,
-		disableRightSwipe: true,
-    },
-    {
-		name: 'Betty',
-		age: 11,
-		leftOpenValue: 150,
-	},
-	{
-		name: 'Carl',
-		age: 11,
-	},
-];
-```
-
 #### Manually closing rows:
 
 If your row or hidden row renders a touchable child and you'd like that touchable to close the row note that the ```renderItem``` and ```renderHiddenItem``` functions are passed ```rowData```, ```rowMap```. The ```rowMap``` is an object that looks like:
@@ -181,9 +155,40 @@ import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 />
 ```
 
+### Setting per row behavior using data
+
+You can also customize your individual rows by passing in your row's `data` next props:
+ * ```leftOpenValue```
+ * ```rightOpenValue```
+ * ```closeOnRowPress```
+ * ```disableLeftSwipe```
+ * ```disableRightSwipe```
+ * ```stopLeftSwipe```
+ * ```stopRightSwipe```
+
+Example:
+```javascript
+const dataSource = [
+    {
+		name: 'Andy',
+		age: 12,
+		disableRightSwipe: true,
+    },
+    {
+		name: 'Betty',
+		age: 11,
+		leftOpenValue: 150,
+	},
+	{
+		name: 'Carl',
+		age: 11,
+	},
+];
+```
+
 # Migrating To FlatList
 
-In most ways migrating your `SwipeListView` is no different than migrating your typical RN `ListView`. The biggest difference is the identifier used to keep track of row ref's. Previously this was done using a unique hash for each row that looked like ``${secId}${rowId}``. Now, since FlatList requires the use of a unique `key` for each piece of data, the `SwipeListView` uses this unique key to keep track of row refs.
+In most ways migrating your `SwipeListView` is no different than migrating your typical RN `ListView` (`renderRow` -> `renderItem`, `renderHiddenRow` -> `renderHiddenItem`). The biggest difference is the identifier used to keep track of row ref's. Previously this was done using a unique hash for each row that looked like ``${secId}${rowId}``. Now, since FlatList requires the use of a unique `key` for each piece of data, the `SwipeListView` uses this unique key to keep track of row refs in place of the unique hash.
 
 The biggest breaking change you will find is the signature of certain callback functions used to pass the `secId` and `rowId` as two separate arguments, whereas now they will pass one argument, the row's unique key.
 
@@ -273,6 +278,7 @@ AFTER (Using FlatList):
 	/>
 ```
 
+
 ## API
 
 `SwipeListView` (component)
@@ -288,6 +294,7 @@ Props
 Render list using React Native's `FlatList`
 
 type: `bool`
+
 defaultValue: `false`
 
 ### `closeOnRowPress`
@@ -295,6 +302,7 @@ defaultValue: `false`
 Should open rows be closed when a row is pressed
 
 type: `bool`
+
 defaultValue: `true`
 
 
@@ -303,6 +311,7 @@ defaultValue: `true`
 Should open rows be closed when the listView begins scrolling
 
 type: `bool`
+
 defaultValue: `true`
 
 
@@ -311,6 +320,7 @@ defaultValue: `true`
 Should open rows be closed when a row begins to swipe open
 
 type: `bool`
+
 defaultValue: `false`
 
 ### `directionalDistanceChangeThreshold`
@@ -318,6 +328,7 @@ defaultValue: `false`
 Change the sensitivity of the row
 
 type: `number`
+
 defaultValue: `2`
 
 
@@ -326,6 +337,7 @@ defaultValue: `2`
 TranslateX value for opening the row to the left (positive number)
 
 type: `number`
+
 defaultValue: `0`
 
 ### `renderHiddenItem`
@@ -334,6 +346,7 @@ How to render a hidden row in a FlatList (renders behind the row). Should return
 This is required unless ```renderItem``` returns a ```<SwipeRow>``` (see [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view#per-row-behavior)).
 
 type: `func`
+
 params: (rowData, rowMap)
 
 
@@ -342,6 +355,7 @@ params: (rowData, rowMap)
 How to render a row in a FlatList. Should return a valid React Element.
 
 type: `func`
+
 params: (rowData, rowMap)
 
 
@@ -351,6 +365,7 @@ How to render a hidden row (renders behind the row). Should return a valid React
 This is required unless ```renderRow``` returns a ```<SwipeRow>``` (see [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view#per-row-behavior)).
 
 type: `func`
+
 params: (rowData, secId, rowId, rowMap)
 
 
@@ -359,6 +374,7 @@ params: (rowData, secId, rowId, rowMap)
 How to render a row. Should return a valid React Element.
 
 type: `func`
+
 params: (rowData, secId, rowId, rowMap)
 
 
@@ -367,6 +383,7 @@ params: (rowData, secId, rowId, rowMap)
 TranslateX value for opening the row to the right (negative number)
 
 type: `number`
+
 defaultValue: `0`
 
 
@@ -376,6 +393,7 @@ What % of the left/right openValue does the user need to swipe
 past to trigger the row opening.
 
 type: `number`
+
 defaultValue: `50`
 
 
@@ -384,6 +402,7 @@ defaultValue: `50`
 Describes how much the ending velocity of the gesture affects whether the swipe will result in the item being closed or open. A velocity factor of 0 (the default) means that the velocity will have no bearing on whether the swipe settles on a closed or open position and it'll just take into consideration the swipeToOpenPercent. Ideal values for this prop tend to be between 5 and 15.
 
 type: `number`
+
 defaultValue: `0`
 
 
@@ -392,6 +411,7 @@ defaultValue: `0`
 Disable ability to swipe the row left
 
 type: `bool`
+
 defaultValue: `false`
 
 
@@ -400,6 +420,7 @@ defaultValue: `false`
 Disable ability to swipe the row right
 
 type: `bool`
+
 defaultValue: `false`
 
 
@@ -414,6 +435,7 @@ You may want to do this if your rows' sizes can change.
 One case is a SwipeListView with rows of different heights and an options to delete rows.
 
 type: `bool`
+
 defaultValue: `false`
 
 
@@ -422,6 +444,7 @@ defaultValue: `false`
 Called when a swipe row is animating swipe
 
 type: `func`
+
 params: (rowKey)
 
 ### `onRowClose`
@@ -429,6 +452,7 @@ params: (rowKey)
 Called when a swipe row is animating closed
 
 type: `func`
+
 params: (rowKey, rowMap)
 
 
@@ -437,6 +461,7 @@ params: (rowKey, rowMap)
 Called when a swipe row has animated closed
 
 type: `func`
+
 params: (rowKey, rowMap)
 
 
@@ -447,6 +472,7 @@ Called when a swipe row is animating open.
 This has a param of `toValue` which is the new X value the row (after it has opened). This can be used to calculate which direction the row has been swiped open.
 
 type: `func`
+
 params: (rowKey, rowMap)
 
 
@@ -455,6 +481,7 @@ params: (rowKey, rowMap)
 Called when a swipe row has animated open
 
 type: `func`
+
 params: (rowKey, rowMap)
 
 
@@ -471,6 +498,7 @@ Called when the ListView ref is set and passes a ref to the ListView
 e.g. ```listViewRef={ ref => this._swipeListViewRef = ref }```
 
 type: `func`
+
 params: (ref)
 
 
@@ -486,6 +514,7 @@ type: `string`
 Should the first SwipeRow do a slide out preview to show that the list is swipeable
 
 type: `bool`
+
 defaultValue: `false`
 
 
@@ -548,6 +577,7 @@ Props
 Should the row be closed when it is tapped
 
 type: `bool`
+
 defaultValue: `true`
 
 ### `directionalDistanceChangeThreshold`
@@ -555,6 +585,7 @@ defaultValue: `true`
 Change the sensitivity of the row
 
 type: `number`
+
 defaultValue: `2`
 
 ### `friction`
@@ -569,6 +600,7 @@ type: `number`
 TranslateX value for opening the row to the left (positive number)
 
 type: `number`
+
 defaultValue: `0`
 
 ### `stopLeftSwipe`
@@ -589,6 +621,7 @@ type: `number`
 Called when a swipe row is pressed.
 
 type: `func`
+
 params: ()
 
 
@@ -598,6 +631,7 @@ Called when a swipe row is animating open. Used by the SwipeListView
 to keep references to open rows.
 
 type: `func`
+
 params: (toValue)
 
 
@@ -606,6 +640,7 @@ params: (toValue)
 Called when a swipe row is animating closed
 
 type: `func`
+
 params: ()
 
 
@@ -614,6 +649,7 @@ params: ()
 TranslateX value for opening the row to the right (negative number)
 
 type: `number`
+
 defaultValue: `0`
 
 
@@ -623,6 +659,7 @@ What % of the left/right openValue does the user need to swipe
 past to trigger the row opening.
 
 type: `number`
+
 defaultValue: `50`
 
 
@@ -646,6 +683,7 @@ type: `number`
 Disable ability to swipe the row left
 
 type: `bool`
+
 defaultValue: `false`
 
 
@@ -654,6 +692,7 @@ defaultValue: `false`
 Disable ability to swipe the row right
 
 type: `bool`
+
 defaultValue: `false`
 
 
@@ -662,6 +701,7 @@ defaultValue: `false`
 Enable hidden row onLayout calculations to run always
 
 type: `bool`
+
 defaultValue: `false`
 
 
@@ -677,6 +717,7 @@ type: `object`
 Should the row do a slide out preview to show that it is swipeable
 
 type: `bool`
+
 defaultValue: `false`
 
 
@@ -685,6 +726,7 @@ defaultValue: `false`
 Duration of the slide out preview animation
 
 type: `number`
+
 defaultValue: `300`
 
 
