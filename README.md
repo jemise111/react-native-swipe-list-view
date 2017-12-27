@@ -254,7 +254,7 @@ AFTER (Using FlatList):
 ```javascript
 <SwipeListView
     useFlatList={true}
-    data={this.ds.cloneWithRows(this.state.flatListData)}
+    data={this.state.flatListData}
     renderItem={ (rowData, rowMap) => (
         <View>
             <Text>I am {data.item.text} in a SwipeListView</Text>
