@@ -5,7 +5,8 @@
   "author": "Jesse Sessler <jesse.sessler@gmail.com>",
   "description": "A ListView with rows that swipe open and closed.",
   "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh"
+    "start": "node_modules/react-native/packager/packager.sh",
+    "dev": "node bin/dev.js && cd SwipeListExample && npm run start"
   },
   "repository": {
     "type": "git",
