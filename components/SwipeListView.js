@@ -26,7 +26,7 @@ class SwipeListView extends Component {
 	}
 
 	setScrollEnabled(enable) {
-		this._listView.setNativeProps({scrollEnabled: enable});
+		this._listView.getScrollResponder().setNativeProps({scrollEnabled: enable});
 	}
 
 	safeCloseOpenRow() {
