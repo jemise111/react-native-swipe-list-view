@@ -30,8 +30,8 @@ class SwipeListView extends Component {
 	}
 
 	safeCloseOpenRow() {
-		// if the openCellKey is stale due to deleting a row this could be undefined
-		if (this._rows[this.openCellKey]) {
+		// only call closeRow() when the openCellKey points to a SwipeRow
+		if (typeof this._rows[this.openCellKey] === 'function') {
 			this._rows[this.openCellKey].closeRow();
 		}
 	}
@@ -195,7 +195,7 @@ SwipeListView.propTypes = {
 	 * To render a custom ListView component, if you don't want to use ReactNative one.
 	 * Note: This will call `renderRow`, not `renderItem`
 	 */
-	renderListView: PropTypes.func, 
+	renderListView: PropTypes.func,
 	/**
 	 * How to render a row in a FlatList. Should return a valid React Element.
 	 */
