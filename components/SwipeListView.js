@@ -30,8 +30,8 @@ class SwipeListView extends Component {
 	}
 
 	safeCloseOpenRow() {
-		// only call closeRow() when the openCellKey points to a SwipeRow
-		if (typeof this._rows[this.openCellKey] === 'function') {
+		const rowRef = this._rows[this.openCellKey];
+		if (rowRef && rowRef.closeRow) {
 			this._rows[this.openCellKey].closeRow();
 		}
 	}
