@@ -26,7 +26,11 @@ class SwipeListView extends Component {
 	}
 
 	setScrollEnabled(enable) {
-		this._listView.getScrollResponder().setNativeProps({scrollEnabled: enable});
+		// Just in case the _listView ref is lost (inexplicably)
+		// See https://github.com/jemise111/react-native-swipe-list-view/issues/181
+		if (this._listView) {
+			this._listView.getScrollResponder().setNativeProps({scrollEnabled: enable});
+		}
 	}
 
 	safeCloseOpenRow() {
