@@ -556,6 +556,13 @@ Tension for the open / close animation
 type: `number`
 
 
+### `disableHiddenHeightWidth`
+
+Don't auto set the height and width of the container for the hidden component in the `SwipeRow`
+
+type: `bool`
+
+
 `SwipeRow` (component)
 ======================
 
@@ -736,6 +743,15 @@ TranslateX value for the slide out preview animation
 Default: 0.5 * props.rightOpenValue
 
 type: `number`
+
+
+### `disableHiddenHeightWidth`
+
+Don't auto set the height and width of the container for the hidden component
+
+type: `bool`
+
+defaultValue: `false`
 
 
 ### *Note: Core Support*

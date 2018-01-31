@@ -295,10 +295,10 @@ class SwipeRow extends Component {
 			<View style={this.props.style ? this.props.style : styles.container}>
 				<View style={[
 					styles.hidden,
-					{
+					!this.props.disableHiddenHeightWidth && {
 						height: this.state.hiddenHeight,
 						width: this.state.hiddenWidth,
-					}
+					},
 				]}>
 					{this.props.children[0]}
 				</View>
@@ -428,7 +428,11 @@ SwipeRow.propTypes = {
 	 * What % of the left/right openValue does the user need to swipe
 	 * past to trigger the row closing.
 	 */
-	swipeToClosePercent: PropTypes.number
+	swipeToClosePercent: PropTypes.number,
+	/**
+	 * Don't auto set the height and width of the container for the hidden component
+	 */
+	disableHiddenHeightWidth: PropTypes.bool,
 };
 
 SwipeRow.defaultProps = {
@@ -443,7 +447,8 @@ SwipeRow.defaultProps = {
 	directionalDistanceChangeThreshold: 2,
 	swipeToOpenPercent: 50,
 	swipeToOpenVelocityContribution: 0,
-	swipeToClosePercent: 50
+	swipeToClosePercent: 50,
+	disableHiddenHeightWidth: false,
 };
 
 export default SwipeRow;

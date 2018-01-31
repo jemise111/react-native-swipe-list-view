@@ -127,6 +127,7 @@ class SwipeListView extends Component {
 					swipeToOpenPercent={this.props.swipeToOpenPercent}
 					swipeToOpenVelocityContribution={this.props.swipeToOpenVelocityContribution}
 					swipeToClosePercent={this.props.swipeToClosePercent}
+					disableHiddenHeightWidth={this.props.disableHiddenHeightWidth}
 				>
 					{HiddenComponent}
 					{VisibleComponent}
@@ -343,7 +344,11 @@ SwipeListView.propTypes = {
 	 * What % of the left/right openValue does the user need to swipe
 	 * past to trigger the row closing.
 	 */
-	swipeToClosePercent: PropTypes.number
+	swipeToClosePercent: PropTypes.number,
+	/**
+	 * Don't auto set the height and width of the container for the hidden component in the SwipeRow
+	 */
+	disableHiddenHeightWidth: PropTypes.bool,
 }
 
 SwipeListView.defaultProps = {
