@@ -485,6 +485,15 @@ type: `func`
 params: (rowKey, rowMap)
 
 
+### `onScrollEnabled`
+
+Called when scrolling has been enabled/disabled
+
+type: `func`
+
+params: (isEnabled)
+
+
 ### `swipeRowStyle`
 
 Styles for the parent wrapper View of the SwipeRow
