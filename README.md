@@ -257,7 +257,7 @@ AFTER (Using FlatList):
     data={this.state.flatListData}
     renderItem={ (rowData, rowMap) => (
         <View>
-            <Text>I am {data.item.text} in a SwipeListView</Text>
+            <Text>I am {rowData.item.text} in a SwipeListView</Text>
         </View>
     )}
     renderHiddenItem={ (rowData, rowMap) => (
