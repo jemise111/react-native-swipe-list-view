@@ -340,6 +340,25 @@ type: `number`
 
 defaultValue: `0`
 
+
+### `stopLeftSwipe`
+
+TranslateX value for stop the row to the left (positive number)
+
+This number is the stop value corresponding to the `leftOpenValue` (while the row is swiping in the right direction)
+
+type: `number`
+
+
+### `stopRightSwipe`
+
+TranslateX value for stop the row to the right (negative number)
+
+This number is the stop value corresponding to the `rightOpenValue` (while the row is swiping in the left direction)
+
+type: `number`
+
+
 ### `renderHiddenItem`
 
 How to render a hidden row in a FlatList (renders behind the row). Should return a valid React Element.
@@ -616,11 +635,15 @@ defaultValue: `0`
 
 TranslateX value for stop the row to the left (positive number)
 
+This number is the stop value corresponding to the `leftOpenValue` (while the row is swiping in the right direction)
+
 type: `number`
 
 ### `stopRightSwipe`
 
 TranslateX value for stop the row to the right (negative number)
+
+This number is the stop value corresponding to the `rightOpenValue` (while the row is swiping in the left direction)
 
 type: `number`
 
