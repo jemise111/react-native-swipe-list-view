@@ -4,7 +4,7 @@
 
 **💥🔥Breaking Changes in v1.0.0:🔥💥**
 
-`SwipeListView` now supports `FlatList`!
+`SwipeListView` now supports `FlatList` and `SectionList`!
 
 Please see the section [Migrating To FlatList](https://github.com/jemise111/react-native-swipe-list-view#migrating-to-flatlist) for all details.
 
