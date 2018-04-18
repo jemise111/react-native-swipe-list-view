@@ -124,6 +124,7 @@ class SwipeListView extends Component {
 					style={this.props.swipeRowStyle}
 					preview={shouldPreviewRow}
 					previewDuration={this.props.previewDuration}
+					previewOpenDelay={this.props.previewOpenDelay}
 					previewOpenValue={this.props.previewOpenValue}
 					tension={this.props.tension}
 					friction={this.props.friction}
@@ -319,6 +320,10 @@ SwipeListView.propTypes = {
 	 * Duration of the slide out preview animation (milliseconds)
 	 */
 	previewDuration: PropTypes.number,
+	/**
+	 * Delay of the slide out preview animation (milliseconds) // default 700ms
+	 */
+	prewiewOpenDelay: PropTypes.number,
 	/**
 	 * TranslateX value for the slide out preview animation
 	 * Default: 0.5 * props.rightOpenValue

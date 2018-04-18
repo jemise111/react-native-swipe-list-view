@@ -12,7 +12,8 @@ import {
 	View
 } from 'react-native';
 
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import SwipeListView from './SwipeListView';
+import SwipeRow from './SwipeRow';
 
 class App extends Component {
 
@@ -182,6 +183,9 @@ class App extends Component {
 						)}
 						leftOpenValue={75}
 						rightOpenValue={-150}
+						previewRowKey={'0'}
+						previewOpenValue={-40}
+						previewOpenDelay={3000}
 						onRowDidOpen={this.onRowDidOpen}
 					/>
 				}
