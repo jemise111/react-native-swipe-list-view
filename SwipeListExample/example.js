@@ -182,6 +182,9 @@ class App extends Component {
 						)}
 						leftOpenValue={75}
 						rightOpenValue={-150}
+						previewRowKey={'0'}
+						previewOpenValue={-40}
+						previewOpenDelay={3000}
 						onRowDidOpen={this.onRowDidOpen}
 					/>
 				}

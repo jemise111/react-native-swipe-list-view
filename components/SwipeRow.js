@@ -14,7 +14,7 @@ import {
 	View
 } from 'react-native';
 
-const PREVIEW_OPEN_DELAY = 700;
+const DEFAULT_PREVIEW_OPEN_DELAY = 700;
 const PREVIEW_CLOSE_DELAY = 300;
 const MAX_VELOCITY_CONTRIBUTION = 5;
 const SCROLL_LOCK_MILLISECONDS = 300;
@@ -77,7 +77,7 @@ class SwipeRow extends Component {
 		if (this.props.preview && !this.ranPreview) {
 			this.ranPreview = true;
 			let previewOpenValue = this.props.previewOpenValue || this.props.rightOpenValue * 0.5;
-			this.getPreviewAnimation(previewOpenValue, PREVIEW_OPEN_DELAY)
+			this.getPreviewAnimation(previewOpenValue, this.props.previewOpenDelay)
 			.start( _ => {
 				this.getPreviewAnimation(0, PREVIEW_CLOSE_DELAY).start();
 			});
@@ -440,6 +440,7 @@ SwipeRow.defaultProps = {
 	recalculateHiddenLayout: false,
 	preview: false,
 	previewDuration: 300,
+	previewOpenDelay: DEFAULT_PREVIEW_OPEN_DELAY,
 	directionalDistanceChangeThreshold: 2,
 	swipeToOpenPercent: 50,
 	swipeToOpenVelocityContribution: 0,

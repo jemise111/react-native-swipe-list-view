@@ -274,7 +274,7 @@ AFTER (Using FlatList):
             rowMap[rowKey].closeRow()
         }, 2000)
     }}
-    previewRowKey={this.state.flatListData[0].key} 
+    previewRowKey={this.state.flatListData[0].key}
 />
 ```
 
@@ -566,6 +566,13 @@ type: `number`
 
 TranslateX value for the slide out preview animation
 Default: 0.5 * props.rightOpenValue
+
+type: `number`
+
+
+### `previewOpenDelay`
+
+Add some delay before opening the preview row. Can be Usefull when you have enter animation.
 
 type: `number`
 
