@@ -261,6 +261,7 @@ class SwipeRow extends Component {
 		if (this.state.dimensionsSet) {
 			return (
 				<Animated.View
+					manipulationModes={['translateX']}
 					{...this._panResponder.panHandlers}
 					style={{
 						zIndex: 2,
@@ -275,6 +276,7 @@ class SwipeRow extends Component {
 		} else {
 			return (
 				<Animated.View
+					manipulationModes={['translateX']}
 					{...this._panResponder.panHandlers}
 					onLayout={ (e) => this.onContentLayout(e) }
 					style={{
