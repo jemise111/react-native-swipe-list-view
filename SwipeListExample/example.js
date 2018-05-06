@@ -22,6 +22,12 @@ class App extends Component {
 		this.state = {
 			listType: 'FlatList',
 			listViewData: Array(20).fill('').map((_,i) => ({key: `${i}`, text: `item #${i}`})),
+			sectionData: Array(5).fill('').map((_, i) => {
+				return {
+					title: `title${i + 1}`,
+					data: [...Array(5).fill('').map((_, j) => ({key: `${i}${j}`, text: `item #${i}`}))]
+				};
+    		})
 		};
 	}
 
@@ -190,11 +196,40 @@ class App extends Component {
 				}
 
 				{
-					this.state.listType === 'SectionList' &&
+                    this.state.listType === 'SectionList' &&
 
-					<Text>Coming soon...</Text>
+                    <SwipeListView
+						useSectionList={true}
+						sections={this.state.sectionData}
+						renderSectionHeader={({section}) => <Text>{section.title}</Text>}
+						renderItem={(data, rowMap) => (
+							<TouchableHighlight
+								onPress={_ => console.log('You touched me')}
+								style={styles.rowFront}
+								underlayColor={'#AAA'} >
+								<View>
+									<Text>I am {data.item.text} in a SwipeListView</Text>
+								</View>
+                			</TouchableHighlight>
+                		)}
+                    	renderHiddenItem={(data, rowMap) => (
+                			<View style={styles.rowBack}>
+                				<Text>Left</Text>
+								<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]}
+									onPress={_ => this.closeRow(rowMap, data.item.key)}>
+									<Text style={styles.backTextWhite}>Close</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]}
+									onPress={_ => this.deleteRow(rowMap, data.item.key)}>
+									<Text style={styles.backTextWhite}>Delete</Text>
+								</TouchableOpacity>
+							</View>
+						)}
+						leftOpenValue={75}
+						rightOpenValue={-150}
+						onRowDidOpen={this.onRowDidOpen}
+                    />
 				}
-
 			</View>
 		);
 	}

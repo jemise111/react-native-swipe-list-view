@@ -6,6 +6,7 @@ import React, {
 import PropTypes from 'prop-types';
 import {
 	FlatList,
+    SectionList,
 	ListView,
 	Text,
 	ViewPropTypes,
@@ -186,6 +187,17 @@ class SwipeListView extends Component {
 				/>
 			);
 		}
+
+        if (useSectionList) {
+            return (
+                <SectionList
+					{...props}
+					ref={ c => this.setRefs(c) }
+					onScroll={ e => this.onScroll(e) }
+					renderItem={(rowData) => this.renderItem(rowData, this._rows)}
+            	/>
+			);
+        }
 
 		return (
 			<ListView
