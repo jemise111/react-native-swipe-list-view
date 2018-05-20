@@ -22,6 +22,7 @@ class App extends Component {
 		this.state = {
 			listType: 'FlatList',
 			listViewData: Array(20).fill('').map((_,i) => ({key: `${i}`, text: `item #${i}`})),
+			sectionListData: Array(5).fill('').map((_,i) => ({title: `title${i + 1}`, data: [...Array(5).fill('').map((_, j) => ({key: `${i}.${j}`, text: `item #${j}`}))]})),
 		};
 	}
 
@@ -37,6 +38,15 @@ class App extends Component {
 		const prevIndex = this.state.listViewData.findIndex(item => item.key === rowKey);
 		newData.splice(prevIndex, 1);
 		this.setState({listViewData: newData});
+	}
+
+	deleteSectionRow(rowMap, rowKey) {
+		this.closeRow(rowMap, rowKey);
+		var [section, row] = rowKey.split('.');
+		const newData = [...this.state.sectionListData];
+		const prevIndex = this.state.sectionListData[section].data.findIndex(item => item.key === rowKey);
+		newData[section].data.splice(prevIndex, 1);
+		this.setState({sectionListData: newData});
 	}
 
 	onRowDidOpen = (rowKey, rowMap) => {
@@ -192,7 +202,39 @@ class App extends Component {
 				{
 					this.state.listType === 'SectionList' &&
 
-					<Text>Coming soon...</Text>
+					<SwipeListView
+						useSectionList
+						sections={this.state.sectionListData}
+						renderItem={ (data, rowMap) => (
+							<TouchableHighlight
+								onPress={ _ => console.log('You touched me') }
+								style={styles.rowFront}
+								underlayColor={'#AAA'}
+							>
+								<View>
+									<Text>I am {data.item.text} in a SwipeListView</Text>
+								</View>
+							</TouchableHighlight>
+						)}
+						renderHiddenItem={ (data, rowMap) => (
+							<View style={styles.rowBack}>
+								<Text>Left</Text>
+								<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={ _ => this.closeRow(rowMap, data.item.key) }>
+									<Text style={styles.backTextWhite}>Close</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteSectionRow(rowMap, data.item.key) }>
+									<Text style={styles.backTextWhite}>Delete</Text>
+								</TouchableOpacity>
+							</View>
+						)}
+						renderSectionHeader={({section}) => <Text>{section.title}</Text>}
+						leftOpenValue={75}
+						rightOpenValue={-150}
+						previewRowKey={'0'}
+						previewOpenValue={-40}
+						previewOpenDelay={3000}
+						onRowDidOpen={this.onRowDidOpen}
+					/>
 				}
 
 			</View>
