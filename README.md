@@ -4,9 +4,11 @@
 
 **💥🔥Breaking Changes in v1.0.0:🔥💥**
 
-`SwipeListView` now supports `FlatList`!
+`SwipeListView` now supports `FlatList`! (and `SectionList`)
 
 Please see the section [Migrating To FlatList](https://github.com/jemise111/react-native-swipe-list-view#migrating-to-flatlist) for all details.
+
+Migrating to `SectionList` is very similar. Please see `example.js` for a full usage example.
 
 You can continue to use the (deprecated) `ListView` component, however there are some BREAKING CHANGES that are explained in that section as well
 
@@ -296,6 +298,16 @@ Render list using React Native's `FlatList`
 type: `bool`
 
 defaultValue: `false`
+
+
+### `useSectionList`
+
+Render list using React Native's `SectionList`
+
+type: `bool`
+
+defaultValue: `false`
+
 
 ### `closeOnRowPress`
 
