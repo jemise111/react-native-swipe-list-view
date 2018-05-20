@@ -225,6 +225,7 @@ class SwipeListView extends Component {
 			return (
 				<SectionList
 					{...props}
+					{...this.listViewProps}
 					ref={ c => this.setRefs(c) }
 					onScroll={ e => this.onScroll(e) }
 					renderItem={(rowData) => this.renderItem(rowData, this._rows)}
