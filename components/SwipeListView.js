@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 import React, {
 	Component,
@@ -6,12 +6,11 @@ import React, {
 import PropTypes from 'prop-types';
 import {
 	FlatList,
-	SectionList,
 	ListView,
-	Platform,
 	Text,
 	ViewPropTypes,
 	View,
+	SectionList 
 } from 'react-native';
 
 import SwipeRow from './SwipeRow';
@@ -25,17 +24,6 @@ class SwipeListView extends Component {
 		super(props);
 		this._rows = {};
 		this.openCellKey = null;
-		this.listViewProps = {};
-		if (Platform.OS === 'ios') {
-			// Keep track of scroll offset and layout changes on iOS to be able to handle
-			// https://github.com/jemise111/react-native-swipe-list-view/issues/109
-			this.yScrollOffset = 0;
-			this.layoutHeight = 0;
-			this.listViewProps = {
-				onLayout: e => this.onLayout(e),
-				onContentSizeChange: (w, h) => this.onContentSizeChange(w, h)
-			}
-		}
 	}
 
 	setScrollEnabled(enable) {
@@ -85,9 +73,6 @@ class SwipeListView extends Component {
 	}
 
 	onScroll(e) {
-		if (Platform.OS === 'ios') {
-			this.yScrollOffset = e.nativeEvent.contentOffset.y;
-		}
 		if (this.openCellKey) {
 			if (this.props.closeOnScroll) {
 				this.safeCloseOpenRow();
@@ -95,23 +80,6 @@ class SwipeListView extends Component {
 			}
 		}
 		this.props.onScroll && this.props.onScroll(e);
-	}
-
-	onLayout(e) {
-		this.layoutHeight = e.nativeEvent.layout.height
-		this.props.onLayout && this.props.onLayout(e);
-	}
-
-	// When deleting rows on iOS, the list may end up being over-scrolled,
-	// which will prevent swiping any of the remaining rows. This triggers a scrollToEnd
-	// when that happens, which will make sure the list is kept in bounds.
-	// See: https://github.com/jemise111/react-native-swipe-list-view/issues/109
-	onContentSizeChange(w, h) {
-		const height = h - this.layoutHeight;
-		if (this.yScrollOffset >= height && height > 0) {
-			this._listView && this._listView.getScrollResponder().scrollToEnd();
-		}
-		this.props.onContentSizeChange && this.props.onContentSizeChange(w, h);
 	}
 
 	setRefs(ref) {
@@ -157,7 +125,6 @@ class SwipeListView extends Component {
 					style={this.props.swipeRowStyle}
 					preview={shouldPreviewRow}
 					previewDuration={this.props.previewDuration}
-					previewOpenDelay={this.props.previewOpenDelay}
 					previewOpenValue={this.props.previewOpenValue}
 					tension={this.props.tension}
 					friction={this.props.friction}
@@ -198,22 +165,22 @@ class SwipeListView extends Component {
 	}
 
 	render() {
-		const { useFlatList, useSectionList, renderListView, ...props } = this.props;
+		const { useSectionList, useFlatList, renderListView, ...props } = this.props;
 
 		if (renderListView) {
 			return renderListView(
 				props,
 				this.setRefs.bind(this),
 				this.onScroll.bind(this),
-				(useFlatList || useSectionList) ? this.renderItem.bind(this) : this.renderRow.bind(this, this._rows),
+				useFlatList ? this.renderItem.bind(this) : this.renderRow.bind(this, this._rows),
+				useSectionList ? this.renderItem.bind(this) : this.renderRow.bind(this, this._rows),		    
 			);
 		}
-
-		if (useFlatList) {
+	   
+		if (useSectionList) {
 			return (
-				<FlatList
+				<SectionList
 					{...props}
-					{...this.listViewProps}
 					ref={ c => this.setRefs(c) }
 					onScroll={ e => this.onScroll(e) }
 					renderItem={(rowData) => this.renderItem(rowData, this._rows)}
@@ -221,11 +188,11 @@ class SwipeListView extends Component {
 			);
 		}
 
-		if (useSectionList) {
+
+		if (useFlatList) {
 			return (
-				<SectionList
+				<FlatList
 					{...props}
-					{...this.listViewProps}
 					ref={ c => this.setRefs(c) }
 					onScroll={ e => this.onScroll(e) }
 					renderItem={(rowData) => this.renderItem(rowData, this._rows)}
@@ -236,7 +203,6 @@ class SwipeListView extends Component {
 		return (
 			<ListView
 				{...props}
-				{...this.listViewProps}
 				ref={ c => this.setRefs(c) }
 				onScroll={ e => this.onScroll(e) }
 				renderRow={(rowData, secId, rowId) => this.renderRow(rowData, secId, rowId, this._rows)}
@@ -311,7 +277,7 @@ SwipeListView.propTypes = {
 	 *
 	 * By default, hidden row size calculations are only done on the first onLayout event
 	 * for performance reasons.
-	 * Passing ```true``` here will cause calculations to run on every onLayout event.
+	 * Passing true here will cause calculations to run on every onLayout event.
 	 * You may want to do this if your rows' sizes can change.
 	 * One case is a SwipeListView with rows of different heights and an options to delete rows.
 	 */
@@ -368,12 +334,8 @@ SwipeListView.propTypes = {
 	 */
 	previewDuration: PropTypes.number,
 	/**
-	 * Delay of the slide out preview animation (milliseconds) // default 700ms
-	 */
-	prewiewOpenDelay: PropTypes.number,
-	/**
 	 * TranslateX value for the slide out preview animation
-	 * Default: 0.5 * props.rightOpenValue
+	  Default: 0.5  props.rightOpenValue
 	 */
 	previewOpenValue: PropTypes.number,
 	/**
