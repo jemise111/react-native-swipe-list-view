@@ -211,7 +211,7 @@ class SwipeRow extends Component {
 			if (toValue === 0) {
 				this.props.onRowDidClose && this.props.onRowDidClose();
 			} else {
-				this.props.onRowDidOpen && this.props.onRowDidOpen();
+				this.props.onRowDidOpen && this.props.onRowDidOpen(toValue);
 			}
 		});
 
