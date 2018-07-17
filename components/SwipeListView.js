@@ -39,6 +39,9 @@ class SwipeListView extends Component {
 	}
 
 	setScrollEnabled(enable) {
+		if (this.props.scrollEnabled === false) {
+			return;
+		}
 		// Due to multiple issues reported across different versions of RN
 		// We do this in the safest way possible...
 		if (this._listView && this._listView.setNativeProps) {
