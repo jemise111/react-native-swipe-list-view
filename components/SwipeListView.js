@@ -67,12 +67,12 @@ class SwipeListView extends Component {
 		}
 	}
 
-	onRowOpen(key) {
+	onRowOpen(key, toValue) {
 		if (this.openCellKey && this.openCellKey !== key) {
 			this.safeCloseOpenRow();
 		}
 		this.openCellKey = key;
-		this.props.onRowOpen && this.props.onRowOpen(key, this._rows);
+		this.props.onRowOpen && this.props.onRowOpen(key, this._rows, toValue);
 	}
 
 	onRowPress() {
@@ -126,8 +126,8 @@ class SwipeListView extends Component {
 				{
 					...VisibleComponent.props,
 					ref: row => this._rows[key] = row,
-					onRowOpen: _ => this.onRowOpen(key),
-					onRowDidOpen: _ => this.props.onRowDidOpen && this.props.onRowDidOpen(key, this._rows),
+					onRowOpen: toValue => this.onRowOpen(key, toValue),
+					onRowDidOpen: toValue => this.props.onRowDidOpen && this.props.onRowDidOpen(key, this._rows, toValue),
 					onRowClose: _ => this.props.onRowClose && this.props.onRowClose(key, this._rows),
 					onRowDidClose: _ => this.props.onRowDidClose && this.props.onRowDidClose(key, this._rows),
 					onRowPress: _ => this.onRowPress(),
@@ -140,8 +140,8 @@ class SwipeListView extends Component {
 				<SwipeRow
 					ref={row => this._rows[key] = row}
 					swipeGestureBegan={ _ => this.rowSwipeGestureBegan(key) }
-					onRowOpen={ _ => this.onRowOpen(key) }
-					onRowDidOpen={ _ => this.props.onRowDidOpen && this.props.onRowDidOpen(key, this._rows)}
+					onRowOpen={ toValue => this.onRowOpen(key, toValue) }
+					onRowDidOpen={ toValue => this.props.onRowDidOpen && this.props.onRowDidOpen(key, this._rows, toValue)}
 					onRowClose={ _ => this.props.onRowClose && this.props.onRowClose(key, this._rows) }
 					onRowDidClose={ _ => this.props.onRowDidClose && this.props.onRowDidClose(key, this._rows) }
 					onRowPress={ _ => this.onRowPress(key) }
