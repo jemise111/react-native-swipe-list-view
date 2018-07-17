@@ -209,7 +209,7 @@ onRowOpen(secId, rowId, rowMap) {
 would now look like:
 
 ```javascript
-onRowOpen(rowKey, rowMap) {
+onRowOpen(rowKey, rowMap, toValue) {
     // Grab reference to this row
     const rowRef = rowMap[rowKey];
 
@@ -504,7 +504,7 @@ This has a param of `toValue` which is the new X value the row (after it has ope
 
 type: `func`
 
-params: (rowKey, rowMap)
+params: (rowKey, rowMap, toValue)
 
 
 ### `onRowDidOpen`
@@ -513,7 +513,7 @@ Called when a swipe row has animated open
 
 type: `func`
 
-params: (rowKey, rowMap)
+params: (rowKey, rowMap, toValue)
 
 
 ### `onScrollEnabled`
