@@ -591,16 +591,22 @@ type: `number`
 
 ### `friction`
 
-Friction for the open / close animation
+Friction for the open / close animation.  
+Controls "bounciness"/overshoot.  
 
-type: `number`
+type: `number`  
+defaultValue: `7`  
 
 
 ### `tension`
 
-Tension for the open / close animation
+Tension for the open / close animation.  
+Controls speed.  
 
-type: `number`
+type: `number`  
+defaultValue: `40`  
+
+[More on `friction` and `tension`](https://facebook.github.io/react-native/docs/animated#spring)
 
 
 `SwipeRow` (component)
@@ -637,9 +643,11 @@ defaultValue: `2`
 
 ### `friction`
 
-Friction for the open / close animation
+Friction for the open / close animation.  
+Controls "bounciness"/overshoot.  
 
-type: `number`
+type: `number`  
+[defaultValue: `7`](https://facebook.github.io/react-native/docs/animated#spring)
 
 
 ### `leftOpenValue`
