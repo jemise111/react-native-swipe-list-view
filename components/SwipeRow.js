@@ -60,6 +60,16 @@ class SwipeRow extends Component {
 		clearTimeout(this._ensureScrollEnabledTimer)
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		if (this.state.hiddenHeight !== nextState.hiddenHeight ||
+			this.state.hiddenWidth !== nextState.hiddenWidth ||
+			(this.props.shouldItemUpdate && this.props.shouldItemUpdate(this.props.item, nextProps.item))) {
+			return true
+		}
+
+		return false;
+	}
+
 	getPreviewAnimation(toValue, delay) {
 		return Animated.timing(
 			this._translateX,
@@ -430,7 +440,11 @@ SwipeRow.propTypes = {
 	 * What % of the left/right openValue does the user need to swipe
 	 * past to trigger the row closing.
 	 */
-	swipeToClosePercent: PropTypes.number
+	swipeToClosePercent: PropTypes.number,
+	/**
+	 * callback to determine whether component should update (currentItem, newItem)
+	 */
+	shouldItemUpdate: PropTypes.func,
 };
 
 SwipeRow.defaultProps = {
@@ -446,7 +460,8 @@ SwipeRow.defaultProps = {
 	directionalDistanceChangeThreshold: 2,
 	swipeToOpenPercent: 50,
 	swipeToOpenVelocityContribution: 0,
-	swipeToClosePercent: 50
+	swipeToClosePercent: 50,
+	item: {}
 };
 
 export default SwipeRow;
