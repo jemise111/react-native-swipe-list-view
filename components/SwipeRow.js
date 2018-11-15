@@ -70,8 +70,6 @@ class SwipeRow extends Component {
 	onContentLayout(e) {
 		this.setState({
 			dimensionsSet: !this.props.recalculateHiddenLayout,
-			hiddenHeight: e.nativeEvent.layout.height,
-			hiddenWidth: e.nativeEvent.layout.width,
 		});
 
 		if (this.props.preview && !this.ranPreview) {
@@ -295,13 +293,7 @@ class SwipeRow extends Component {
 	render() {
 		return (
 			<View style={this.props.style ? this.props.style : styles.container}>
-				<View style={[
-					styles.hidden,
-					{
-						height: this.state.hiddenHeight,
-						width: this.state.hiddenWidth,
-					}
-				]}>
+				<View style={styles.hidden}>
 					{this.props.children[0]}
 				</View>
 				{this.renderRowContent()}
@@ -317,6 +309,7 @@ const styles = StyleSheet.create({
 		// flex: 1
 	},
 	hidden: {
+		flex: 1,
 		zIndex: 1,
 		bottom: 0,
 		left: 0,
