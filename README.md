@@ -335,6 +335,15 @@ type: `bool`
 
 defaultValue: `false`
 
+
+### `closeOnRowOpen`
+
+Should open rows be closed when another row is opened
+
+type: `bool`
+
+defaultValue: `true`
+
 ### `directionalDistanceChangeThreshold`
 
 Change the sensitivity of the row

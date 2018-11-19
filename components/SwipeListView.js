@@ -71,7 +71,12 @@ class SwipeListView extends Component {
 	}
 
 	onRowOpen(key, toValue) {
-		if (this.openCellKey && this.openCellKey !== key) {
+		if (
+			this.openCellKey &&
+			this.openCellKey !== key &&
+			this.props.closeOnRowOpen &&
+			!this.props.closeOnRowBeginSwipe
+		) {
 			this.safeCloseOpenRow();
 		}
 		this.openCellKey = key;
@@ -309,6 +314,10 @@ SwipeListView.propTypes = {
 	 */
 	closeOnRowBeginSwipe: PropTypes.bool,
 	/**
+	 * Should open rows be closed when another row is opened
+	 */
+	closeOnRowOpen: PropTypes.bool,
+	/**
 	 * Disable ability to swipe rows left
 	 */
 	disableLeftSwipe: PropTypes.bool,
@@ -426,6 +435,7 @@ SwipeListView.defaultProps = {
 	closeOnRowBeginSwipe: false,
 	closeOnScroll: true,
 	closeOnRowPress: true,
+	closeOnRowOpen: true,
 	disableLeftSwipe: false,
 	disableRightSwipe: false,
 	recalculateHiddenLayout: false,
