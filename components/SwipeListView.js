@@ -112,7 +112,12 @@ class SwipeListView extends Component {
 	onContentSizeChange(w, h) {
 		const height = h - this.layoutHeight;
 		if (this.yScrollOffset >= height && height > 0) {
-			this._listView && this._listView.getScrollResponder().scrollToEnd();
+			if (this._listView instanceof ListView){
+				this._listView && this._listView.getScrollResponder().scrollToEnd();
+			}
+			if  (this._listView instanceof FlatList){
+				this._listView && this._listView.scrollToEnd();
+			}
 		}
 		this.props.onContentSizeChange && this.props.onContentSizeChange(w, h);
 	}
