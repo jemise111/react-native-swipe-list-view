@@ -437,6 +437,16 @@ type: `number`
 defaultValue: `0`
 
 
+### `swipeToClosePercent`
+
+What % of the left/right openValue does the user need to swipe
+past to trigger the row closing.
+
+type: `number`
+
+defaultValue: `50`
+
+
 ### `disableLeftSwipe`
 
 Disable ability to swipe the row left
@@ -716,6 +726,16 @@ defaultValue: `0`
 
 What % of the left/right openValue does the user need to swipe
 past to trigger the row opening.
+
+type: `number`
+
+defaultValue: `50`
+
+
+### `swipeToClosePercent`
+
+What % of the left/right openValue does the user need to swipe
+past to trigger the row closing.
 
 type: `number`
 
