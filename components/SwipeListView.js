@@ -71,7 +71,12 @@ class SwipeListView extends Component {
 	}
 
 	onRowOpen(key, toValue) {
-		if (this.openCellKey && this.openCellKey !== key) {
+		if (
+			this.openCellKey &&
+			this.openCellKey !== key &&
+			this.props.closeOnRowOpen &&
+			!this.props.closeOnRowBeginSwipe
+		) {
 			this.safeCloseOpenRow();
 		}
 		this.openCellKey = key;
@@ -112,7 +117,12 @@ class SwipeListView extends Component {
 	onContentSizeChange(w, h) {
 		const height = h - this.layoutHeight;
 		if (this.yScrollOffset >= height && height > 0) {
-			this._listView && this._listView.getScrollResponder().scrollToEnd();
+			if (this._listView instanceof ListView){
+				this._listView && this._listView.getScrollResponder().scrollToEnd();
+			}
+			if  (this._listView instanceof FlatList){
+				this._listView && this._listView.scrollToEnd();
+			}
 		}
 		this.props.onContentSizeChange && this.props.onContentSizeChange(w, h);
 	}
@@ -148,6 +158,7 @@ class SwipeListView extends Component {
 					onRowClose={ _ => this.props.onRowClose && this.props.onRowClose(key, this._rows) }
 					onRowDidClose={ _ => this.props.onRowDidClose && this.props.onRowDidClose(key, this._rows) }
 					onRowPress={ _ => this.onRowPress(key) }
+					shouldItemUpdate={ this.props.shouldItemUpdate ? (currentItem, newItem) => this.props.shouldItemUpdate(currentItem, newItem) : null }
 					setScrollEnabled={ (enable) => this.setScrollEnabled(enable) }
 					leftOpenValue={item.leftOpenValue || this.props.leftOpenValue}
 					rightOpenValue={item.rightOpenValue || this.props.rightOpenValue}
@@ -168,6 +179,7 @@ class SwipeListView extends Component {
 					swipeToOpenPercent={this.props.swipeToOpenPercent}
 					swipeToOpenVelocityContribution={this.props.swipeToOpenVelocityContribution}
 					swipeToClosePercent={this.props.swipeToClosePercent}
+					item={item} // used for should item update comparisons
 				>
 					{HiddenComponent}
 					{VisibleComponent}
@@ -302,6 +314,10 @@ SwipeListView.propTypes = {
 	 */
 	closeOnRowBeginSwipe: PropTypes.bool,
 	/**
+	 * Should open rows be closed when another row is opened
+	 */
+	closeOnRowOpen: PropTypes.bool,
+	/**
 	 * Disable ability to swipe rows left
 	 */
 	disableLeftSwipe: PropTypes.bool,
@@ -406,7 +422,11 @@ SwipeListView.propTypes = {
 	 * What % of the left/right openValue does the user need to swipe
 	 * past to trigger the row closing.
 	 */
-	swipeToClosePercent: PropTypes.number
+	swipeToClosePercent: PropTypes.number,
+	/**
+	 * callback to determine whether component should update (currentItem, newItem)
+	 */
+	shouldItemUpdate: PropTypes.func,
 }
 
 SwipeListView.defaultProps = {
@@ -415,6 +435,7 @@ SwipeListView.defaultProps = {
 	closeOnRowBeginSwipe: false,
 	closeOnScroll: true,
 	closeOnRowPress: true,
+	closeOnRowOpen: true,
 	disableLeftSwipe: false,
 	disableRightSwipe: false,
 	recalculateHiddenLayout: false,
