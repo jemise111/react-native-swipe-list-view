@@ -44,6 +44,11 @@ class SwipeRow extends Component {
 			hiddenWidth: 0
 		};
 		this._translateX = new Animated.Value(0);
+		if (this.props.onSwipeValueChange) {
+			this._translateX.addListener(({ value }) => {
+				this.props.onSwipeValueChange && this.props.onSwipeValueChange(value);
+			});
+		}
 	}
 
 	componentWillMount() {
@@ -58,6 +63,7 @@ class SwipeRow extends Component {
 
 	componentWillUnmount() {
 		clearTimeout(this._ensureScrollEnabledTimer)
+		this._translateX.removeAllListeners();
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -148,7 +154,6 @@ class SwipeRow extends Component {
 			if (this.props.stopRightSwipe && newDX < this.props.stopRightSwipe) { newDX = this.props.stopRightSwipe; }
 
 			this._translateX.setValue(newDX);
-
 		}
 	}
 
@@ -445,6 +450,10 @@ SwipeRow.propTypes = {
 	 * callback to determine whether component should update (currentItem, newItem)
 	 */
 	shouldItemUpdate: PropTypes.func,
+	/**
+	 * Callback invoked any time the swipe value of the row is changed
+	 */
+	onSwipeValueChange: PropTypes.func,
 };
 
 SwipeRow.defaultProps = {

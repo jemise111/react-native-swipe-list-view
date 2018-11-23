@@ -151,6 +151,7 @@ class SwipeListView extends Component {
 		} else {
 			return (
 				<SwipeRow
+					onSwipeValueChange={ this.props.onSwipeValueChange ? val => this.props.onSwipeValueChange(key, val) : null }
 					ref={row => this._rows[key] = row}
 					swipeGestureBegan={ _ => this.rowSwipeGestureBegan(key) }
 					onRowOpen={ toValue => this.onRowOpen(key, toValue) }
@@ -425,6 +426,10 @@ SwipeListView.propTypes = {
 	swipeToClosePercent: PropTypes.number,
 	/**
 	 * callback to determine whether component should update (currentItem, newItem)
+	 */
+	shouldItemUpdate: PropTypes.func,
+	/**
+	 * Callback invoked any time the swipe value of a SwipeRow is changed
 	 */
 	shouldItemUpdate: PropTypes.func,
 }
