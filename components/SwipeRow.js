@@ -63,6 +63,7 @@ class SwipeRow extends Component {
 	shouldComponentUpdate(nextProps, nextState) {
 		if (this.state.hiddenHeight !== nextState.hiddenHeight ||
 			this.state.hiddenWidth !== nextState.hiddenWidth ||
+			!this.props.shouldComponentUpdate ||
 			(this.props.shouldItemUpdate && this.props.shouldItemUpdate(this.props.item, nextProps.item))) {
 			return true
 		}
