@@ -190,7 +190,7 @@ const dataSource = [
 
 # UI based on swipe values (the gmail effect)
 
-![](http://i.imgur.com/6fTrdZa.gif)
+![](https://i.imgur.com/CLLoHhy.gif)
 
 ```javascript
 class App extends Component {
