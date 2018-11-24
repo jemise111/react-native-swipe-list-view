@@ -151,7 +151,7 @@ class SwipeListView extends Component {
 		} else {
 			return (
 				<SwipeRow
-					onSwipeValueChange={ this.props.onSwipeValueChange ? val => this.props.onSwipeValueChange(key, val) : null }
+					onSwipeValueChange={ this.props.onSwipeValueChange ? data => this.props.onSwipeValueChange({ ...data, key }) : null }
 					ref={row => this._rows[key] = row}
 					swipeGestureBegan={ _ => this.rowSwipeGestureBegan(key) }
 					onRowOpen={ toValue => this.onRowOpen(key, toValue) }

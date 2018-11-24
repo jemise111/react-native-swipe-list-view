@@ -2,8 +2,10 @@ import React, {
 	Component,
 } from 'react';
 import {
+	Animated,
 	AppRegistry,
 	Dimensions,
+	Image,
 	ListView,
 	StyleSheet,
 	Text,
@@ -24,6 +26,11 @@ class App extends Component {
 			listViewData: Array(20).fill('').map((_,i) => ({key: `${i}`, text: `item #${i}`})),
 			sectionListData: Array(5).fill('').map((_,i) => ({title: `title${i + 1}`, data: [...Array(5).fill('').map((_, j) => ({key: `${i}.${j}`, text: `item #${j}`}))]})),
 		};
+
+		this.rowSwipeAnimatedValues = {};
+		Array(20).fill('').forEach((_, i) => {
+			this.rowSwipeAnimatedValues[`${i}`] = new Animated.Value(0);
+		});
 	}
 
 	closeRow(rowMap, rowKey) {
@@ -51,9 +58,11 @@ class App extends Component {
 
 	onRowDidOpen = (rowKey, rowMap) => {
 		console.log('This row opened', rowKey);
-		setTimeout(() => {
-			this.closeRow(rowMap, rowKey);
-		}, 2000);
+	}
+
+	onSwipeValueChange = (swipeData) => {
+		const { key, value } = swipeData;
+		this.rowSwipeAnimatedValues[key].setValue(Math.abs(value));
 	}
 
 	render() {
@@ -186,7 +195,25 @@ class App extends Component {
 									<Text style={styles.backTextWhite}>Close</Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={ _ => this.deleteRow(rowMap, data.item.key) }>
-									<Text style={styles.backTextWhite}>Delete</Text>
+									<Animated.View
+										style={[
+											styles.trash,
+											{
+
+												transform: [
+													{
+														scale: this.rowSwipeAnimatedValues[data.item.key].interpolate({
+															inputRange: [45, 90],
+															outputRange: [0, 1],
+															extrapolate: 'clamp',
+														}),
+													}
+												],
+											}
+										]}
+									>
+										<Image source={require('./images/trash.png')} style={styles.trash} />
+									</Animated.View>
 								</TouchableOpacity>
 							</View>
 						)}
@@ -196,6 +223,7 @@ class App extends Component {
 						previewOpenValue={-40}
 						previewOpenDelay={3000}
 						onRowDidOpen={this.onRowDidOpen}
+						onSwipeValueChange={this.onSwipeValueChange}
 					/>
 				}
 
@@ -315,6 +343,10 @@ const styles = StyleSheet.create({
 		borderColor: 'black',
 		paddingVertical: 10,
 		width: Dimensions.get('window').width / 4,
+	},
+	trash: {
+		height: 25,
+		width: 25,
 	}
 });
 

@@ -33,11 +33,14 @@ class SwipeRow extends Component {
 
 	constructor(props) {
 		super(props);
+		this.isOpen = false;
+		this.previousTrackedTranslateX = 0;
+		this.previousTrackedDirection = null;
 		this.horizontalSwipeGestureBegan = false;
 		this.swipeInitialX = null;
 		this.parentScrollEnabled = true;
 		this.ranPreview = false;
-		this._ensureScrollEnabledTimer = null;
+		this._ensureScrollEnabledTimer = null
 		this.state = {
 			dimensionsSet: false,
 			hiddenHeight: 0,
@@ -46,7 +49,17 @@ class SwipeRow extends Component {
 		this._translateX = new Animated.Value(0);
 		if (this.props.onSwipeValueChange) {
 			this._translateX.addListener(({ value }) => {
-				this.props.onSwipeValueChange && this.props.onSwipeValueChange(value);
+				let direction = this.previousTrackedDirection;
+				if (value !== this.previousTrackedTranslateX) {
+					direction = value > this.previousTrackedTranslateX ? 'right' : 'left';
+				}
+				this.props.onSwipeValueChange && this.props.onSwipeValueChange({
+					isOpen: this.isOpen,
+					direction,
+					value,
+				});
+				this.previousTrackedTranslateX = value;
+				this.previousTrackedDirection = direction;
 			});
 		}
 	}
@@ -225,8 +238,10 @@ class SwipeRow extends Component {
 		).start( _ => {
 			this.ensureScrollEnabled()
 			if (toValue === 0) {
+				this.isOpen = false;
 				this.props.onRowDidClose && this.props.onRowDidClose();
 			} else {
+				this.isOpen = true;
 				this.props.onRowDidOpen && this.props.onRowDidOpen(toValue);
 			}
 		});
