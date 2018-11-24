@@ -431,7 +431,7 @@ SwipeListView.propTypes = {
 	/**
 	 * Callback invoked any time the swipe value of a SwipeRow is changed
 	 */
-	shouldItemUpdate: PropTypes.func,
+	onSwipeValueChange: PropTypes.func,
 }
 
 SwipeListView.defaultProps = {
