@@ -221,7 +221,7 @@ class SwipeListView extends Component {
 				props,
 				this.setRefs.bind(this),
 				this.onScroll.bind(this),
-				(useFlatList || useSectionList) ? this.renderItem.bind(this) : this.renderRow.bind(this, this._rows),
+				(useFlatList || useSectionList) ? this.renderItem.bind(this) : this.renderRow.bind(this),
 			);
 		}
 
