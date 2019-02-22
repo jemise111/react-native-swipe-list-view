@@ -209,7 +209,7 @@ class SwipeListView extends Component {
 			key = this.props.keyExtractor(item, index);
 		}
 
-		const shouldPreviewRow = this.props.previewRowKey === key;
+		const shouldPreviewRow = typeof key !== 'undefined' && this.props.previewRowKey === key;
 
 		return this.renderCell(Component, HiddenComponent, key, item, shouldPreviewRow);
 	}
