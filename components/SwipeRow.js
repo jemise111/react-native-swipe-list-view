@@ -43,8 +43,8 @@ class SwipeRow extends Component {
 		this._ensureScrollEnabledTimer = null
 		this.state = {
 			dimensionsSet: false,
-			hiddenHeight: 0,
-			hiddenWidth: 0
+			hiddenHeight: this.props.disableHiddenLayoutCalculation ? '100%' : 0,
+			hiddenWidth: this.props.disableHiddenLayoutCalculation ? '100%' : 0
 		};
 		this._translateX = new Animated.Value(0);
 		if (this.props.onSwipeValueChange) {
@@ -100,8 +100,10 @@ class SwipeRow extends Component {
 	onContentLayout(e) {
 		this.setState({
 			dimensionsSet: !this.props.recalculateHiddenLayout,
-			hiddenHeight: e.nativeEvent.layout.height,
-			hiddenWidth: e.nativeEvent.layout.width,
+			...(!this.props.disableHiddenLayoutCalculation ? {
+				hiddenHeight: e.nativeEvent.layout.height,
+				hiddenWidth: e.nativeEvent.layout.width,
+			} : {})
 		});
 
 		if (this.props.preview && !this.ranPreview) {
@@ -418,6 +420,10 @@ SwipeRow.propTypes = {
 	 */
 	recalculateHiddenLayout: PropTypes.bool,
 	/**
+	 * Disable hidden row onLayout calculations
+	 */
+	disableHiddenLayoutCalculation: PropTypes.bool,
+	/**
 	 * Called when a swipe row is animating closed
 	 */
 	onRowClose: PropTypes.func,
@@ -479,6 +485,7 @@ SwipeRow.defaultProps = {
 	disableLeftSwipe: false,
 	disableRightSwipe: false,
 	recalculateHiddenLayout: false,
+	disableHiddenLayoutCalculation: false,
 	preview: false,
 	previewDuration: 300,
 	previewOpenDelay: DEFAULT_PREVIEW_OPEN_DELAY,
