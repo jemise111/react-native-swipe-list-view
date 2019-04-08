@@ -9,7 +9,7 @@ A List that renders `<SwipeRow />`s
 | `useFlatList` | Render list using React Native's `FlatList` | `bool` || `false`
 | `useSectionList` | Render list using React Native's `SectionList` | `bool` || `false`
 | `renderItem` | How to render a row in a FlatList. Should return a valid React Element. | `func` | `{ rowData: any, rowMap: { string: SwipeRowRef } } : ReactElement`
-| `renderHiddenItem` | How to render a hidden row in a FlatList (renders behind the row). Should return a valid React Element. This is required unless `renderItem` returns a `<SwipeRow>` (see [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view#per-row-behavior)). | `func` | `{ rowData: any, rowMap: { string: SwipeRowRef } } : ReactElement`
+| `renderHiddenItem` | How to render a hidden row in a FlatList (renders behind the row). Should return a valid React Element. This is required unless `renderItem` returns a `<SwipeRow>` (see [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/per-row-behavior.md)). | `func` | `{ rowData: any, rowMap: { string: SwipeRowRef } } : ReactElement`
 | `leftOpenValue` | TranslateX value for opening the row to the left (positive number) | `number` || `0`
 | `rightOpenValue` | TranslateX value for opening the row to the right (negative number) | `number` || `0`
 | `closeOnRowPress` | Should open rows be closed when a row is pressed | `bool` || `true`
