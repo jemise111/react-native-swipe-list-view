@@ -170,6 +170,7 @@ class SwipeListView extends Component {
 					stopLeftSwipe={item.stopLeftSwipe || this.props.stopLeftSwipe}
 					stopRightSwipe={item.stopRightSwipe || this.props.stopRightSwipe}
 					recalculateHiddenLayout={this.props.recalculateHiddenLayout}
+					disableHiddenLayoutCalculation={this.props.disableHiddenLayoutCalculation}
 					style={this.props.swipeRowStyle}
 					preview={shouldPreviewRow}
 					previewDuration={this.props.previewDuration}
@@ -338,6 +339,13 @@ SwipeListView.propTypes = {
 	 */
 	recalculateHiddenLayout: PropTypes.bool,
 	/**
+	 * Disable hidden row onLayout calculations
+	 * 
+	 * Instead, {width: '100%', height: '100%'} will be used.
+	 * Improves performance by avoiding component updates, while still working with orientation changes.
+	 */
+	disableHiddenLayoutCalculation: PropTypes.bool,
+	/**
 	 * Called when a swipe row is animating swipe
 	 */
 	swipeGestureBegan: PropTypes.func,
@@ -445,6 +453,7 @@ SwipeListView.defaultProps = {
 	disableLeftSwipe: false,
 	disableRightSwipe: false,
 	recalculateHiddenLayout: false,
+	disableHiddenLayoutCalculation: false,
 	previewFirstRow: false,
 	directionalDistanceChangeThreshold: 2,
 	swipeToOpenPercent: 50,
