@@ -80,10 +80,14 @@ class SwipeRow extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		return !!(this.state.hiddenHeight !== nextState.hiddenHeight ||
+		if (this.state.hiddenHeight !== nextState.hiddenHeight ||
 			this.state.hiddenWidth !== nextState.hiddenWidth ||
 			!this.props.shouldItemUpdate ||
-			(this.props.shouldItemUpdate && this.props.shouldItemUpdate(this.props.item, nextProps.item)));
+			(this.props.shouldItemUpdate && this.props.shouldItemUpdate(this.props.item, nextProps.item))) {
+			return true
+		}
+
+		return false;
 	}
 
 	getPreviewAnimation(toValue, delay) {
