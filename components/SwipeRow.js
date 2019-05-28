@@ -24,13 +24,13 @@ const SCROLL_LOCK_MILLISECONDS = 300;
  * If you are rendering a SwipeRow explicitly you must pass the SwipeRow exactly two children.
  * The first will be rendered behind the second.
  * e.g.
-  <SwipeRow>
-      <View style={hiddenRowStyle} />
-      <View style={visibleRowStyle} />
-  </SwipeRow>
+ <SwipeRow>
+ <View style={hiddenRowStyle} />
+ <View style={visibleRowStyle} />
+ </SwipeRow>
  */
 class SwipeRow extends Component {
-
+	
 	constructor(props) {
 		super(props);
 		this.isOpen = false;
@@ -40,7 +40,7 @@ class SwipeRow extends Component {
 		this.swipeInitialX = null;
 		this.parentScrollEnabled = true;
 		this.ranPreview = false;
-		this._ensureScrollEnabledTimer = null
+		this._ensureScrollEnabledTimer = null;
 		this.state = {
 			dimensionsSet: false,
 			hiddenHeight: this.props.disableHiddenLayoutCalculation ? '100%' : 0,
@@ -48,7 +48,7 @@ class SwipeRow extends Component {
 		};
 		this._translateX = new Animated.Value(0);
 		if (this.props.onSwipeValueChange) {
-			this._translateX.addListener(({ value }) => {
+			this._translateX.addListener(({value}) => {
 				let direction = this.previousTrackedDirection;
 				if (value !== this.previousTrackedTranslateX) {
 					direction = value > this.previousTrackedTranslateX ? 'right' : 'left';
@@ -63,7 +63,7 @@ class SwipeRow extends Component {
 			});
 		}
 	}
-
+	
 	componentWillMount() {
 		this._panResponder = PanResponder.create({
 			onMoveShouldSetPanResponder: (e, gs) => this.handleOnMoveShouldSetPanResponder(e, gs),
@@ -73,30 +73,26 @@ class SwipeRow extends Component {
 			onShouldBlockNativeResponder: _ => false,
 		});
 	}
-
+	
 	componentWillUnmount() {
-		clearTimeout(this._ensureScrollEnabledTimer)
+		clearTimeout(this._ensureScrollEnabledTimer);
 		this._translateX.removeAllListeners();
 	}
-
+	
 	shouldComponentUpdate(nextProps, nextState) {
-		if (this.state.hiddenHeight !== nextState.hiddenHeight ||
+		return !!(this.state.hiddenHeight !== nextState.hiddenHeight ||
 			this.state.hiddenWidth !== nextState.hiddenWidth ||
 			!this.props.shouldItemUpdate ||
-			(this.props.shouldItemUpdate && this.props.shouldItemUpdate(this.props.item, nextProps.item))) {
-			return true
-		}
-
-		return false;
+			(this.props.shouldItemUpdate && this.props.shouldItemUpdate(this.props.item, nextProps.item)));
 	}
-
+	
 	getPreviewAnimation(toValue, delay) {
 		return Animated.timing(
 			this._translateX,
-			{ duration: this.props.previewDuration, toValue, delay }
+			{duration: this.props.previewDuration, toValue, delay}
 		);
 	}
-
+	
 	onContentLayout(e) {
 		this.setState({
 			dimensionsSet: !this.props.recalculateHiddenLayout,
@@ -105,17 +101,17 @@ class SwipeRow extends Component {
 				hiddenWidth: e.nativeEvent.layout.width,
 			} : {})
 		});
-
+		
 		if (this.props.preview && !this.ranPreview) {
 			this.ranPreview = true;
 			let previewOpenValue = this.props.previewOpenValue || this.props.rightOpenValue * 0.5;
 			this.getPreviewAnimation(previewOpenValue, this.props.previewOpenDelay)
-			.start( _ => {
-				this.getPreviewAnimation(0, PREVIEW_CLOSE_DELAY).start();
-			});
+				.start(_ => {
+					this.getPreviewAnimation(0, PREVIEW_CLOSE_DELAY).start();
+				});
 		}
 	}
-
+	
 	onRowPress() {
 		if (this.props.onRowPress) {
 			this.props.onRowPress();
@@ -125,17 +121,17 @@ class SwipeRow extends Component {
 			}
 		}
 	}
-
+	
 	handleOnMoveShouldSetPanResponder(e, gs) {
-		const { dx } = gs;
+		const {dx} = gs;
 		return Math.abs(dx) > this.props.directionalDistanceChangeThreshold;
 	}
-
+	
 	handlePanResponderMove(e, gestureState) {
-		const { dx, dy } = gestureState;
+		const {dx, dy} = gestureState;
 		const absDx = Math.abs(dx);
 		const absDy = Math.abs(dy);
-
+		
 		// this check may not be necessary because we don't capture the move until we pass the threshold
 		// just being extra safe here
 		if (absDx > this.props.directionalDistanceChangeThreshold || absDy > this.props.directionalDistanceChangeThreshold) {
@@ -144,14 +140,14 @@ class SwipeRow extends Component {
 				// user is moving vertically, do nothing, listView will handle
 				return;
 			}
-
+			
 			// user is moving horizontally
 			if (this.parentScrollEnabled) {
 				// disable scrolling on the listView parent
 				this.parentScrollEnabled = false;
 				this.props.setScrollEnabled && this.props.setScrollEnabled(false);
 			}
-
+			
 			if (this.swipeInitialX === null) {
 				// set tranlateX value when user started swiping
 				this.swipeInitialX = this._translateX._value
@@ -160,75 +156,87 @@ class SwipeRow extends Component {
 				this.horizontalSwipeGestureBegan = true;
 				this.props.swipeGestureBegan && this.props.swipeGestureBegan();
 			}
-
+			
 			let newDX = this.swipeInitialX + dx;
-			if (this.props.disableLeftSwipe  && newDX < 0) { newDX = 0; }
-			if (this.props.disableRightSwipe && newDX > 0) { newDX = 0; }
-
-
-			if (this.props.stopLeftSwipe && newDX > this.props.stopLeftSwipe) { newDX = this.props.stopLeftSwipe; }
-			if (this.props.stopRightSwipe && newDX < this.props.stopRightSwipe) { newDX = this.props.stopRightSwipe; }
-
+			if (this.props.disableLeftSwipe && newDX < 0) {
+				newDX = 0;
+			}
+			if (this.props.disableRightSwipe && newDX > 0) {
+				newDX = 0;
+			}
+			
+			
+			if (this.props.stopLeftSwipe && newDX > this.props.stopLeftSwipe) {
+				newDX = this.props.stopLeftSwipe;
+			}
+			if (this.props.stopRightSwipe && newDX < this.props.stopRightSwipe) {
+				newDX = this.props.stopRightSwipe;
+			}
+			
 			this._translateX.setValue(newDX);
 		}
 	}
-
+	
 	ensureScrollEnabled = () => {
 		if (!this.parentScrollEnabled) {
 			this.parentScrollEnabled = true;
 			this.props.setScrollEnabled && this.props.setScrollEnabled(true);
 		}
 	}
-
+	
 	handlePanResponderEnd(e, gestureState) {
-
+		
 		// decide how much the velocity will affect the final position that the list item settles in.
 		const swipeToOpenVelocityContribution = this.props.swipeToOpenVelocityContribution;
 		const possibleExtraPixels = this.props.rightOpenValue * (swipeToOpenVelocityContribution);
 		const clampedVelocity = Math.min(gestureState.vx, MAX_VELOCITY_CONTRIBUTION);
 		const projectedExtraPixels = possibleExtraPixels * (clampedVelocity / MAX_VELOCITY_CONTRIBUTION);
-
+		
 		// re-enable scrolling on listView parent
 		this._ensureScrollEnabledTimer = setTimeout(this.ensureScrollEnabled, SCROLL_LOCK_MILLISECONDS);
-
+		
 		// finish up the animation
 		let toValue = 0;
 		if (this._translateX._value >= 0) {
 			// trying to swipe right
 			if (this.swipeInitialX < this._translateX._value) {
-				if ((this._translateX._value - projectedExtraPixels) > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
+				if ((this._translateX._value - projectedExtraPixels) > this.props.leftOpenValue * (this.props.swipeToOpenPercent / 100)) {
 					// we're more than halfway
 					toValue = this.props.leftOpenValue;
 				}
 			} else {
-				if ((this._translateX._value - projectedExtraPixels) > this.props.leftOpenValue * (1 - (this.props.swipeToClosePercent/100))) {
+				if ((this._translateX._value - projectedExtraPixels) > this.props.leftOpenValue * (1 - (this.props.swipeToClosePercent / 100))) {
 					toValue = this.props.leftOpenValue;
 				}
 			}
 		} else {
 			// trying to swipe left
 			if (this.swipeInitialX > this._translateX._value) {
-				if ((this._translateX._value - projectedExtraPixels) < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
+				if ((this._translateX._value - projectedExtraPixels) < this.props.rightOpenValue * (this.props.swipeToOpenPercent / 100)) {
 					// we're more than halfway
 					toValue = this.props.rightOpenValue;
 				}
 			} else {
-				if ((this._translateX._value - projectedExtraPixels) < this.props.rightOpenValue * (1 - (this.props.swipeToClosePercent/100))) {
+				if ((this._translateX._value - projectedExtraPixels) < this.props.rightOpenValue * (1 - (this.props.swipeToClosePercent / 100))) {
 					toValue = this.props.rightOpenValue;
 				}
 			}
 		}
-
+		
 		this.manuallySwipeRow(toValue);
 	}
-
+	
 	/*
 	 * This method is called by SwipeListView
 	 */
 	closeRow() {
 		this.manuallySwipeRow(0);
 	}
-
+	
+	closeRowWithoutAnimation() {
+		this._translateX.setValue(0);
+	}
+	
 	manuallySwipeRow(toValue) {
 		Animated.spring(
 			this._translateX,
@@ -237,7 +245,7 @@ class SwipeRow extends Component {
 				friction: this.props.friction,
 				tension: this.props.tension,
 			}
-		).start( _ => {
+		).start(_ => {
 			this.ensureScrollEnabled()
 			if (toValue === 0) {
 				this.isOpen = false;
@@ -247,22 +255,22 @@ class SwipeRow extends Component {
 				this.props.onRowDidOpen && this.props.onRowDidOpen(toValue);
 			}
 		});
-
+		
 		if (toValue === 0) {
 			this.props.onRowClose && this.props.onRowClose();
 		} else {
 			this.props.onRowOpen && this.props.onRowOpen(toValue);
 		}
-
+		
 		// reset everything
 		this.swipeInitialX = null;
 		this.horizontalSwipeGestureBegan = false;
 	}
-
+	
 	renderVisibleContent() {
 		// handle touchables
 		const onPress = this.props.children[1].props.onPress;
-
+		
 		if (onPress) {
 			const newOnPress = (...args) => {
 				this.onRowPress();
@@ -276,18 +284,18 @@ class SwipeRow extends Component {
 				}
 			);
 		}
-
+		
 		return (
 			<TouchableOpacity
 				activeOpacity={1}
-				onPress={ _ => this.onRowPress() }
+				onPress={_ => this.onRowPress()}
 			>
 				{this.props.children[1]}
 			</TouchableOpacity>
 		)
-
+		
 	}
-
+	
 	renderRowContent() {
 		// We do this annoying if statement for performance.
 		// We don't want the onLayout func to run after it runs once.
@@ -311,7 +319,7 @@ class SwipeRow extends Component {
 				<Animated.View
 					manipulationModes={['translateX']}
 					{...this._panResponder.panHandlers}
-					onLayout={ (e) => this.onContentLayout(e) }
+					onLayout={(e) => this.onContentLayout(e)}
 					style={{
 						zIndex: 2,
 						transform: [
@@ -324,7 +332,7 @@ class SwipeRow extends Component {
 			);
 		}
 	}
-
+	
 	render() {
 		return (
 			<View style={this.props.style ? this.props.style : styles.container}>
@@ -341,7 +349,7 @@ class SwipeRow extends Component {
 			</View>
 		);
 	}
-
+	
 }
 
 const styles = StyleSheet.create({
