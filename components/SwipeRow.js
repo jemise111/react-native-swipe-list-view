@@ -228,7 +228,20 @@ class SwipeRow extends Component {
 	closeRow() {
 		this.manuallySwipeRow(0);
 	}
-
+	
+	closeRowWithoutAnimation() {
+		this._translateX.setValue(0);
+		
+		this.ensureScrollEnabled();
+		this.isOpen = false;
+		this.props.onRowDidClose && this.props.onRowDidClose();
+		
+		this.props.onRowClose && this.props.onRowClose();
+		
+		this.swipeInitialX = null;
+		this.horizontalSwipeGestureBegan = false;
+	}
+	
 	manuallySwipeRow(toValue) {
 		Animated.spring(
 			this._translateX,
