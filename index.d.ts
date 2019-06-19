@@ -138,7 +138,7 @@ interface IPropsSwipeRow {
 
 type SwipeRowOptions = IStateSwipeRow & IPropsSwipeRow;
 
-export class SwipeRow extends React.Component<SwipeRowOptions> {
+export class SwipeRow extends Component<SwipeRowOptions> {
 	item: string;
 	isOpen: boolean;
 	previousTrackedTranslateX: number;
@@ -177,16 +177,16 @@ interface IPropsSwipeListView {
 	 * To render a custom ListView component, if you don't want to use ReactNative one.
 	 * Note: This will call `renderRow`, not `renderItem`
 	 */
-	renderListView({ props: IPropsSwipeListView, setRefCallback: unknown, onScrollCallback: unknown, renderItemCallback: Element }): ListView,
+	renderListView(param: { props: IPropsSwipeListView, setRefCallback: unknown, onScrollCallback: unknown, renderItemCallback: JSX.Element }): ListView,
 	/**
 	 * How to render a row in a FlatList. Should return a valid React Element.
 	 */
-	renderItem({ rowData: any, rowMap: { string: SwipeRowRef } }): Element,
+	renderItem(param: { rowData: any, rowMap: { string: SwipeRowRef } }): JSX.Element,
 	/**
 	 * How to render a hidden row in a FlatList (renders behind the row). Should return a valid React Element.
 	 * This is required unless renderItem is passing a SwipeRow.
 	 */
-	renderHiddenItem({ rowData: any, rowMap: { string: SwipeRowRef } }): Element,
+	renderHiddenItem(param: { rowData: any, rowMap: { string: SwipeRowRef } }): JSX.Element,
 	/**
 	 * [DEPRECATED] How to render a row in a ListView. Should return a valid React Element.
 	 */
@@ -256,27 +256,27 @@ interface IPropsSwipeListView {
 	/**
 	 * Called when a swipe row is animating swipe
 	 */
-	swipeGestureBegan({ rowKey: string }): void,
+	swipeGestureBegan(param: { rowKey: string }): void,
 	/**
 	 * Called when a swipe row is animating open
 	 */
-	onRowOpen({ rowKey: string, rowMap: { string: SwipeRowRef }, toValue: number }): void,
+	onRowOpen(param: { rowKey: string, rowMap: { string: SwipeRowRef }, toValue: number }): void,
 	/**
 	 * Called when a swipe row has animated open
 	 */
-	onRowDidOpen({ rowKey: string, rowMap: { string: SwipeRowRef }, toValue: number }): void,
+	onRowDidOpen(param: { rowKey: string, rowMap: { string: SwipeRowRef }, toValue: number }): void,
 	/**
 	 * Called when a swipe row is animating closed
 	 */
-	onRowClose({ rowKey: string, rowMap: { string: SwipeRowRef }, toValue: number }): void,
+	onRowClose(param: { rowKey: string, rowMap: { string: SwipeRowRef }, toValue: number }): void,
 	/**
 	 * Called when a swipe row has animated closed
 	 */
-	onRowDidClose({ rowKey: string, rowMap: { string: SwipeRowRef }, toValue: number }): void,
+	onRowDidClose(param: { rowKey: string, rowMap: { string: SwipeRowRef }, toValue: number }): void,
 	/**
 	 * Called when scrolling on the SwipeListView has been enabled/disabled
 	 */
-	onScrollEnabled({ isEnabled: bool }): void,
+	onScrollEnabled(param: { isEnabled: bool }): void,
 	/**
 	 * Styles for the parent wrapper View of the SwipeRow
 	 */
