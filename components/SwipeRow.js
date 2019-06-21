@@ -93,7 +93,7 @@ class SwipeRow extends Component {
 	getPreviewAnimation(toValue, delay) {
 		return Animated.timing(
 			this._translateX,
-			{ duration: this.props.previewDuration, toValue, delay }
+			{ duration: this.props.previewDuration, toValue, delay, useNativeDriver: true }
 		);
 	}
 
@@ -228,20 +228,20 @@ class SwipeRow extends Component {
 	closeRow() {
 		this.manuallySwipeRow(0);
 	}
-	
+
 	closeRowWithoutAnimation() {
 		this._translateX.setValue(0);
-		
+
 		this.ensureScrollEnabled();
 		this.isOpen = false;
 		this.props.onRowDidClose && this.props.onRowDidClose();
-		
+
 		this.props.onRowClose && this.props.onRowClose();
-		
+
 		this.swipeInitialX = null;
 		this.horizontalSwipeGestureBegan = false;
 	}
-	
+
 	manuallySwipeRow(toValue) {
 		Animated.spring(
 			this._translateX,
@@ -249,6 +249,7 @@ class SwipeRow extends Component {
 				toValue,
 				friction: this.props.friction,
 				tension: this.props.tension,
+				useNativeDriver: true,
 			}
 		).start( _ => {
 			this.ensureScrollEnabled()
