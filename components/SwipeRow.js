@@ -555,11 +555,11 @@ SwipeRow.propTypes = {
 	 */
 	onSwipeValueChange: PropTypes.func,
 	/**
-	 * TranslateX value for force-closing the row to the Left End (positive number)
+	 * TranslateX amount(not value!) threshold that triggers force-closing the row to the Left End (positive number)
 	 */
 	forceCloseToLeftThreshold: PropTypes.number,
 	/**
-	 * TranslateX value for force-closing the row to the Right End (negative number)
+	 * TranslateX amount(not value!) threshold that triggers force-closing the row to the Right End (positive number)
 	 */
 	forceCloseToRightThreshold: PropTypes.number,
 	/**

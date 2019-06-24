@@ -43,3 +43,9 @@ e.g.
 | `swipeGestureBegan` | Called when the row is animating swipe | `func` | `{ } : void`
 | `swipeToOpenVelocityContribution` | Describes how much the ending velocity of the gesture affects whether the swipe will result in the item being closed or open. A velocity factor of 0 (the default) means that the velocity will have no bearing on whether the swipe settles on a closed or open position and it'll just take into consideration the swipeToOpenPercent. Ideal values for this prop tend to be between 5 and 15. | `number` || `0`
 | `shouldItemUpdate` | Callback to determine whether component should update | `func` | `{ currentItem: any, newItem: any }`
+| `forceCloseToLeftThreshold` | TranslateX amount(not value!) threshold that triggers force-closing the row to the Left End (positive number) | `number` |
+| `forceCloseToRightThreshold` | TranslateX amount(not value!) threshold that triggers force-closing the row to the Right End (positive number) | `number` |
+| `onForceCloseToLeft` | Callback invoked when row is force closing to the Left End | `func` |
+| `onForceCloseToRight` | Callback invoked when row is force closing to the Right End | `func` |
+| `onForceCloseToLeftEnd` | Callback invoked when row has finished force closing to the Left End | `func` |
+| `onForceCloseToRightEnd` | Callback invoked when row has finished force closing to the Right End | `func` |
