@@ -41,13 +41,12 @@ class SwipeRow extends Component {
 		this.swipeInitialX = null;
 		this.parentScrollEnabled = true;
 		this.ranPreview = false;
-		this._ensureScrollEnabledTimer = null
+		this._ensureScrollEnabledTimer = null;
+		this.isForceClosing = false;
 		this.state = {
 			dimensionsSet: false,
 			hiddenHeight: this.props.disableHiddenLayoutCalculation ? '100%' : 0,
-			hiddenWidth: this.props.disableHiddenLayoutCalculation ? '100%' : 0,
-			isForceClosing: false,
-			forceClosingDirection: null
+			hiddenWidth: this.props.disableHiddenLayoutCalculation ? '100%' : 0
 		};
 		this._translateX = new Animated.Value(0);
 		if (this.props.onSwipeValueChange) {
@@ -68,36 +67,24 @@ class SwipeRow extends Component {
 
 		if (this.props.forceCloseToRightThreshold && this.props.forceCloseToRightThreshold > 0) {
 			this._translateX.addListener(({ value }) => {
-				if(!this.state.isForceClosing && (Dimensions.get('window').width + value) < this.props.forceCloseToRightThreshold) {
-					this.setState({
-						isForceClosing: true,
-						forceClosingDirection: "right"
-					});
-					/* Must be different thread to prevent the infinite loop, but to be able to see the new state */
-					setTimeout(() => {
-						this.forceCloseRow();
-						if(this.props.onForceCloseToRight) {
-							this.props.onForceCloseToRight();
-						}
-					}, 0);
+				if(!this.isForceClosing && (Dimensions.get('window').width + value) < this.props.forceCloseToRightThreshold) {
+					this.isForceClosing = true;
+					this.forceCloseRow("right");
+					if(this.props.onForceCloseToRight) {
+						this.props.onForceCloseToRight();
+					}
 				}
 			});
 		}
 
 		if (this.props.forceCloseToLeftThreshold && this.props.forceCloseToRightThreshold > 0) {
 			this._translateX.addListener(({ value }) => {
-				if(!this.state.isForceClosing && (Dimensions.get('window').width - value) < this.props.forceCloseToLeftThreshold) {
-					this.setState({
-						isForceClosing: true,
-						forceClosingDirection: "left"
-					});
-					/* Must be different thread to prevent the infinite loop, but to be able to see the new state */
-					setTimeout(() => {
-						this.forceCloseRow();
-						if(this.props.onForceCloseToLeft) {
-							this.props.onForceCloseToLeft();
-						}
-					}, 0);
+				if(!this.isForceClosing && (Dimensions.get('window').width - value) < this.props.forceCloseToLeftThreshold) {
+					this.isForceClosing = true;
+					this.forceCloseRow("left");
+					if(this.props.onForceCloseToLeft) {
+						this.props.onForceCloseToLeft();
+					}
 				}
 			});
 		}
@@ -172,7 +159,7 @@ class SwipeRow extends Component {
 
 	handlePanResponderMove(e, gestureState) {
 		/* If the view is force closing, then ignore Moves. Return */
-		if(this.state.isForceClosing) {
+		if(this.isForceClosing) {
 			return;
 		}
 
@@ -227,11 +214,8 @@ class SwipeRow extends Component {
 
 	handlePanResponderEnd(e, gestureState) {
 		/* PandEnd will reset the force-closing state when it's true. */
-		if(this.state.isForceClosing) {
-			this.setState({
-				isForceClosing: false,
-				forceClosingDirection: null
-			});
+		if(this.isForceClosing) {
+			this.isForceClosing = false;
 		}
 		// decide how much the velocity will affect the final position that the list item settles in.
 		const swipeToOpenVelocityContribution = this.props.swipeToOpenVelocityContribution;
@@ -280,12 +264,16 @@ class SwipeRow extends Component {
 		this.manuallySwipeRow(0);
 	}
 
-	forceCloseRow() {
+	/**
+	 * Force close the row toward the end of the given direction.
+	 * @param  {String} direction The direction to force close.
+	 */
+	forceCloseRow(direction) {
 		this.manuallySwipeRow(0, () => {
-			if(this.state.forceClosingDirection === "right" && this.props.onForceCloseToRightEnd) {
+			if(direction === "right" && this.props.onForceCloseToRightEnd) {
 				this.props.onForceCloseToRightEnd();
 			}
-			else if(this.state.forceClosingDirection === "left" && this.props.onForceCloseToLeftEnd) {
+			else if(direction === "left" && this.props.onForceCloseToLeftEnd) {
 				this.props.onForceCloseToLeftEnd();
 			}
 		});
