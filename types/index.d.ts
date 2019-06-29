@@ -6,7 +6,7 @@ interface IPropsSwipeRow<T> {
 	 * Used by the SwipeListView to close rows on scroll events.
 	 * You shouldn't need to use this prop explicitly.
 	 */
-	setScrollEnabled(enabel: boolean): void;
+	setScrollEnabled(enable: boolean): void;
 	/**
 	 * Called when it has been detected that a row should be swiped open.
 	 */
