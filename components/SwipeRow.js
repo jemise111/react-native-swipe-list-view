@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
+	Dimensions,
 	Animated,
 	PanResponder,
 	Platform,
@@ -40,7 +41,8 @@ class SwipeRow extends Component {
 		this.swipeInitialX = null;
 		this.parentScrollEnabled = true;
 		this.ranPreview = false;
-		this._ensureScrollEnabledTimer = null
+		this._ensureScrollEnabledTimer = null;
+		this.isForceClosing = false;
 		this.state = {
 			dimensionsSet: false,
 			hiddenHeight: this.props.disableHiddenLayoutCalculation ? '100%' : 0,
@@ -60,6 +62,30 @@ class SwipeRow extends Component {
 				});
 				this.previousTrackedTranslateX = value;
 				this.previousTrackedDirection = direction;
+			});
+		}
+
+		if (this.props.forceCloseToRightThreshold && this.props.forceCloseToRightThreshold > 0) {
+			this._translateX.addListener(({ value }) => {
+				if(!this.isForceClosing && (Dimensions.get('window').width + value) < this.props.forceCloseToRightThreshold) {
+					this.isForceClosing = true;
+					this.forceCloseRow("right");
+					if(this.props.onForceCloseToRight) {
+						this.props.onForceCloseToRight();
+					}
+				}
+			});
+		}
+
+		if (this.props.forceCloseToLeftThreshold && this.props.forceCloseToRightThreshold > 0) {
+			this._translateX.addListener(({ value }) => {
+				if(!this.isForceClosing && (Dimensions.get('window').width - value) < this.props.forceCloseToLeftThreshold) {
+					this.isForceClosing = true;
+					this.forceCloseRow("left");
+					if(this.props.onForceCloseToLeft) {
+						this.props.onForceCloseToLeft();
+					}
+				}
 			});
 		}
 	}
@@ -132,6 +158,12 @@ class SwipeRow extends Component {
 	}
 
 	handlePanResponderMove(e, gestureState) {
+		/* If the view is force closing, then ignore Moves. Return */
+		if(this.isForceClosing) {
+			return;
+		}
+
+		/* Else, do normal job */
 		const { dx, dy } = gestureState;
 		const absDx = Math.abs(dx);
 		const absDy = Math.abs(dy);
@@ -181,7 +213,10 @@ class SwipeRow extends Component {
 	}
 
 	handlePanResponderEnd(e, gestureState) {
-
+		/* PandEnd will reset the force-closing state when it's true. */
+		if(this.isForceClosing) {
+			this.isForceClosing = false;
+		}
 		// decide how much the velocity will affect the final position that the list item settles in.
 		const swipeToOpenVelocityContribution = this.props.swipeToOpenVelocityContribution;
 		const possibleExtraPixels = this.props.rightOpenValue * (swipeToOpenVelocityContribution);
@@ -228,6 +263,21 @@ class SwipeRow extends Component {
 	closeRow() {
 		this.manuallySwipeRow(0);
 	}
+
+	/**
+	 * Force close the row toward the end of the given direction.
+	 * @param  {String} direction The direction to force close.
+	 */
+	forceCloseRow(direction) {
+		this.manuallySwipeRow(0, () => {
+			if(direction === "right" && this.props.onForceCloseToRightEnd) {
+				this.props.onForceCloseToRightEnd();
+			}
+			else if(direction === "left" && this.props.onForceCloseToLeftEnd) {
+				this.props.onForceCloseToLeftEnd();
+			}
+		});
+	}
 	
 	closeRowWithoutAnimation() {
 		this._translateX.setValue(0);
@@ -242,7 +292,7 @@ class SwipeRow extends Component {
 		this.horizontalSwipeGestureBegan = false;
 	}
 	
-	manuallySwipeRow(toValue) {
+	manuallySwipeRow(toValue, onAnimationEnd) {
 		Animated.spring(
 			this._translateX,
 			{
@@ -259,6 +309,9 @@ class SwipeRow extends Component {
 			} else {
 				this.isOpen = true;
 				this.props.onRowDidOpen && this.props.onRowDidOpen(toValue);
+			}
+			if(onAnimationEnd) {
+				onAnimationEnd();
 			}
 		});
 
@@ -490,6 +543,30 @@ SwipeRow.propTypes = {
 	 * Callback invoked any time the swipe value of the row is changed
 	 */
 	onSwipeValueChange: PropTypes.func,
+	/**
+	 * TranslateX amount(not value!) threshold that triggers force-closing the row to the Left End (positive number)
+	 */
+	forceCloseToLeftThreshold: PropTypes.number,
+	/**
+	 * TranslateX amount(not value!) threshold that triggers force-closing the row to the Right End (positive number)
+	 */
+	forceCloseToRightThreshold: PropTypes.number,
+	/**
+	 * Callback invoked when row is force closing to the Left End
+	 */
+	onForceCloseToLeft: PropTypes.func,
+	/**
+	 * Callback invoked when row is force closing to the Right End
+	 */
+	onForceCloseToRight: PropTypes.func,
+	/**
+	 * Callback invoked when row has finished force closing to the Left End
+	 */
+	onForceCloseToLeftEnd: PropTypes.func,
+	/**
+	 * Callback invoked when row has finished force closing to the Right End
+	 */
+	onForceCloseToRightEnd: PropTypes.func
 };
 
 SwipeRow.defaultProps = {
