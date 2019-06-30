@@ -12,6 +12,7 @@
     "type": "git",
     "url": "https://github.com/jemise111/react-native-swipe-list-view"
   },
+  "types": "./types/index.d.ts",
   "license": "MIT",
   "keywords": [
     "react",
@@ -24,8 +25,12 @@
     "swipeable"
   ],
   "peerDependencies": {
+    "prop-types": ">=15.5.0",
     "react": ">=0.14.8",
-    "react-native": ">=0.23.1",
-    "prop-types": ">=15.5.0"
+    "react-native": ">=0.23.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.20",
+    "@types/react-native": "^0.57.63"
   }
 }
