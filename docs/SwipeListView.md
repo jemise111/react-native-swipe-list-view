@@ -46,3 +46,4 @@ A List that renders `<SwipeRow />`s
 | `renderRow` [DEPRECATED] | How to render a row. Should return a valid React Element. | `func` | `{ rowData, secId, rowId, rowMap }`
 | `renderHiddenRow` [DEPRECATED] | How to render a hidden row (renders behind the row). Should return a valid React Element. This is required unless `renderRow` returns a `<SwipeRow>` (see [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view#per-row-behavior)). | `func` | `{ rowData, secId, rowId, rowMap }`
 | `shouldItemUpdate` | Callback to determine whether component should update | `func` | `{ currentItem: any, newItem: any }`
+| `useNativeDriver` | useNativeDriver: `true` for all animations | `bool` | `true` |
