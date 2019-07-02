@@ -49,3 +49,4 @@ e.g.
 | `onForceCloseToRight` | Callback invoked when row is force closing to the Right End | `func` |
 | `onForceCloseToLeftEnd` | Callback invoked when row has finished force closing to the Left End | `func` |
 | `onForceCloseToRightEnd` | Callback invoked when row has finished force closing to the Right End | `func` |
+| `useNativeDriver` | useNativeDriver: `true` for all animations | `bool` | `true` |

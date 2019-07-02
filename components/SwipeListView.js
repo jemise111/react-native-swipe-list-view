@@ -183,6 +183,7 @@ class SwipeListView extends Component {
 					swipeToOpenVelocityContribution={this.props.swipeToOpenVelocityContribution}
 					swipeToClosePercent={this.props.swipeToClosePercent}
 					item={item} // used for should item update comparisons
+					useNativeDriver={this.props.useNativeDriver}
 				>
 					{HiddenComponent}
 					{VisibleComponent}
@@ -441,6 +442,10 @@ SwipeListView.propTypes = {
 	 * Callback invoked any time the swipe value of a SwipeRow is changed
 	 */
 	onSwipeValueChange: PropTypes.func,
+	/**
+	 * useNativeDriver: true for all animations where possible
+	 */
+	useNativeDriver: PropTypes.bool,
 }
 
 SwipeListView.defaultProps = {
@@ -458,7 +463,8 @@ SwipeListView.defaultProps = {
 	directionalDistanceChangeThreshold: 2,
 	swipeToOpenPercent: 50,
 	swipeToOpenVelocityContribution: 0,
-	swipeToClosePercent: 50
+	swipeToClosePercent: 50,
+	useNativeDriver: true,
 }
 
 export default SwipeListView;

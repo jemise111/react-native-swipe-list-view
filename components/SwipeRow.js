@@ -119,7 +119,7 @@ class SwipeRow extends Component {
 	getPreviewAnimation(toValue, delay) {
 		return Animated.timing(
 			this._translateX,
-			{ duration: this.props.previewDuration, toValue, delay, useNativeDriver: true }
+			{ duration: this.props.previewDuration, toValue, delay, useNativeDriver: this.props.useNativeDriver }
 		);
 	}
 
@@ -299,7 +299,7 @@ class SwipeRow extends Component {
 				toValue,
 				friction: this.props.friction,
 				tension: this.props.tension,
-				useNativeDriver: true
+				useNativeDriver: this.props.useNativeDriver,
 			}
 		).start( _ => {
 			this.ensureScrollEnabled()
@@ -566,7 +566,11 @@ SwipeRow.propTypes = {
 	/**
 	 * Callback invoked when row has finished force closing to the Right End
 	 */
-	onForceCloseToRightEnd: PropTypes.func
+	onForceCloseToRightEnd: PropTypes.func,
+	/**
+	 * useNativeDriver: true for all animations where possible
+	 */
+	useNativeDriver: PropTypes.bool,
 };
 
 SwipeRow.defaultProps = {
@@ -584,7 +588,8 @@ SwipeRow.defaultProps = {
 	swipeToOpenPercent: 50,
 	swipeToOpenVelocityContribution: 0,
 	swipeToClosePercent: 50,
-	item: {}
+	item: {},
+	useNativeDriver: true,
 };
 
 export default SwipeRow;
