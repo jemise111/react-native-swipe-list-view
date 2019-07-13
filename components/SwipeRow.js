@@ -49,6 +49,15 @@ class SwipeRow extends Component {
 			hiddenWidth: this.props.disableHiddenLayoutCalculation ? '100%' : 0
 		};
 		this._translateX = new Animated.Value(0);
+		
+		this._panResponder = PanResponder.create({
+			onMoveShouldSetPanResponder: (e, gs) => this.handleOnMoveShouldSetPanResponder(e, gs),
+			onPanResponderMove: (e, gs) => this.handlePanResponderMove(e, gs),
+			onPanResponderRelease: (e, gs) => this.handlePanResponderEnd(e, gs),
+			onPanResponderTerminate: (e, gs) => this.handlePanResponderEnd(e, gs),
+			onShouldBlockNativeResponder: _ => false,
+		});
+
 		if (this.props.onSwipeValueChange) {
 			this._translateX.addListener(({ value }) => {
 				let direction = this.previousTrackedDirection;
@@ -88,16 +97,6 @@ class SwipeRow extends Component {
 				}
 			});
 		}
-	}
-
-	componentWillMount() {
-		this._panResponder = PanResponder.create({
-			onMoveShouldSetPanResponder: (e, gs) => this.handleOnMoveShouldSetPanResponder(e, gs),
-			onPanResponderMove: (e, gs) => this.handlePanResponderMove(e, gs),
-			onPanResponderRelease: (e, gs) => this.handlePanResponderEnd(e, gs),
-			onPanResponderTerminate: (e, gs) => this.handlePanResponderEnd(e, gs),
-			onShouldBlockNativeResponder: _ => false,
-		});
 	}
 
 	componentWillUnmount() {
