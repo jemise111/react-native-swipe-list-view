@@ -14,8 +14,7 @@ import {
 	View
 } from 'react-native';
 
-import SwipeListView from './SwipeListView';
-import SwipeRow from './SwipeRow';
+import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 
 class App extends Component {
 
