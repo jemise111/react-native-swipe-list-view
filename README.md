@@ -1,12 +1,24 @@
 [![npm](https://img.shields.io/npm/v/react-native-swipe-list-view.svg)](https://www.npmjs.com/package/react-native-swipe-list-view) [![npm](https://img.shields.io/npm/dm/react-native-swipe-list-view.svg)](https://www.npmjs.com/package/react-native-swipe-list-view)
 
 # react-native-swipe-list-view
-
+****
 --------
 
 ```<SwipeListView>``` is a ListView with rows that swipe open and closed. Handles default native behavior such as closing rows when ListView is scrolled or when other rows are opened.
 
 Also includes ```<SwipeRow>``` if you want to use a swipeable row outside of the ```<SwipeListView>```
+
+--------
+🔥🔥 BREAKING CHANGES 🔥🔥
+
+For use with RN 0.60+ please use react-native-swipe-list-view@2.0.0+
+
+RN 0.60 and RNSLV 2.0.0 deprecate the use of ListView entirely, please see `example.js` for examples and see the [migrating-to-flatlist doc](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/migrating-to-flatlist.md) for a migration guide if you aren't already using `FlatList`.
+
+The `useFlatList` prop is no longer required, as `FlatList` is the default ListView used.
+
+
+--------
 
 ## Example
 ![](http://i.imgur.com/6fTrdZa.gif) &nbsp;&nbsp;&nbsp;&nbsp; ![](http://i.imgur.com/3IdOA77.gif)
@@ -36,7 +48,6 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 render() {
     return (
         <SwipeListView
-            useFlatList
             data={this.state.listViewData}
             renderItem={ (data, rowMap) => (
                 <View style={styles.rowFront}>
@@ -93,7 +104,6 @@ renderItem={ data => (
 Please see the [migrating-to-flatlist doc](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/migrating-to-flatlist.md) for all details.
 And see `example.js` for a full usage example.
 
-You can continue to use the (deprecated) `ListView` component, however there are some BREAKING CHANGES that are explained in that doc as well
 
 ## Other Useful Guides
  * [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/per-row-behavior.md) (Define different swipe values, stop values, etc for each individual row)

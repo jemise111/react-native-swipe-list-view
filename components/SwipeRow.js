@@ -8,7 +8,6 @@ import {
 	Dimensions,
 	Animated,
 	PanResponder,
-	Platform,
 	StyleSheet,
 	TouchableOpacity,
 	ViewPropTypes,
