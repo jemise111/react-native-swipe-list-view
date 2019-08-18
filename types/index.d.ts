@@ -155,7 +155,7 @@ interface IPropsSwipeListView<T> {
 	/**
 	 * How to render a row in a FlatList. Should return a valid React Element.
 	 */
-	// renderItem(rowData: ListRenderItemInfo<T>, rowMap: RowMap<T>): JSX.Element | null;
+	renderItem(rowData: ListRenderItemInfo<T>, rowMap: RowMap<T>): JSX.Element | null;
 	/**
 	 * How to render a hidden row in a FlatList (renders behind the row). Should return a valid React Element.
 	 * This is required unless renderItem is passing a SwipeRow.
