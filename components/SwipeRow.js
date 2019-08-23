@@ -35,6 +35,7 @@ class SwipeRow extends Component {
 		super(props);
 		this.isOpen = false;
 		this.previousTrackedTranslateX = 0;
+		this.currentTranslateX = 0;
 		this.previousTrackedDirection = null;
 		this.horizontalSwipeGestureBegan = false;
 		this.swipeInitialX = null;
@@ -55,6 +56,10 @@ class SwipeRow extends Component {
 			onPanResponderRelease: (e, gs) => this.handlePanResponderEnd(e, gs),
 			onPanResponderTerminate: (e, gs) => this.handlePanResponderEnd(e, gs),
 			onShouldBlockNativeResponder: _ => false,
+		});
+
+		this._translateX.addListener(({ value }) => {
+			this.currentTranslateX = value;
 		});
 
 		if (this.props.onSwipeValueChange) {
@@ -184,7 +189,7 @@ class SwipeRow extends Component {
 
 			if (this.swipeInitialX === null) {
 				// set tranlateX value when user started swiping
-				this.swipeInitialX = this._translateX._value
+				this.swipeInitialX = this.currentTranslateX
 			}
 			if (!this.horizontalSwipeGestureBegan) {
 				this.horizontalSwipeGestureBegan = true;
