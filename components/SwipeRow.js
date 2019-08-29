@@ -60,10 +60,7 @@ class SwipeRow extends Component {
 
 		this._translateX.addListener(({ value }) => {
 			this.currentTranslateX = value;
-		});
-
-		if (this.props.onSwipeValueChange) {
-			this._translateX.addListener(({ value }) => {
+			if (this.props.onSwipeValueChange) {
 				let direction = this.previousTrackedDirection;
 				if (value !== this.previousTrackedTranslateX) {
 					direction = value > this.previousTrackedTranslateX ? 'right' : 'left';
@@ -75,8 +72,8 @@ class SwipeRow extends Component {
 				});
 				this.previousTrackedTranslateX = value;
 				this.previousTrackedDirection = direction;
-			});
-		}
+			}
+		});
 
 		if (this.props.forceCloseToRightThreshold && this.props.forceCloseToRightThreshold > 0) {
 			this._translateX.addListener(({ value }) => {
@@ -231,27 +228,27 @@ class SwipeRow extends Component {
 
 		// finish up the animation
 		let toValue = 0;
-		if (this._translateX._value >= 0) {
+		if (this.currentTranslateX >= 0) {
 			// trying to swipe right
-			if (this.swipeInitialX < this._translateX._value) {
-				if ((this._translateX._value - projectedExtraPixels) > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if (this.swipeInitialX < this.currentTranslateX) {
+				if ((this.currentTranslateX - projectedExtraPixels) > this.props.leftOpenValue * (this.props.swipeToOpenPercent/100)) {
 					// we're more than halfway
 					toValue = this.props.leftOpenValue;
 				}
 			} else {
-				if ((this._translateX._value - projectedExtraPixels) > this.props.leftOpenValue * (1 - (this.props.swipeToClosePercent/100))) {
+				if ((this.currentTranslateX - projectedExtraPixels) > this.props.leftOpenValue * (1 - (this.props.swipeToClosePercent/100))) {
 					toValue = this.props.leftOpenValue;
 				}
 			}
 		} else {
 			// trying to swipe left
-			if (this.swipeInitialX > this._translateX._value) {
-				if ((this._translateX._value - projectedExtraPixels) < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
+			if (this.swipeInitialX > this.currentTranslateX) {
+				if ((this.currentTranslateX - projectedExtraPixels) < this.props.rightOpenValue * (this.props.swipeToOpenPercent/100)) {
 					// we're more than halfway
 					toValue = this.props.rightOpenValue;
 				}
 			} else {
-				if ((this._translateX._value - projectedExtraPixels) < this.props.rightOpenValue * (1 - (this.props.swipeToClosePercent/100))) {
+				if ((this.currentTranslateX - projectedExtraPixels) < this.props.rightOpenValue * (1 - (this.props.swipeToClosePercent/100))) {
 					toValue = this.props.rightOpenValue;
 				}
 			}
