@@ -46,7 +46,7 @@ render() {
                     }
                 ]}>
                     <TouchableHighlight
-                        onPress={ _ => console.log('You touched me') }
+                        onPress={ () => console.log('You touched me') }
                         style={styles.rowFront}
                         underlayColor={'#AAA'}
                     >

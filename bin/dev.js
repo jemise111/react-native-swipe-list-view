@@ -2,7 +2,10 @@
 
 const fs = require('fs');
 
-fs.copyFileSync('components/SwipeListView.js', 'SwipeListExample/SwipeListView.js');
+fs.copyFileSync(
+    'components/SwipeListView.js',
+    'SwipeListExample/SwipeListView.js'
+);
 fs.copyFileSync('components/SwipeRow.js', 'SwipeListExample/SwipeRow.js');
 
 fs.readFile('SwipeListExample/example.js', 'utf8', (err, data) => {
@@ -11,7 +14,7 @@ fs.readFile('SwipeListExample/example.js', 'utf8', (err, data) => {
         "import SwipeListView from './SwipeListView';\nimport SwipeRow from './SwipeRow';"
     );
 
-    fs.writeFile('SwipeListExample/example.js', result, 'utf8', (err) => {
+    fs.writeFile('SwipeListExample/example.js', result, 'utf8', err => {
         if (err) {
             return console.log(err);
         }
