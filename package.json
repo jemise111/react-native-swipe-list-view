@@ -1,36 +1,45 @@
 {
-  "name": "react-native-swipe-list-view",
-  "version": "2.0.2",
-  "main": "lib/index.js",
-  "author": "Jesse Sessler <jesse.sessler@gmail.com>",
-  "description": "A ListView with rows that swipe open and closed.",
-  "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh",
-    "dev": "node bin/dev.js && cd SwipeListExample && npm run start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jemise111/react-native-swipe-list-view"
-  },
-  "types": "./types/index.d.ts",
-  "license": "MIT",
-  "keywords": [
-    "react",
-    "react-native",
-    "react-component",
-    "ios",
-    "android",
-    "listview",
-    "swipe",
-    "swipeable"
-  ],
-  "peerDependencies": {
-    "prop-types": ">=15.5.0",
-    "react": ">=0.14.8",
-    "react-native": ">=0.23.1"
-  },
-  "devDependencies": {
-    "@types/react": "^16.8.20",
-    "@types/react-native": "^0.57.63"
-  }
+    "name": "react-native-swipe-list-view",
+    "version": "2.0.2",
+    "main": "lib/index.js",
+    "author": "Jesse Sessler <jesse.sessler@gmail.com>",
+    "description": "A ListView with rows that swipe open and closed.",
+    "scripts": {
+        "start": "node_modules/react-native/packager/packager.sh",
+        "dev": "node bin/dev.js && cd SwipeListExample && npm run start",
+        "prettier": "prettier --write --loglevel=warn \"**/*.js\"",
+        "lint": "eslint **/*.js",
+        "fix": "yarn run prettier && yarn run lint"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jemise111/react-native-swipe-list-view"
+    },
+    "types": "./types/index.d.ts",
+    "license": "MIT",
+    "keywords": [
+        "react",
+        "react-native",
+        "react-component",
+        "ios",
+        "android",
+        "listview",
+        "swipe",
+        "swipeable"
+    ],
+    "peerDependencies": {
+        "prop-types": ">=15.5.0",
+        "react": ">=0.14.8",
+        "react-native": ">=0.23.1"
+    },
+    "devDependencies": {
+        "@types/react": "^16.8.20",
+        "@types/react-native": "^0.57.63",
+        "babel-eslint": "^10.0.3",
+        "eslint": "^6.5.1",
+        "eslint-config-prettier": "^6.3.0",
+        "eslint-plugin-prettier": "^3.1.1",
+        "eslint-plugin-react": "^7.16.0",
+        "prettier": "1.18.2"
+    }
 }
