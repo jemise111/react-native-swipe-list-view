@@ -326,20 +326,26 @@ class SwipeRow extends Component {
 		this.horizontalSwipeGestureBegan = false;
 	}
 
+	combinedOnPress = () => {
+		const onPress = this.props.children[1].props.onPress;
+		this.onRowPress();
+		onPress && onPress();
+	}
+
 	renderVisibleContent() {
+		if (!this.props.closeOnRowPress) {
+			return this.props.children[1];
+		}
+
 		// handle touchables
 		const onPress = this.props.children[1].props.onPress;
 
 		if (onPress) {
-			const newOnPress = (...args) => {
-				this.onRowPress();
-				onPress(...args);
-			}
 			return React.cloneElement(
 				this.props.children[1],
 				{
 					...this.props.children[1].props,
-					onPress: newOnPress
+					onPress: this.combinedOnPress
 				}
 			);
 		}
@@ -347,7 +353,7 @@ class SwipeRow extends Component {
 		return (
 			<TouchableOpacity
 				activeOpacity={1}
-				onPress={ _ => this.onRowPress() }
+				onPress={this.combinedOnPress}
 			>
 				{this.props.children[1]}
 			</TouchableOpacity>
