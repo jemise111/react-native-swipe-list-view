@@ -3,7 +3,11 @@
         "es6": true,
         "node": true
     },
-    "extends": ["plugin:prettier/recommended"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:prettier/recommended"
+    ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -18,6 +22,14 @@
     },
     "plugins": ["prettier", "react"],
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "prefer-const": "warn",
+        "no-var": "warn",
+        "react/prop-types": "off"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
 }

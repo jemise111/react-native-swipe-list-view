@@ -56,7 +56,7 @@ class SwipeRow extends Component {
             onPanResponderRelease: (e, gs) => this.handlePanResponderEnd(e, gs),
             onPanResponderTerminate: (e, gs) =>
                 this.handlePanResponderEnd(e, gs),
-            onShouldBlockNativeResponder: _ => false,
+            onShouldBlockNativeResponder: () => false,
         });
 
         this._translateX.addListener(({ value }) => {
@@ -160,12 +160,12 @@ class SwipeRow extends Component {
 
         if (this.props.preview && !this.ranPreview) {
             this.ranPreview = true;
-            let previewOpenValue =
+            const previewOpenValue =
                 this.props.previewOpenValue || this.props.rightOpenValue * 0.5;
             this.getPreviewAnimation(
                 previewOpenValue,
                 this.props.previewOpenDelay
-            ).start(_ => {
+            ).start(() => {
                 this.getPreviewAnimation(0, PREVIEW_CLOSE_DELAY).start();
             });
         }
@@ -368,7 +368,7 @@ class SwipeRow extends Component {
             friction: this.props.friction,
             tension: this.props.tension,
             useNativeDriver: this.props.useNativeDriver,
-        }).start(_ => {
+        }).start(() => {
             this.ensureScrollEnabled();
             if (toValue === 0) {
                 this.isOpen = false;
@@ -636,6 +636,10 @@ SwipeRow.propTypes = {
      * useNativeDriver: true for all animations where possible
      */
     useNativeDriver: PropTypes.bool,
+    /**
+     * Children
+     */
+    children: PropTypes.node.isRequired,
 };
 
 SwipeRow.defaultProps = {

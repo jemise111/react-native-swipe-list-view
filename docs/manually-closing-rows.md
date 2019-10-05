@@ -14,7 +14,7 @@ Each row's ref has a public method called ```closeRow``` that will swipe the row
 ```javascript
 <SwipeListView
     renderHiddenItem={ (rowData, rowMap) => {
-        <TouchableOpacity onPress={ _ => rowMap[rowData.item.key].closeRow() }>
+        <TouchableOpacity onPress={ () => rowMap[rowData.item.key].closeRow() }>
             <Text>I close the row</Text>
         </TouchableOpacity>
     }}

@@ -45,7 +45,7 @@ BEFORE:
     )}
     renderHiddenRow={ (data, secId, rowId, rowMap) => (
         <View style={styles.rowBack}>
-            <TouchableOpacity onPress={ _ => rowMap[`${secId}${rowId}`].closeRow() }>
+            <TouchableOpacity onPress={ () => rowMap[`${secId}${rowId}`].closeRow() }>
                 <Text>Close</Text>
             </TouchableOpacity>
         </View>
@@ -74,7 +74,7 @@ AFTER (Using FlatList):
     )}
     renderHiddenItem={ (rowData, rowMap) => (
         <View style={styles.rowBack}>
-            <TouchableOpacity onPress={ _ => rowMap[rowData.item.key].closeRow() }>
+            <TouchableOpacity onPress={ () => rowMap[rowData.item.key].closeRow() }>
                 <Text>Close</Text>
             </TouchableOpacity>
         </View>

@@ -2,14 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-    FlatList,
-    SectionList,
-    Platform,
-    Text,
-    ViewPropTypes,
-    View,
-} from 'react-native';
+import { FlatList, SectionList, Platform, ViewPropTypes } from 'react-native';
 
 import SwipeRow from './SwipeRow';
 
@@ -139,15 +132,15 @@ class SwipeListView extends Component {
                 onRowDidOpen: toValue =>
                     this.props.onRowDidOpen &&
                     this.props.onRowDidOpen(key, this._rows, toValue),
-                onRowClose: _ =>
+                onRowClose: () =>
                     this.props.onRowClose &&
                     this.props.onRowClose(key, this._rows),
-                onRowDidClose: _ =>
+                onRowDidClose: () =>
                     this.props.onRowDidClose &&
                     this.props.onRowDidClose(key, this._rows),
-                onRowPress: _ => this.onRowPress(),
+                onRowPress: () => this.onRowPress(),
                 setScrollEnabled: enable => this.setScrollEnabled(enable),
-                swipeGestureBegan: _ => this.rowSwipeGestureBegan(key),
+                swipeGestureBegan: () => this.rowSwipeGestureBegan(key),
             });
         } else {
             return (
@@ -162,21 +155,21 @@ class SwipeListView extends Component {
                             : null
                     }
                     ref={row => (this._rows[key] = row)}
-                    swipeGestureBegan={_ => this.rowSwipeGestureBegan(key)}
+                    swipeGestureBegan={() => this.rowSwipeGestureBegan(key)}
                     onRowOpen={toValue => this.onRowOpen(key, toValue)}
                     onRowDidOpen={toValue =>
                         this.props.onRowDidOpen &&
                         this.props.onRowDidOpen(key, this._rows, toValue)
                     }
-                    onRowClose={_ =>
+                    onRowClose={() =>
                         this.props.onRowClose &&
                         this.props.onRowClose(key, this._rows)
                     }
-                    onRowDidClose={_ =>
+                    onRowDidClose={() =>
                         this.props.onRowDidClose &&
                         this.props.onRowDidClose(key, this._rows)
                     }
-                    onRowPress={_ => this.onRowPress(key)}
+                    onRowPress={() => this.onRowPress(key)}
                     shouldItemUpdate={
                         this.props.shouldItemUpdate
                             ? (currentItem, newItem) =>
@@ -268,7 +261,7 @@ class SwipeListView extends Component {
         const HiddenComponent =
             this.props.renderHiddenItem &&
             this.props.renderHiddenItem(rowData, rowMap);
-        let { item, index } = rowData;
+        const { item, index } = rowData;
         let { key } = item;
         if (!key && this.props.keyExtractor) {
             key = this.props.keyExtractor(item, index);

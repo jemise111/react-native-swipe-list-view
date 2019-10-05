@@ -61,7 +61,7 @@ class App extends Component {
 
     deleteSectionRow(rowMap, rowKey) {
         this.closeRow(rowMap, rowKey);
-        var [section, row] = rowKey.split('.');
+        const [section] = rowKey.split('.');
         const newData = [...this.state.sectionListData];
         const prevIndex = this.state.sectionListData[section].data.findIndex(
             item => item.key === rowKey
@@ -70,7 +70,7 @@ class App extends Component {
         this.setState({ sectionListData: newData });
     }
 
-    onRowDidOpen = (rowKey, rowMap) => {
+    onRowDidOpen = rowKey => {
         console.log('This row opened', rowKey);
     };
 
@@ -108,7 +108,9 @@ class App extends Component {
                                                 : 'white',
                                     },
                                 ]}
-                                onPress={_ => this.setState({ listType: type })}
+                                onPress={() =>
+                                    this.setState({ listType: type })
+                                }
                             >
                                 <Text>{type}</Text>
                             </TouchableOpacity>
@@ -122,9 +124,9 @@ class App extends Component {
                 {this.state.listType === 'FlatList' && (
                     <SwipeListView
                         data={this.state.listViewData}
-                        renderItem={(data, rowMap) => (
+                        renderItem={data => (
                             <TouchableHighlight
-                                onPress={_ => console.log('You touched me')}
+                                onPress={() => console.log('You touched me')}
                                 style={styles.rowFront}
                                 underlayColor={'#AAA'}
                             >
@@ -143,7 +145,7 @@ class App extends Component {
                                         styles.backRightBtn,
                                         styles.backRightBtnLeft,
                                     ]}
-                                    onPress={_ =>
+                                    onPress={() =>
                                         this.closeRow(rowMap, data.item.key)
                                     }
                                 >
@@ -156,7 +158,7 @@ class App extends Component {
                                         styles.backRightBtn,
                                         styles.backRightBtnRight,
                                     ]}
-                                    onPress={_ =>
+                                    onPress={() =>
                                         this.deleteRow(rowMap, data.item.key)
                                     }
                                 >
@@ -218,7 +220,7 @@ class App extends Component {
                                             styles.backRightBtn,
                                             styles.backRightBtnLeft,
                                         ]}
-                                        onPress={_ =>
+                                        onPress={() =>
                                             this.closeRow(rowMap, data.item.key)
                                         }
                                     >
@@ -231,7 +233,7 @@ class App extends Component {
                                             styles.backRightBtn,
                                             styles.backRightBtnRight,
                                         ]}
-                                        onPress={_ =>
+                                        onPress={() =>
                                             this.deleteRow(
                                                 rowMap,
                                                 data.item.key
@@ -244,7 +246,9 @@ class App extends Component {
                                     </TouchableOpacity>
                                 </View>
                                 <TouchableHighlight
-                                    onPress={_ => console.log('You touched me')}
+                                    onPress={() =>
+                                        console.log('You touched me')
+                                    }
                                     style={styles.rowFront}
                                     underlayColor={'#AAA'}
                                 >
@@ -264,9 +268,9 @@ class App extends Component {
                     <SwipeListView
                         useSectionList
                         sections={this.state.sectionListData}
-                        renderItem={(data, rowMap) => (
+                        renderItem={data => (
                             <TouchableHighlight
-                                onPress={_ => console.log('You touched me')}
+                                onPress={() => console.log('You touched me')}
                                 style={styles.rowFront}
                                 underlayColor={'#AAA'}
                             >
@@ -285,7 +289,7 @@ class App extends Component {
                                         styles.backRightBtn,
                                         styles.backRightBtnLeft,
                                     ]}
-                                    onPress={_ =>
+                                    onPress={() =>
                                         this.closeRow(rowMap, data.item.key)
                                     }
                                 >
@@ -298,7 +302,7 @@ class App extends Component {
                                         styles.backRightBtn,
                                         styles.backRightBtnRight,
                                     ]}
-                                    onPress={_ =>
+                                    onPress={() =>
                                         this.deleteSectionRow(
                                             rowMap,
                                             data.item.key

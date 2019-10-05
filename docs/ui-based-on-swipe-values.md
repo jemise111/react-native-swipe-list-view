@@ -27,7 +27,7 @@ class App extends Component {
             <SwipeListView
                 renderHiddenItem={ (data, rowMap) => (
                     <View style={styles.rowBack}>
-                        <TouchableOpacity onPress={ _ => this.deleteRow(rowMap, data.item.key) }>
+                        <TouchableOpacity onPress={ () => this.deleteRow(rowMap, data.item.key) }>
                             <Animated.View
                                 style={[
                                     styles.trash,
