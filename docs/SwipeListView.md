@@ -38,7 +38,7 @@ A List that renders `<SwipeRow />`s
 | `previewOpenDelay` | Add some delay before opening the preview row. Can be useful when you have enter animation. | `number`
 | `friction` | Friction for the open / close animation. Controls "bounciness"/overshoot. https://facebook.github.io/react-native/docs/animated#spring | `number` || `7`  
 | `tension` | Tension for the open / close animation. Controls speed. https://facebook.github.io/react-native/docs/animated#spring | `number` || `40`  
-| `onSwipeValueChange` | Callback invoked any time the translateX value of a row changes | `func` | `{ swipeData: { key: string, value: number, direction: 'left' | 'right', isOpen: bool } } : void`
+| `onSwipeValueChange` | Callback invoked any time the translateX value of a row changes | `func` | <code>{ swipeData: { key: string, value: number, direction: 'left' &#124; 'right', isOpen: bool } } : void</code>
 | `renderListView` | To render a custom ListView component, if you don't want to use ReactNative one. Note: This will call `renderRow`, not `renderItem` | `func` | `{ props, setRefCallback, onScrollCallback, renderItemCallback } : ReactElement (ListView)`
 | `previewFirstRow` [DEPRECATED] | Should the first SwipeRow do a slide out preview to show that the list is swipeable | `bool` || `false`
 | `previewRowIndex` [DEPRECATED] | Should the specified rowId do a slide out preview to show that the list is swipeable. ***Note***: This ID will be passed to this function to get the correct row index. https://facebook.github.io/react-native/docs/listviewdatasource.html#getrowidforflatindex | `number`
