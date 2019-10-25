@@ -415,7 +415,11 @@ class SwipeRow extends Component {
         }
 
         return (
-            <TouchableOpacity activeOpacity={1} onPress={this.combinedOnPress}>
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={this.combinedOnPress}
+                accessible={false}
+            >
                 {this.props.children[1]}
             </TouchableOpacity>
         );
