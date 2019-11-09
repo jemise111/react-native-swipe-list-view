@@ -31,7 +31,6 @@ e.g.
 | `swipeToOpenPercent` | What % of the left/right openValue does the user need to swipe past to trigger the row opening. | `number` || `50`
 | `swipeToClosePercent` | What % of the left/right openValue does the user need to swipe past to trigger the row closing. | `number` || `50`
 | `setScrollEnabled` | Used by the SwipeListView to close rows on scroll events. You shouldn't need to use this prop explicitly. | `func` |
-| `tension` | Tension for the open / close animation | `number` |
 | `disableLeftSwipe` | Disable ability to swipe the row left | `bool` || `false`
 | `disableRightSwipe` | Disable ability to swipe the row right | `bool` || `false`
 | `recalculateHiddenLayout` | Enable hidden row onLayout calculations to run always | `bool` || `false`
