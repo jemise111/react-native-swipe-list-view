@@ -57,7 +57,6 @@ BEFORE:
             rowMap[`${secId}${rowId}`].closeRow()
         }, 2000)
     }}
-    previewFirstRow={true}
 />
 ```
 
@@ -86,6 +85,5 @@ AFTER (Using FlatList):
             rowMap[rowKey].closeRow()
         }, 2000)
     }}
-    previewRowKey={this.state.flatListData[0].key}
 />
 ```
