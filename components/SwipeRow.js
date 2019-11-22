@@ -74,6 +74,7 @@ class SwipeRow extends Component {
                         isOpen: this.isOpen,
                         direction,
                         value,
+                        key: this.props.key,
                     });
                 this.previousTrackedTranslateX = value;
                 this.previousTrackedDirection = direction;
@@ -648,6 +649,10 @@ SwipeRow.propTypes = {
      * Children
      */
     children: PropTypes.node.isRequired,
+    /**
+     * Key used to identify rows on swipe value changes
+     */
+    key: PropTypes.string,
 };
 
 SwipeRow.defaultProps = {

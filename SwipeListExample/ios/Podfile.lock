@@ -108,7 +108,7 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - boost-for-react-native
 
 EXTERNAL SOURCES:
@@ -162,26 +162,26 @@ SPEC CHECKSUMS:
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
-  React: c438ccc7e14e86d4702bb92d7e262f549ffaa995
-  React-Core: c76495f5c14e73c0f803b89c3fa83f804da61bd6
-  React-cxxreact: f64bc64cf4682d6ea5a064f6017da72482858682
-  React-DevSupport: 30336bca00f72681eac995d21a31b963e7d5cfec
-  React-fishhook: 73dc8058ca42828cc92e8fbba6cd9571100e10ca
-  React-jsi: 40f467ff088c811c6630acccb4aea57ea7ccb1b5
-  React-jsiexecutor: e4b4717060a0cd8d0270323b5655a68c95432efd
-  React-jsinspector: 044105eea064aec81adc5e4d777a8f6589e7d094
-  React-RCTActionSheet: 08864c609d9f959abf3d51fdd93f8bc6e91f21eb
-  React-RCTAnimation: a4547e9fac2627ded3df9d302f5558b475faf819
-  React-RCTBlob: 62d5c263a2adb8f7a2cafd601beba18a2d99cbbb
-  React-RCTImage: 963859de2b05d2037d1b7842cdbddc8d7f3a2f3b
-  React-RCTLinking: 5998a7db9a6156ed112b006d01f76b2d1cc83d98
-  React-RCTNetwork: 0b676e8194f3f893db813007d37e37e9820173a3
-  React-RCTSettings: fdd7606f1b6050eced69fc6046d5db6768aefd57
-  React-RCTText: 36c0532feb5521cb295ba80e7e44b70cf1c36fc7
-  React-RCTVibration: dabb8d59bb47e1d9124b3f77bfdc1b33d42b0a74
-  React-RCTWebSocket: f32b93e0953d7c07fd5dd45305406282cfdc95cf
-  yoga: 88c514f310aff89b94a14c5fbf44b95735af0cb7
+  React: ac23e9cc8d2d4cfe9b536b5cc0c32d19b9937bcf
+  React-Core: 84de3cf80e31f0267c5ce0b5b482d59ce30a8a57
+  React-cxxreact: a802a1c6b14f3de66ba032460b424c17ececd1e2
+  React-DevSupport: ae72c4fc86c03197f007bb24404077c85f6dabc1
+  React-fishhook: 12bd79b4461280f441937dea83f11d9fb660edfc
+  React-jsi: c2b6e57836bcae2677a036384111dc2c58e94369
+  React-jsiexecutor: d9023c5c199114d2b6f38ec861a4d923c73d0735
+  React-jsinspector: 817b64f3c8a807f09d78620f4f505868d89b26f3
+  React-RCTActionSheet: 9c42321fd5652515d706dd722c5a10b1970d7ec8
+  React-RCTAnimation: fabb087dde8964c9a835a7fabd0e7e5701787913
+  React-RCTBlob: 93f34281d9c9c9e216b25824309eed9fe22a5d41
+  React-RCTImage: b09f30159b048eb9a0f859f8f9b0878f3311e8eb
+  React-RCTLinking: 9dba672b3d5aadab59e93f9ab8c65e5e24b9fb73
+  React-RCTNetwork: 4b2f706819f08b6fa15c47909985f96b80859832
+  React-RCTSettings: 59c0eedc36b9aa9dd21cdbb5ab9591ba04132b1f
+  React-RCTText: b026f8350c2cbe0daeb9880dd9c6e018fce0daf7
+  React-RCTVibration: 5d9ed4a968e9d42880ddcc7c29bee3417c745408
+  React-RCTWebSocket: 69d8565d66043f244b4129f3d7154c5689fb7d3e
+  yoga: 843fe25849b56131275bf3e5da2c468e96f68aff
 
 PODFILE CHECKSUM: 8e7b8eafe4ea10cb2c36e601f8d108bfe851db7b
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.1
