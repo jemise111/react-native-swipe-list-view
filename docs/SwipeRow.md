@@ -49,4 +49,4 @@ e.g.
 | `onForceCloseToLeftEnd` | Callback invoked when row has finished force closing to the Left End | `func` |
 | `onForceCloseToRightEnd` | Callback invoked when row has finished force closing to the Right End | `func` |
 | `useNativeDriver` | useNativeDriver: `true` for all animations | `bool` | `true` |
-| `key` | Optional key to identify a standalone row, used in the `onSwipeValueChange` callback | `string`
+| `swipeKey` | Optional key to identify a standalone row, used in the `onSwipeValueChange` callback | `string`
