@@ -40,8 +40,8 @@ class SwipeRow extends Component {
         this.ranPreview = false;
         this._ensureScrollEnabledTimer = null;
         this.isForceClosing = false;
-        this.previewRepeatInterval = null;
         this.state = {
+            previewRepeatInterval: null,
             dimensionsSet: false,
             hiddenHeight: this.props.disableHiddenLayoutCalculation
                 ? '100%'
@@ -140,9 +140,10 @@ class SwipeRow extends Component {
         return false;
     }
 
-    getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps, prevState) {
         if (!nextProps.previewRepeat) {
-            clearInterval(this.previewRepeatInterval);
+            clearInterval(prevState.previewRepeatInterval);
+            prevState.previewRepeatInterval = null;
         }
         return prevState;
     }
@@ -170,9 +171,11 @@ class SwipeRow extends Component {
         if (this.props.preview && !this.ranPreview) {
             this.ranPreview = true;
             if (this.props.previewRepeat) {
-                this.previewRepeatInterval = setInterval(() => {
-                    this.doFullAnimation();
-                }, this.props.previewDuration * 2.5 + this.props.previewRepeatDelay);
+                this.setState({
+                    previewRepeatInterval: setInterval(() => {
+                        this.doFullAnimation();
+                    }, this.props.previewDuration * 2.5 + this.props.previewRepeatDelay),
+                });
             } else {
                 this.doFullAnimation();
             }
