@@ -171,10 +171,16 @@ class SwipeRow extends Component {
         if (this.props.preview && !this.ranPreview) {
             this.ranPreview = true;
             if (this.props.previewRepeat) {
+                const totalRepeatDelay =
+                    (this.props.previewDuration +
+                        this.props.previewOpenDelay +
+                        PREVIEW_CLOSE_DELAY) *
+                        2.5 +
+                    this.props.previewRepeatDelay;
                 this.setState({
                     previewRepeatInterval: setInterval(() => {
                         this.doFullAnimation();
-                    }, this.props.previewDuration * 2.5 + this.props.previewRepeatDelay),
+                    }, totalRepeatDelay),
                 });
             } else {
                 this.doFullAnimation();
