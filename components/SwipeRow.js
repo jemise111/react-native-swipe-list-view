@@ -40,6 +40,7 @@ class SwipeRow extends Component {
         this.ranPreview = false;
         this._ensureScrollEnabledTimer = null;
         this.isForceClosing = false;
+        this.previewRepeatInterval = null;
         this.state = {
             dimensionsSet: false,
             hiddenHeight: this.props.disableHiddenLayoutCalculation
@@ -139,6 +140,13 @@ class SwipeRow extends Component {
         return false;
     }
 
+    getDerivedStateFromProps(nextProps, prevState) {
+        if (!nextProps.previewRepeat) {
+            clearInterval(this.previewRepeatInterval);
+        }
+        return prevState;
+    }
+
     getPreviewAnimation(toValue, delay) {
         return Animated.timing(this._translateX, {
             duration: this.props.previewDuration,
@@ -161,15 +169,25 @@ class SwipeRow extends Component {
 
         if (this.props.preview && !this.ranPreview) {
             this.ranPreview = true;
-            const previewOpenValue =
-                this.props.previewOpenValue || this.props.rightOpenValue * 0.5;
-            this.getPreviewAnimation(
-                previewOpenValue,
-                this.props.previewOpenDelay
-            ).start(() => {
-                this.getPreviewAnimation(0, PREVIEW_CLOSE_DELAY).start();
-            });
+            if (this.props.previewRepeat) {
+                this.previewRepeatInterval = setInterval(() => {
+                    this.doFullAnimation();
+                }, this.props.previewDuration * 2.5 + this.props.previewRepeatDelay);
+            } else {
+                this.doFullAnimation();
+            }
         }
+    }
+
+    doFullAnimation() {
+        const previewOpenValue =
+            this.props.previewOpenValue || this.props.rightOpenValue * 0.5;
+        return this.getPreviewAnimation(
+            previewOpenValue,
+            this.props.previewOpenDelay
+        ).start(() => {
+            this.getPreviewAnimation(0, PREVIEW_CLOSE_DELAY).start();
+        });
     }
 
     onRowPress() {
@@ -585,6 +603,15 @@ SwipeRow.propTypes = {
      */
     previewDuration: PropTypes.number,
     /**
+     * Should the animation repeat until false is provided
+     */
+    previewRepeat: PropTypes.bool,
+    /**
+     * Time between each full completed animation in milliseconds
+     * Default: 1000 (1 second)
+     */
+    previewRepeatDelay: PropTypes.number,
+    /**
      * TranslateX value for the slide out preview animation
      * Default: 0.5 * props.rightOpenValue
      */
@@ -672,6 +699,8 @@ SwipeRow.defaultProps = {
     swipeToClosePercent: 50,
     item: {},
     useNativeDriver: true,
+    previewRepeat: false,
+    previewRepeatDelay: 1000,
 };
 
 export default SwipeRow;
