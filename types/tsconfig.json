@@ -18,7 +18,6 @@
 		"forceConsistentCasingInFileNames": true
 	},
 	"files": [
-		"index.d.ts",
-		"tests.ts"
+		"index.d.ts"
 	]
 }
