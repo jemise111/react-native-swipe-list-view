@@ -17,12 +17,12 @@ The following values can be dynamic by passing them as props on the ```<SwipeRow
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 
 <SwipeListView
-    dataSource={dataSource.cloneWithRows(data)}
+    data={data}
     renderItem={ (rowData, rowMap) => (
         <SwipeRow
-            disableRightSwipe={parseInt(rowId) % 2 !== 0}
-            disableLeftSwipe={parseInt(rowId) % 2 === 0}
-            leftOpenValue={20 + parseInt(rowId) * 5}
+            disableRightSwipe={parseInt(data.item.key) % 2 !== 0}
+            disableLeftSwipe={parseInt(data.item.key) % 2 === 0}
+            leftOpenValue={20 + parseInt(data.item.key) * 5}
             rightOpenValue={-150}
         >
             <View style={styles.rowBack}>
