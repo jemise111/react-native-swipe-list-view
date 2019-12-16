@@ -210,6 +210,8 @@ class SwipeListView extends Component {
                     previewDuration={this.props.previewDuration}
                     previewOpenDelay={this.props.previewOpenDelay}
                     previewOpenValue={this.props.previewOpenValue}
+                    previewRepeat={this.props.previewRepeat}
+                    previewRepeatDelay={this.props.previewRepeatDelay}
                     tension={this.props.tension}
                     friction={this.props.friction}
                     directionalDistanceChangeThreshold={
@@ -444,9 +446,18 @@ SwipeListView.propTypes = {
      */
     previewDuration: PropTypes.number,
     /**
+     * Should the animation repeat until false is provided
+     */
+    previewRepeat: PropTypes.bool,
+    /**
+     * Time between each full completed animation in milliseconds
+     * Default: 1000 (1 second)
+     */
+    previewRepeatDelay: PropTypes.number,
+    /**
      * Delay of the slide out preview animation (milliseconds) // default 700ms
      */
-    prewiewOpenDelay: PropTypes.number,
+    previewOpenDelay: PropTypes.number,
     /**
      * TranslateX value for the slide out preview animation
      * Default: 0.5 * props.rightOpenValue
@@ -511,6 +522,8 @@ SwipeListView.defaultProps = {
     swipeToOpenVelocityContribution: 0,
     swipeToClosePercent: 50,
     useNativeDriver: true,
+    previewRepeat: false,
+    previewRepeatDelay: 1000,
 };
 
 export default SwipeListView;

@@ -37,6 +37,8 @@ e.g.
 | `style` | Styles for the parent wrapper View of the SwipeRow | `object` |
 | `preview` | Should the row do a slide out preview to show that it is swipeable | `bool` || `false`
 | `previewDuration` | Duration of the slide out preview animation | `number` || `300`
+| `previewRepeat` | Should the animation repeat | `bool` || `false`
+| `previewRepeatDelay` | Delay between each preview repeat in milliseconds | `number` || `1000`
 | `previewOpenValue` | TranslateX value for the slide out preview animation | `number` || 0.5 * props.rightOpenValue
 | `onSwipeValueChange` | Callback invoked any time the translateX value of the row changes | `func` | <code>{ swipeData: { key: string, value: number, direction: 'left' &#124; 'right', isOpen: bool } } : void</code>
 | `swipeGestureBegan` | Called when the row is animating swipe | `func` | `{ } : void`

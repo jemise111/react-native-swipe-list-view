@@ -34,6 +34,8 @@ A List that renders `<SwipeRow />`s
 | `listViewRef` | Called when the ListView ref is set and passes a ref to the ListView. e.g. `listViewRef={ ref => this._swipeListViewRef = ref }` | `func` | `{ ref: ListView | FlatList | SectionList } : void`
 | `previewRowKey` | Should the row with this key do a slide out preview to show that the list is swipeable | `string`
 | `previewDuration` | Duration of the slide out preview animation | `number`
+| `previewRepeat` | Should the animation repeat | `bool` || `false`
+| `previewRepeatDelay` | Delay between each preview repeat in milliseconds | `number` || `1000`
 | `previewOpenValue` | TranslateX value for the slide out preview animation. | `number` || `0.5 * props.rightOpenValue`
 | `previewOpenDelay` | Add some delay before opening the preview row. Can be useful when you have enter animation. | `number`
 | `friction` | Friction for the open / close animation. Controls "bounciness"/overshoot. https://facebook.github.io/react-native/docs/animated#spring | `number` || `7`  

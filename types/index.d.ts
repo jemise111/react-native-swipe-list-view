@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { StyleProp, ViewStyle, Animated, LayoutChangeEvent, GestureResponderEvent, PanResponderGestureState, ListView, NativeSyntheticEvent, NativeScrollEvent, ListRenderItemInfo, ListViewDataSource, SectionListProps, FlatListProps } from 'react-native';
+import { StyleProp, ViewStyle, ListView, NativeSyntheticEvent, NativeScrollEvent, ListRenderItemInfo, ListViewDataSource, SectionListProps, FlatListProps } from 'react-native';
 
 interface IPropsSwipeRow<T> {
 	/**
@@ -88,6 +88,15 @@ interface IPropsSwipeRow<T> {
 	 */
 	previewDuration: number;
 	/**
+	 * Should the animation repeat until false is provided
+	 */
+	previewRepeat: boolean,
+	/**
+	 * Time between each full completed animation in milliseconds
+	 * Default: 1000 (1 second)
+	 */
+	previewRepeatDelay: number,
+	/**
 	 * TranslateX value for the slide out preview animation
 	 * Default: 0.5 * props.rightOpenValue
 	 */
@@ -144,7 +153,6 @@ interface IPropsSwipeListView<T> {
 	// 	data: T[];
 	// }>;
 	// renderSectionHeader: unknown;
-	previewOpenDelay: number;
 	dataSource: ListViewDataSource;
 	// onScroll(event: NativeSyntheticEvent<NativeScrollEvent>): void;
 	/**
@@ -279,9 +287,18 @@ interface IPropsSwipeListView<T> {
 	 */
 	previewDuration: number;
 	/**
+	 * Should the animation repeat until false is provided
+	 */
+	previewRepeat: boolean,
+	/**
+	 * Time between each full completed animation in milliseconds
+	 * Default: 1000 (1 second)
+	 */
+	previewRepeatDelay: number,
+	/**
 	 * Delay of the slide out preview animation (milliseconds) // default 700ms
 	 */
-	prewiewOpenDelay: number;
+	previewOpenDelay: number;
 	/**
 	 * TranslateX value for the slide out preview animation
 	 * Default: 0.5 * props.rightOpenValue

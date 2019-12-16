@@ -21,6 +21,8 @@ export type SwipeRowPropsType = {
     style?: ViewPropTypes.style,
     preview?: boolean,
     previewDuration?: number,
+    previewRepeat?: boolean,
+    previewRepeatDelay?: number,
     previewOpenValue?: number,
     directionalDistanceChangeThreshold?: number,
     swipeToOpenPercent?: number,
@@ -43,6 +45,8 @@ export type SwipeRowPropsType = {
 };
 
 export type SwipeRowStateType = {
+    previewRepeatInterval: number,
+    timeBetweenPreviewRepeats: number,
     dimensionsSet: boolean,
     hiddenHeight: string | number,
     hiddenWidth: string | number,
@@ -76,6 +80,8 @@ export type SwipeListPropsType = {
     previewRowKey: string,
     previewFirstRow: boolean,
     previewDuration?: number,
+    previewRepeat?: boolean,
+    previewRepeatDelay?: number,
     previewOpenDelay: number,
     previewOpenValue: number,
     friction?: number,
