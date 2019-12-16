@@ -46,6 +46,7 @@ export type SwipeRowPropsType = {
 
 export type SwipeRowStateType = {
     previewRepeatInterval: number,
+    timeBetweenPreviewRepeats: number,
     dimensionsSet: boolean,
     hiddenHeight: string | number,
     hiddenWidth: string | number,
