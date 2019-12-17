@@ -347,11 +347,15 @@ interface IPropsSwipeListView<T> {
 	}): void;
 }
 
-interface IUseSectionListProps<T> extends SectionListProps<T>, IPropsSwipeListView<T> {
+type SectionListPropsOverride<T> = Omit<SectionListProps<T>, 'renderItem'>
+
+interface IUseSectionListProps<T> extends SectionListPropsOverride<T>, IPropsSwipeListView<T> {
 	useSectionList: boolean;
 }
 
-interface IUseFlatListProps<T> extends FlatListProps<T>, IPropsSwipeListView<T> {
+type FlatListPropsOverride<T> = Omit<FlatListProps<T>, 'renderItem'>
+
+interface IUseFlatListProps<T> extends FlatListPropsOverride<T>, IPropsSwipeListView<T> {
 	useFlatList: boolean;
 }
 
