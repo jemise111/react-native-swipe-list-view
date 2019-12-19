@@ -285,7 +285,9 @@ class SwipeRow extends Component {
     handlePanResponderEnd(e, gestureState) {
         /* PandEnd will reset the force-closing state when it's true. */
         if (this.isForceClosing) {
-            this.isForceClosing = false;
+            setTimeout(() => {
+                this.isForceClosing = false;
+            }, 500); // 500 is the default Animated.spring's duration used in manuallySwipeRow
         }
         // decide how much the velocity will affect the final position that the list item settles in.
         const swipeToOpenVelocityContribution = this.props
@@ -318,7 +320,9 @@ class SwipeRow extends Component {
                         (this.props.swipeToOpenPercent / 100)
                 ) {
                     // we're more than halfway
-                    toValue = this.props.leftOpenValue;
+                    toValue = this.isForceClosing
+                        ? 0
+                        : this.props.leftOpenValue;
                 }
             } else {
                 if (
@@ -326,7 +330,9 @@ class SwipeRow extends Component {
                     this.props.leftOpenValue *
                         (1 - this.props.swipeToClosePercent / 100)
                 ) {
-                    toValue = this.props.leftOpenValue;
+                    toValue = this.isForceClosing
+                        ? 0
+                        : this.props.leftOpenValue;
                 }
             }
         } else {
@@ -340,7 +346,9 @@ class SwipeRow extends Component {
                         (this.props.swipeToOpenPercent / 100)
                 ) {
                     // we're more than halfway
-                    toValue = this.props.rightOpenValue;
+                    toValue = this.isForceClosing
+                        ? 0
+                        : this.props.rightOpenValue;
                 }
             } else {
                 if (
@@ -348,7 +356,9 @@ class SwipeRow extends Component {
                     this.props.rightOpenValue *
                         (1 - this.props.swipeToClosePercent / 100)
                 ) {
-                    toValue = this.props.rightOpenValue;
+                    toValue = this.isForceClosing
+                        ? 0
+                        : this.props.rightOpenValue;
                 }
             }
         }
