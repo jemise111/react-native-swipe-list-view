@@ -26,11 +26,10 @@ class SwipeListView extends Component {
             };
         }
     }
-    
-    componentWillReceiveProps(nextProps) {
-		if(nextProps.refreshing)
-			this.safeCloseOpenRow();
-	}
+
+    componentDidUpdate(nextProps) {
+        if (nextProps.refreshing) this.safeCloseOpenRow();
+    }
 
     setScrollEnabled(enable) {
         if (this.props.scrollEnabled === false) {
