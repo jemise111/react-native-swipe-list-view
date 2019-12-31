@@ -25,7 +25,8 @@
         "prettier/prettier": "error",
         "prefer-const": "warn",
         "no-var": "warn",
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "curly": "warn"
     },
     "settings": {
         "react": {

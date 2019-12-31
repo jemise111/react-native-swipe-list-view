@@ -311,7 +311,9 @@ class SwipeRow extends Component {
         let toValue = 0;
         if (this.currentTranslateX >= 0) {
             // trying to swipe right
-            if (this.props.disableRightSwipe) return;
+            if (this.props.disableRightSwipe) {
+                return;
+            }
 
             if (this.swipeInitialX < this.currentTranslateX) {
                 if (
@@ -337,7 +339,9 @@ class SwipeRow extends Component {
             }
         } else {
             // trying to swipe left
-            if (this.props.disableLeftSwipe) return;
+            if (this.props.disableLeftSwipe) {
+                return;
+            }
 
             if (this.swipeInitialX > this.currentTranslateX) {
                 if (
