@@ -140,6 +140,7 @@ export class SwipeRow<T> extends Component<Partial<IPropsSwipeRow<T>>> {
 	closeRow: () => void;
 	closeRowWithoutAnimation: () => void;
 	render(): JSX.Element;
+	manuallySwipeRow: (toValue: number, onAnimationEnd?: () => void) => void;
 }
 
 type IRenderListViewProps<T> = Omit<Omit<Omit<IPropsSwipeListView<T>, 'useFlatList'>, 'useSectionList'>, 'renderListView'>;
