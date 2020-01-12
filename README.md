@@ -39,6 +39,9 @@ The application under ./SwipeListExample will produce the above example. To run 
 * ```cd react-native-swipe-list-view```
 * ```cd SwipeListExample```
 * ```yarn```
+* ```cd ios```
+* ```pod install```
+* ```cd ..```
 * ```react-native run-ios | react-native run-android```
 
 ## Usage
