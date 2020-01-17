@@ -31,6 +31,8 @@ class SwipeRow extends Component {
     constructor(props) {
         super(props);
         this.isOpen = false;
+        this.leftActionActivated = false;
+        this.rightActionActivated = false;
         this.previousTrackedTranslateX = 0;
         this.currentTranslateX = 0;
         this.previousTrackedDirection = null;
@@ -41,6 +43,10 @@ class SwipeRow extends Component {
         this._ensureScrollEnabledTimer = null;
         this.isForceClosing = false;
         this.state = {
+            leftActionActivated: false,
+            rightActionActivated: false,
+            leftActionEvaluated: false,
+            rightActionEvaluated: false,
             previewRepeatInterval: null,
             timeBetweenPreviewRepeats: null,
             dimensionsSet: false,
@@ -91,7 +97,7 @@ class SwipeRow extends Component {
                 if (
                     !this.isForceClosing &&
                     Dimensions.get('window').width + value <
-                        this.props.forceCloseToRightThreshold
+                    this.props.forceCloseToRightThreshold
                 ) {
                     this.isForceClosing = true;
                     this.forceCloseRow('right');
@@ -110,13 +116,56 @@ class SwipeRow extends Component {
                 if (
                     !this.isForceClosing &&
                     Dimensions.get('window').width - value <
-                        this.props.forceCloseToLeftThreshold
+                    this.props.forceCloseToLeftThreshold
                 ) {
                     this.isForceClosing = true;
                     this.forceCloseRow('left');
                     if (this.props.onForceCloseToLeft) {
                         this.props.onForceCloseToLeft();
                     }
+                }
+            });
+        }
+
+        if (
+            this.props.onLeftActionStatusChange &&
+            this.props.leftActivationValue &&
+            this.props.leftActivationValue > 0
+        ) {
+            this._translateX.addListener(({ value }) => {
+                const absValue = Math.abs(value);
+                const isActivated = absValue > this.props.leftActivationValue;
+                if (this.leftActionActivated !== isActivated && value > 0) {
+                    this.props.onLeftActionStatusChange({
+                        isActivated,
+                        value,
+                    });
+                    this.leftActionActivated = isActivated;
+                    this.setState({
+                        leftActionActivated: isActivated,
+                    });
+                }
+            });
+        }
+
+        if (
+            this.props.onRightActionStatusChange &&
+            this.props.rightActivationValue &&
+            this.props.rightActivationValue < 0
+        ) {
+            this._translateX.addListener(({ value }) => {
+                const absValue = Math.abs(value);
+                const isActivated =
+                    absValue > Math.abs(this.props.rightActivationValue);
+                if (this.rightActionActivated !== isActivated && value < 0) {
+                    this.props.onRightActionStatusChange({
+                        isActivated,
+                        value,
+                    });
+                    this.rightActionActivated = isActivated;
+                    this.setState({
+                        rightActionActivated: isActivated,
+                    });
                 }
             });
         }
@@ -131,6 +180,12 @@ class SwipeRow extends Component {
         if (
             this.state.hiddenHeight !== nextState.hiddenHeight ||
             this.state.hiddenWidth !== nextState.hiddenWidth ||
+            this.state.leftActionActivated !== nextState.leftActionActivated ||
+            this.state.rightActionActivated !==
+            nextState.rightActionActivated ||
+            this.state.leftActionEvaluated !== nextState.leftActionEvaluated ||
+            this.state.rightActionEvaluated !==
+            nextState.rightActionEvaluated ||
             !this.props.shouldItemUpdate ||
             (this.props.shouldItemUpdate &&
                 this.props.shouldItemUpdate(this.props.item, nextProps.item))
@@ -168,9 +223,9 @@ class SwipeRow extends Component {
             dimensionsSet: !this.props.recalculateHiddenLayout,
             ...(!this.props.disableHiddenLayoutCalculation
                 ? {
-                      hiddenHeight: e.nativeEvent.layout.height,
-                      hiddenWidth: e.nativeEvent.layout.width,
-                  }
+                    hiddenHeight: e.nativeEvent.layout.height,
+                    hiddenWidth: e.nativeEvent.layout.width,
+                }
                 : {}),
         });
 
@@ -309,6 +364,7 @@ class SwipeRow extends Component {
 
         // finish up the animation
         let toValue = 0;
+        let actionSide;
         if (this.currentTranslateX >= 0) {
             // trying to swipe right
             if (this.props.disableRightSwipe) {
@@ -319,22 +375,42 @@ class SwipeRow extends Component {
                 if (
                     this.currentTranslateX - projectedExtraPixels >
                     this.props.leftOpenValue *
-                        (this.props.swipeToOpenPercent / 100)
+                    (this.props.swipeToOpenPercent / 100)
                 ) {
                     // we're more than halfway
                     toValue = this.isForceClosing
                         ? 0
                         : this.props.leftOpenValue;
                 }
+                if (
+                    this.currentTranslateX - projectedExtraPixels >
+                    this.props.leftActivationValue
+                ) {
+                    // we're more than halfway
+                    toValue = this.isForceClosing
+                        ? 0
+                        : this.props.leftActionValue;
+
+                    actionSide = 'left';
+                }
             } else {
                 if (
                     this.currentTranslateX - projectedExtraPixels >
                     this.props.leftOpenValue *
-                        (1 - this.props.swipeToClosePercent / 100)
+                    (1 - this.props.swipeToClosePercent / 100)
                 ) {
                     toValue = this.isForceClosing
                         ? 0
                         : this.props.leftOpenValue;
+                }
+                if (
+                    this.currentTranslateX - projectedExtraPixels >
+                    this.props.leftActivationValue
+                ) {
+                    toValue = this.isForceClosing
+                        ? 0
+                        : this.props.leftActionValue;
+                    actionSide = 'left';
                 }
             }
         } else {
@@ -347,27 +423,68 @@ class SwipeRow extends Component {
                 if (
                     this.currentTranslateX - projectedExtraPixels <
                     this.props.rightOpenValue *
-                        (this.props.swipeToOpenPercent / 100)
+                    (this.props.swipeToOpenPercent / 100)
                 ) {
                     // we're more than halfway
                     toValue = this.isForceClosing
                         ? 0
                         : this.props.rightOpenValue;
                 }
+                if (
+                    this.currentTranslateX - projectedExtraPixels <
+                    this.props.rightActivationValue
+                ) {
+                    // we're more than halfway
+                    toValue = this.isForceClosing
+                        ? 0
+                        : this.props.rightActionValue;
+
+                    actionSide = 'right';
+                }
             } else {
                 if (
                     this.currentTranslateX - projectedExtraPixels <
-                    this.props.rightOpenValue *
-                        (1 - this.props.swipeToClosePercent / 100)
+                    this.props.rightOpenValue
                 ) {
                     toValue = this.isForceClosing
                         ? 0
                         : this.props.rightOpenValue;
                 }
+                if (
+                    this.currentTranslateX - projectedExtraPixels <
+                    this.props.rightActivationValue *
+                    (1 - this.props.swipeToClosePercent / 100)
+                ) {
+                    toValue = this.isForceClosing
+                        ? 0
+                        : this.props.rightActionValue;
+
+                    actionSide = 'right';
+                }
             }
         }
 
-        this.manuallySwipeRow(toValue);
+        let action;
+        if (actionSide === 'right') {
+            action = () => {
+                this.props.onRightAction && this.props.onRightAction();
+                !this.state.rightActionEvaluated &&
+                    this.setState({
+                        rightActionEvaluated: true,
+                    });
+            };
+        }
+        if (actionSide === 'left') {
+            action = () => {
+                this.props.onLeftAction && this.props.onLeftAction();
+                !this.state.leftActionEvaluated &&
+                    this.setState({
+                        leftActionEvaluated: true,
+                    });
+            };
+        }
+
+        this.manuallySwipeRow(toValue, action);
     }
 
     /*
@@ -446,7 +563,13 @@ class SwipeRow extends Component {
 
     renderVisibleContent() {
         if (!this.props.closeOnRowPress) {
-            return this.props.children[1];
+            return React.cloneElement(this.props.children[1], {
+                ...this.props.children[1].props,
+                leftActionActivated: this.state.leftActionActivated,
+                rightActionActivated: this.state.rightActionActivated,
+                leftActionEvaluated: this.state.leftActionEvaluated,
+                rightActionEvaluated: this.state.rightActionEvaluated,
+            });
         }
 
         // handle touchables
@@ -456,6 +579,10 @@ class SwipeRow extends Component {
             return React.cloneElement(this.props.children[1], {
                 ...this.props.children[1].props,
                 onPress: this.combinedOnPress,
+                leftActionActivated: this.state.leftActionActivated,
+                rightActionActivated: this.state.rightActionActivated,
+                leftActionEvaluated: this.state.leftActionEvaluated,
+                rightActionEvaluated: this.state.rightActionEvaluated,
             });
         }
 
@@ -465,7 +592,13 @@ class SwipeRow extends Component {
                 onPress={this.combinedOnPress}
                 accessible={false}
             >
-                {this.props.children[1]}
+                {React.cloneElement(this.props.children[1], {
+                    ...this.props.children[1].props,
+                    leftActionActivated: this.state.leftActionActivated,
+                    rightActionActivated: this.state.rightActionActivated,
+                    leftActionEvaluated: this.state.leftActionEvaluated,
+                    rightActionEvaluated: this.state.rightActionEvaluated,
+                })}
             </TouchableOpacity>
         );
     }
@@ -517,7 +650,13 @@ class SwipeRow extends Component {
                         },
                     ]}
                 >
-                    {this.props.children[0]}
+                    {React.cloneElement(this.props.children[0], {
+                        ...this.props.children[0].props,
+                        leftActionActivated: this.state.leftActionActivated,
+                        rightActionActivated: this.state.rightActionActivated,
+                        leftActionEvaluated: this.state.leftActionEvaluated,
+                        rightActionEvaluated: this.state.rightActionEvaluated,
+                    })}
                 </View>
                 {this.renderRowContent()}
             </View>

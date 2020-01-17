@@ -176,6 +176,46 @@ class SwipeListView extends Component {
                         this.props.onRowDidClose(key, this._rows)
                     }
                     onRowPress={() => this.onRowPress(key)}
+                    leftActivationValue={
+                        item.leftActivationValue ||
+                        this.props.leftActivationValue
+                    }
+                    rightActivationValue={
+                        item.rightActivationValue ||
+                        this.props.rightActivationValue
+                    }
+                    leftActionValue={
+                        item.leftActionValue || this.props.leftActionValue
+                    }
+                    rightActionValue={
+                        item.rightActionValue || this.props.rightActionValue
+                    }
+                    onLeftAction={() =>
+                        item.onLeftAction | this.props.onLeftAction &&
+                        this.props.onLeftAction(key, this._rows)
+                    }
+                    onRightAction={() =>
+                        item.onRightAction | this.props.onRightAction &&
+                        this.props.onRightAction(key, this._rows)
+                    }
+                    onLeftActionStatusChange={
+                        this.props.onLeftActionStatusChange
+                            ? data =>
+                                  this.props.onLeftActionStatusChange({
+                                      ...data,
+                                      key,
+                                  })
+                            : null
+                    }
+                    onRightActionStatusChange={
+                        this.props.onRightActionStatusChange
+                            ? data =>
+                                  this.props.onRightActionStatusChange({
+                                      ...data,
+                                      key,
+                                  })
+                            : null
+                    }
                     shouldItemUpdate={
                         this.props.shouldItemUpdate
                             ? (currentItem, newItem) =>
