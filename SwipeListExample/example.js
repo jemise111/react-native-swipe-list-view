@@ -443,7 +443,7 @@ class App extends Component {
                                     }
                                     rowSwipeAnimatedValue={
                                         this.rowSwipeAnimatedValues[
-                                        data.item.key
+                                            data.item.key
                                         ]
                                     }
                                     onClose={() =>
