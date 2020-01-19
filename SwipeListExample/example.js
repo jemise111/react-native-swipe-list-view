@@ -17,7 +17,7 @@ const HiddenItemWithActions = props => {
     const {
         leftActionActivated,
         rightActionActivated,
-        rowSwipeAnimatedValue,
+        swipeAnimatedValue,
         rowActionAnimatedValue,
         rowHeightAnimatedValue,
         onClose,
@@ -69,10 +69,10 @@ const HiddenItemWithActions = props => {
                                 {
                                     transform: [
                                         {
-                                            scale: rowSwipeAnimatedValue.interpolate(
+                                            scale: swipeAnimatedValue.interpolate(
                                                 {
-                                                    inputRange: [45, 90],
-                                                    outputRange: [0, 1],
+                                                    inputRange: [-90, -45],
+                                                    outputRange: [1, 0],
                                                     extrapolate: 'clamp',
                                                 }
                                             ),
@@ -440,11 +440,6 @@ class App extends Component {
                                     }
                                     rowHeightAnimatedValue={
                                         rowHeightAnimatedValue
-                                    }
-                                    rowSwipeAnimatedValue={
-                                        this.rowSwipeAnimatedValues[
-                                            data.item.key
-                                        ]
                                     }
                                     onClose={() =>
                                         this.closeRow(rowMap, data.item.key)
