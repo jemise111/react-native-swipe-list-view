@@ -714,6 +714,22 @@ SwipeRow.propTypes = {
      */
     rightOpenValue: PropTypes.number,
     /**
+     * TranslateX value for firing onLeftActionStatusChange (positive number)
+     */
+    leftActivationValue: PropTypes.number,
+    /**
+     * TranslateX value for firing onRightActionStatusChange (negative number)
+     */
+    rightActivationValue: PropTypes.number,
+    /**
+     * TranslateX value for left action to which the row will be shifted after gesture release
+     */
+    leftActionValue: PropTypes.number,
+    /**
+     * TranslateX value for right action to which the row will be shifted after gesture release
+     */
+    rightActionValue: PropTypes.number,
+    /**
      * TranslateX value for stop the row to the left (positive number)
      */
     stopLeftSwipe: PropTypes.number,
@@ -757,6 +773,22 @@ SwipeRow.propTypes = {
      * Called when a swipe row has animated closed
      */
     onRowDidClose: PropTypes.func,
+    /**
+     * Called when row shifted to leftActivationValue
+     */
+    onLeftAction: PropTypes.func,
+    /**
+     * Called when row shifted to rightActivationValue
+     */
+    onRightAction: PropTypes.func,
+    /**
+     * Called once when swipe value crosses the leftActivationValue
+     */
+    onLeftActionStatusChange: PropTypes.func,
+    /**
+     * Called once when swipe value crosses the rightActivationValue
+     */
+    onRightActionStatusChange: PropTypes.func,
     /**
      * Styles for the parent wrapper View of the SwipeRow
      */
