@@ -154,10 +154,10 @@ class SwipeListView extends Component {
                     onSwipeValueChange={
                         this.props.onSwipeValueChange
                             ? data =>
-                                this.props.onSwipeValueChange({
-                                    ...data,
-                                    key,
-                                })
+                                  this.props.onSwipeValueChange({
+                                      ...data,
+                                      key,
+                                  })
                             : null
                     }
                     ref={row => (this._rows[key] = row)}
@@ -201,28 +201,28 @@ class SwipeListView extends Component {
                     onLeftActionStatusChange={
                         this.props.onLeftActionStatusChange
                             ? data =>
-                                this.props.onLeftActionStatusChange({
-                                    ...data,
-                                    key,
-                                })
+                                  this.props.onLeftActionStatusChange({
+                                      ...data,
+                                      key,
+                                  })
                             : null
                     }
                     onRightActionStatusChange={
                         this.props.onRightActionStatusChange
                             ? data =>
-                                this.props.onRightActionStatusChange({
-                                    ...data,
-                                    key,
-                                })
+                                  this.props.onRightActionStatusChange({
+                                      ...data,
+                                      key,
+                                  })
                             : null
                     }
                     shouldItemUpdate={
                         this.props.shouldItemUpdate
                             ? (currentItem, newItem) =>
-                                this.props.shouldItemUpdate(
-                                    currentItem,
-                                    newItem
-                                )
+                                  this.props.shouldItemUpdate(
+                                      currentItem,
+                                      newItem
+                                  )
                             : null
                     }
                     setScrollEnabled={enable => this.setScrollEnabled(enable)}
