@@ -139,6 +139,7 @@ class SwipeRow extends Component {
                     this.props.onLeftActionStatusChange({
                         isActivated,
                         value,
+                        key: this.props.swipeKey,
                     });
                     this.leftActionActivated = isActivated;
                     this.setState({
@@ -161,6 +162,7 @@ class SwipeRow extends Component {
                     this.props.onRightActionStatusChange({
                         isActivated,
                         value,
+                        key: this.props.swipeKey,
                     });
                     this.rightActionActivated = isActivated;
                     this.setState({
