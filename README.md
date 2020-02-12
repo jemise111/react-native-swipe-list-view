@@ -4,7 +4,7 @@
 ****
 --------
 
-```<SwipeListView>``` is a ListView with rows that swipe open and closed. Handles default native behavior such as closing rows when ListView is scrolled or when other rows are opened.
+```<SwipeListView>``` is a vertical ListView with rows that swipe open and closed. Handles default native behavior such as closing rows when ListView is scrolled or when other rows are opened.
 
 Also includes ```<SwipeRow>``` if you want to use a swipeable row outside of the ```<SwipeListView>```
 
