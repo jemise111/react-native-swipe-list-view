@@ -191,12 +191,14 @@ class SwipeListView extends Component {
                         item.rightActionValue || this.props.rightActionValue
                     }
                     onLeftAction={() =>
-                        item.onLeftAction | this.props.onLeftAction &&
-                        this.props.onLeftAction(key, this._rows)
+                        item.onLeftAction ||
+                        (this.props.onLeftAction &&
+                            this.props.onLeftAction(key, this._rows))
                     }
                     onRightAction={() =>
-                        item.onRightAction | this.props.onRightAction &&
-                        this.props.onRightAction(key, this._rows)
+                        item.onRightAction ||
+                        (this.props.onRightAction &&
+                            this.props.onRightAction(key, this._rows))
                     }
                     onLeftActionStatusChange={
                         this.props.onLeftActionStatusChange
