@@ -365,110 +365,109 @@ class SwipeRow extends Component {
         );
 
         // finish up the animation
-        let toValue = 0;
-        let actionSide;
         if (this.currentTranslateX >= 0) {
             // trying to swipe right
             if (this.props.disableRightSwipe) {
                 return;
             }
 
-            if (this.swipeInitialX < this.currentTranslateX) {
-                if (
-                    this.currentTranslateX - projectedExtraPixels >
-                    this.props.leftOpenValue *
-                    (this.props.swipeToOpenPercent / 100)
-                ) {
-                    // we're more than halfway
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.leftOpenValue;
-                }
-                if (
-                    this.currentTranslateX - projectedExtraPixels >
-                    this.props.leftActivationValue
-                ) {
-                    // we've passed the threshold to trigger the leftActionValue
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.leftActionValue;
-
-                    actionSide = 'left';
-                }
-            } else {
-                if (
-                    this.currentTranslateX - projectedExtraPixels >
-                    this.props.leftOpenValue *
-                    (1 - this.props.swipeToClosePercent / 100)
-                ) {
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.leftOpenValue;
-                }
-                if (
-                    this.currentTranslateX - projectedExtraPixels >
-                    this.props.leftActivationValue
-                ) {
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.leftActionValue;
-                    actionSide = 'left';
-                }
-            }
+            this.handleRightSwipe(projectedExtraPixels);
         } else {
             // trying to swipe left
             if (this.props.disableLeftSwipe) {
                 return;
             }
 
-            if (this.swipeInitialX > this.currentTranslateX) {
-                if (
-                    this.currentTranslateX - projectedExtraPixels <
-                    this.props.rightOpenValue *
-                    (this.props.swipeToOpenPercent / 100)
-                ) {
-                    // we're more than halfway
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.rightOpenValue;
-                }
-                if (
-                    this.currentTranslateX - projectedExtraPixels <
-                    this.props.rightActivationValue
-                ) {
-                    // we've passed the threshold to trigger the rightActionValue
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.rightActionValue;
+            this.handleLeftSwipe(projectedExtraPixels);
+        }
+    }
 
-                    actionSide = 'right';
-                }
-            } else {
-                if (
-                    this.currentTranslateX - projectedExtraPixels <
-                    this.props.rightOpenValue
-                ) {
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.rightOpenValue;
-                }
-                if (
-                    this.currentTranslateX - projectedExtraPixels <
-                    this.props.rightActivationValue *
-                    (1 - this.props.swipeToClosePercent / 100)
-                ) {
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.rightActionValue;
+    handleRightSwipe(projectedExtraPixels) {
+        let toValue = 0;
+        let actionSide;
+        if (this.swipeInitialX < this.currentTranslateX) {
+            if (
+                this.currentTranslateX - projectedExtraPixels >
+                this.props.leftOpenValue * (this.props.swipeToOpenPercent / 100)
+            ) {
+                // we're more than halfway
+                toValue = this.isForceClosing ? 0 : this.props.leftOpenValue;
+            }
+            if (
+                this.currentTranslateX - projectedExtraPixels >
+                this.props.leftActivationValue
+            ) {
+                // we've passed the threshold to trigger the leftActionValue
+                toValue = this.isForceClosing ? 0 : this.props.leftActionValue;
 
-                    actionSide = 'right';
-                }
+                actionSide = 'left';
+            }
+        } else {
+            if (
+                this.currentTranslateX - projectedExtraPixels >
+                this.props.leftOpenValue *
+                (1 - this.props.swipeToClosePercent / 100)
+            ) {
+                toValue = this.isForceClosing ? 0 : this.props.leftOpenValue;
+            }
+            if (
+                this.currentTranslateX - projectedExtraPixels >
+                this.props.leftActivationValue
+            ) {
+                toValue = this.isForceClosing ? 0 : this.props.leftActionValue;
+                actionSide = 'left';
             }
         }
 
-        let action;
+        const action = this.determineAction(actionSide);
+        this.manuallySwipeRow(toValue, action);
+    }
+
+    handleLeftSwipe(projectedExtraPixels) {
+        let toValue = 0;
+        let actionSide;
+        if (this.swipeInitialX > this.currentTranslateX) {
+            if (
+                this.currentTranslateX - projectedExtraPixels <
+                this.props.rightOpenValue *
+                (this.props.swipeToOpenPercent / 100)
+            ) {
+                // we're more than halfway
+                toValue = this.isForceClosing ? 0 : this.props.rightOpenValue;
+            }
+            if (
+                this.currentTranslateX - projectedExtraPixels <
+                this.props.rightActivationValue
+            ) {
+                // we've passed the threshold to trigger the rightActionValue
+                toValue = this.isForceClosing ? 0 : this.props.rightActionValue;
+
+                actionSide = 'right';
+            }
+        } else {
+            if (
+                this.currentTranslateX - projectedExtraPixels <
+                this.props.rightOpenValue
+            ) {
+                toValue = this.isForceClosing ? 0 : this.props.rightOpenValue;
+            }
+            if (
+                this.currentTranslateX - projectedExtraPixels <
+                this.props.rightActivationValue *
+                (1 - this.props.swipeToClosePercent / 100)
+            ) {
+                toValue = this.isForceClosing ? 0 : this.props.rightActionValue;
+
+                actionSide = 'right';
+            }
+        }
+        const action = this.determineAction(actionSide);
+        this.manuallySwipeRow(toValue, action);
+    }
+
+    determineAction(actionSide) {
         if (actionSide === 'right') {
-            action = () => {
+            return () => {
                 this.props.onRightAction && this.props.onRightAction();
                 !this.state.rightActionEvaluated &&
                     this.setState({
@@ -477,7 +476,7 @@ class SwipeRow extends Component {
             };
         }
         if (actionSide === 'left') {
-            action = () => {
+            return () => {
                 this.props.onLeftAction && this.props.onLeftAction();
                 !this.state.leftActionEvaluated &&
                     this.setState({
@@ -485,8 +484,6 @@ class SwipeRow extends Component {
                     });
             };
         }
-
-        this.manuallySwipeRow(toValue, action);
     }
 
     /*
