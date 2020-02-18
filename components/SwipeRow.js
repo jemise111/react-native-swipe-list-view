@@ -97,7 +97,7 @@ class SwipeRow extends Component {
                 if (
                     !this.isForceClosing &&
                     Dimensions.get('window').width + value <
-                    this.props.forceCloseToRightThreshold
+                        this.props.forceCloseToRightThreshold
                 ) {
                     this.isForceClosing = true;
                     this.forceCloseRow('right');
@@ -116,7 +116,7 @@ class SwipeRow extends Component {
                 if (
                     !this.isForceClosing &&
                     Dimensions.get('window').width - value <
-                    this.props.forceCloseToLeftThreshold
+                        this.props.forceCloseToLeftThreshold
                 ) {
                     this.isForceClosing = true;
                     this.forceCloseRow('left');
@@ -184,10 +184,10 @@ class SwipeRow extends Component {
             this.state.hiddenWidth !== nextState.hiddenWidth ||
             this.state.leftActionActivated !== nextState.leftActionActivated ||
             this.state.rightActionActivated !==
-            nextState.rightActionActivated ||
+                nextState.rightActionActivated ||
             this.state.leftActionEvaluated !== nextState.leftActionEvaluated ||
             this.state.rightActionEvaluated !==
-            nextState.rightActionEvaluated ||
+                nextState.rightActionEvaluated ||
             !this.props.shouldItemUpdate ||
             (this.props.shouldItemUpdate &&
                 this.props.shouldItemUpdate(this.props.item, nextProps.item))
@@ -225,9 +225,9 @@ class SwipeRow extends Component {
             dimensionsSet: !this.props.recalculateHiddenLayout,
             ...(!this.props.disableHiddenLayoutCalculation
                 ? {
-                    hiddenHeight: e.nativeEvent.layout.height,
-                    hiddenWidth: e.nativeEvent.layout.width,
-                }
+                      hiddenHeight: e.nativeEvent.layout.height,
+                      hiddenWidth: e.nativeEvent.layout.width,
+                  }
                 : {}),
         });
 
@@ -399,14 +399,13 @@ class SwipeRow extends Component {
             ) {
                 // we've passed the threshold to trigger the leftActionValue
                 toValue = this.isForceClosing ? 0 : this.props.leftActionValue;
-
                 actionSide = 'left';
             }
         } else {
             if (
                 this.currentTranslateX - projectedExtraPixels >
                 this.props.leftOpenValue *
-                (1 - this.props.swipeToClosePercent / 100)
+                    (1 - this.props.swipeToClosePercent / 100)
             ) {
                 toValue = this.isForceClosing ? 0 : this.props.leftOpenValue;
             }
@@ -430,7 +429,7 @@ class SwipeRow extends Component {
             if (
                 this.currentTranslateX - projectedExtraPixels <
                 this.props.rightOpenValue *
-                (this.props.swipeToOpenPercent / 100)
+                    (this.props.swipeToOpenPercent / 100)
             ) {
                 // we're more than halfway
                 toValue = this.isForceClosing ? 0 : this.props.rightOpenValue;
@@ -441,7 +440,6 @@ class SwipeRow extends Component {
             ) {
                 // we've passed the threshold to trigger the rightActionValue
                 toValue = this.isForceClosing ? 0 : this.props.rightActionValue;
-
                 actionSide = 'right';
             }
         } else {
@@ -454,10 +452,9 @@ class SwipeRow extends Component {
             if (
                 this.currentTranslateX - projectedExtraPixels <
                 this.props.rightActivationValue *
-                (1 - this.props.swipeToClosePercent / 100)
+                    (1 - this.props.swipeToClosePercent / 100)
             ) {
                 toValue = this.isForceClosing ? 0 : this.props.rightActionValue;
-
                 actionSide = 'right';
             }
         }
