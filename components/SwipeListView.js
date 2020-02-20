@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, SectionList, Platform, ViewPropTypes } from 'react-native';
 
@@ -9,7 +9,7 @@ import SwipeRow from './SwipeRow';
 /**
  * ListView that renders SwipeRows.
  */
-class SwipeListView extends Component {
+class SwipeListView extends PureComponent {
     constructor(props) {
         super(props);
         this._rows = {};
@@ -287,6 +287,12 @@ class SwipeListView extends Component {
         );
     }
 
+    _renderItem = rowData => this.renderItem(rowData, this._rows);
+
+    _onScroll = e => this.onScroll(e);
+
+    _onRef = c => this.setRefs(c);
+
     render() {
         const { useSectionList, renderListView, ...props } = this.props;
 
@@ -309,9 +315,9 @@ class SwipeListView extends Component {
                 <SectionList
                     {...props}
                     {...this.listViewProps}
-                    ref={c => this.setRefs(c)}
-                    onScroll={e => this.onScroll(e)}
-                    renderItem={rowData => this.renderItem(rowData, this._rows)}
+                    ref={this._onRef}
+                    onScroll={this._onScroll}
+                    renderItem={this._renderItem}
                 />
             );
         }
@@ -320,9 +326,9 @@ class SwipeListView extends Component {
             <FlatList
                 {...props}
                 {...this.listViewProps}
-                ref={c => this.setRefs(c)}
-                onScroll={e => this.onScroll(e)}
-                renderItem={rowData => this.renderItem(rowData, this._rows)}
+                ref={this._onRef}
+                onScroll={this._onScroll}
+                renderItem={this._renderItem}
             />
         );
     }
