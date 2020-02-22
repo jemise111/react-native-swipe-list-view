@@ -22,7 +22,7 @@ The `useFlatList` prop is no longer required, as `FlatList` is the default ListV
 
 ## Example
 
-![](http://i.imgur.com/6fTrdZa.gif) &nbsp;&nbsp;&nbsp;&nbsp; ![](http://i.imgur.com/3IdOA77.gif)
+![](https://media.giphy.com/media/XAaoqXk1blvXukLIcZ/giphy.gif)
 
 Try it out! https://snack.expo.io/@jemise111/react-native-swipe-list-view
 
@@ -118,12 +118,14 @@ renderItem={ data => (
 Please see the [migrating-to-flatlist doc](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/migrating-to-flatlist.md) for all details.
 And see `example.js` for a full usage example.
 
+## Also see `docs/` for help with
+ * [Manually Closing Rows](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/manually-closing-rows.md)
+ * [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/per-row-behavior.md)
 
-## Other Useful Guides
-
- * [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/per-row-behavior.md) (Define different swipe values, stop values, etc for each individual row)
- * [UI Based On Swipe Values](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/ui-based-on-swipe-values.md) (aka the gmail effect - animate components in rows based on current swipe position)
- * [Swipe To Delete](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/swipe-to-delete.md) (Swiping a row all the way across causes a delete animation)
+## And the `examples/` folder for examples on
+ * Swipe to Delete
+ * Per Row Behavior
+ * UI Based on Swipe Values
 
 ## Core Support
 

@@ -1,6 +1,6 @@
 # Per Row Behavior
 
-If you need rows to behave independently you can return a ```<SwipeRow>``` in the ```renderItem``` function. Make sure you import the ```<SwipeRow>``` in addition to the ```<SwipeListView>```. See the example below and the docs under [API](https://github.com/jemise111/react-native-swipe-list-view#API) for how to implement a custom ```<SwipeRow>```. There is also a full example in ```example.js```.
+If you need rows to behave independently you can return a ```<SwipeRow>``` in the ```renderItem``` function. Make sure you import the ```<SwipeRow>``` in addition to the ```<SwipeListView>```. See the example below and the docs under [API](https://github.com/jemise111/react-native-swipe-list-view#API) for how to implement a custom ```<SwipeRow>```. There is also a full example in ```SwipeListExample/examples/per_row_config.js```.
 
 The following values can be dynamic by passing them as props on the ```<SwipeRow>```:
  * ```leftOpenValue```
