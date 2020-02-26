@@ -19,6 +19,8 @@ e.g.
 | `directionalDistanceChangeThreshold` | Change the sensitivity of the row | `number` || `2`
 | `friction` | Friction for the open / close animation. Controls "bounciness"/overshoot. https://facebook.github.io/react-native/docs/animated#spring | `number` || `7`
 | `tension` | Tension for the open / close animation. Controls speed. https://facebook.github.io/react-native/docs/animated#spring | `number` || `40`  
+| `restSpeedThreshold` | RestSpeedThreshold for the open / close animation. Controls speed. https://facebook.github.io/react-native/docs/animated#spring | `number` || `0.001` 
+| `restDisplacementThreshold` | RestDisplacementThreshold for the open / close animation. Controls speed. https://facebook.github.io/react-native/docs/animated#spring | `number` || `0.001` 
 | `leftOpenValue` | TranslateX value for opening the row to the left (positive number) | `number` || `0`
 | `rightOpenValue` | TranslateX value for opening the row to the right (negative number) | `number` || `0`
 | `stopLeftSwipe` | TranslateX value for stop the row to the left (positive number). This number is the stop value corresponding to the `leftOpenValue` (while the row is swiping in the right direction) | `number` |
