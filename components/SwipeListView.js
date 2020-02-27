@@ -220,7 +220,9 @@ class SwipeListView extends PureComponent {
                     previewRepeatDelay={this.props.previewRepeatDelay}
                     tension={this.props.tension}
                     restSpeedThreshold={this.props.restSpeedThreshold}
-                    restDisplacementThreshold={this.props.restDisplacementThreshold}
+                    restDisplacementThreshold={
+                        this.props.restDisplacementThreshold
+                    }
                     friction={this.props.friction}
                     directionalDistanceChangeThreshold={
                         this.props.directionalDistanceChangeThreshold
@@ -485,14 +487,14 @@ SwipeListView.propTypes = {
      * Tension for the open / close animation
      */
     tension: PropTypes.number,
-	/**
-	 * RestSpeedThreshold for the open / close animation
-	 */
-	restSpeedThreshold: PropTypes.number,
-	/**
-	 * RestDisplacementThreshold for the open / close animation
-	 */
-	restDisplacementThreshold: PropTypes.number,
+    /**
+     * RestSpeedThreshold for the open / close animation
+     */
+    restSpeedThreshold: PropTypes.number,
+    /**
+     * RestDisplacementThreshold for the open / close animation
+     */
+    restDisplacementThreshold: PropTypes.number,
     /**
      * The dx value used to detect when a user has begun a swipe gesture
      */

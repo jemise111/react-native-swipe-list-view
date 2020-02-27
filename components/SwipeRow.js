@@ -586,14 +586,14 @@ SwipeRow.propTypes = {
      * Tension for the open / close animation
      */
     tension: PropTypes.number,
-	/**
-	 * RestSpeedThreshold for the open / close animation
-	 */
-	restSpeedThreshold: PropTypes.number,
-	/**
-	 * RestDisplacementThreshold for the open / close animation
-	 */
-	restDisplacementThreshold: PropTypes.number,
+    /**
+     * RestSpeedThreshold for the open / close animation
+     */
+    restSpeedThreshold: PropTypes.number,
+    /**
+     * RestDisplacementThreshold for the open / close animation
+     */
+    restDisplacementThreshold: PropTypes.number,
     /**
      * Should the row be closed when it is tapped
      */
