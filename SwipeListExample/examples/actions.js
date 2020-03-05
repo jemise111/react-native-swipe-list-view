@@ -57,17 +57,17 @@ export default function Actions() {
     };
 
     const VisibleItem = props => {
-        console.log(props.leftActionEvaluated);
+        console.log(props.leftActionState);
 
         const {
             rowHeightAnimatedValue,
-            rightActionEvaluated,
-            leftActionEvaluated,
+            rightActionState,
+            leftActionState,
             data,
             removeRow,
         } = props;
 
-        if (rightActionEvaluated) {
+        if (rightActionState) {
             Animated.timing(rowHeightAnimatedValue, {
                 toValue: 0,
                 duration: 200,
@@ -81,14 +81,14 @@ export default function Actions() {
                 style={[
                     styles.rowFront,
                     { height: rowHeightAnimatedValue },
-                    leftActionEvaluated && { backgroundColor: 'lightgreen' },
+                    leftActionState && { backgroundColor: 'lightgreen' },
                 ]}
             >
                 <TouchableHighlight
                     onPress={() => console.log('You touched me')}
                     style={[
                         styles.rowFront,
-                        leftActionEvaluated && {
+                        leftActionState && {
                             backgroundColor: 'lightgreen',
                         },
                     ]}

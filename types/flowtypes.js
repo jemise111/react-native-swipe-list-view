@@ -59,8 +59,8 @@ export type SwipeRowPropsType = {
 export type SwipeRowStateType = {
     leftActionActivated: boolean,
     rightActionActivated: boolean,
-    leftActionEvaluated: boolean,
-    rightActionEvaluated: boolean,
+    leftActionState: boolean,
+    rightActionState: boolean,
     previewRepeatInterval: number,
     timeBetweenPreviewRepeats: number,
     dimensionsSet: boolean,
