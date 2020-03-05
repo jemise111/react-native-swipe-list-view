@@ -13,6 +13,7 @@ import PerRowConfig from './examples/per_row_config';
 import StandloneSwipeRow from './examples/standalone_swipe_row';
 import SwipeToDelete from './examples/swipe_to_delete';
 import SwipeValueBasedUi from './examples/swipe_value_based_ui';
+import Actions from './examples/actions';
 
 const componentMap = {
     Basic,
@@ -21,6 +22,7 @@ const componentMap = {
     StandloneSwipeRow,
     SwipeToDelete,
     SwipeValueBasedUi,
+    Actions,
 };
 
 export default function App() {
