@@ -48,6 +48,14 @@ interface IPropsSwipeRow<T> {
 	 */
 	rightActionValue: number,
 	/**
+	 * Initial value for left action state (default is false)
+	 */
+	initialLeftActionState: boolean,
+	/**
+	 * Initial value for right action state (default is false)
+	 */
+	initialRightActionState: boolean,
+	/**
 	 * TranslateX value for stop the row to the left (positive number)
 	 */
 	stopLeftSwipe: number;
@@ -243,6 +251,14 @@ interface IPropsSwipeListView<T> {
 	 * TranslateX value for right action to which the row will be shifted after gesture release
 	 */
 	rightActionValue: number,
+	/**
+	 * Initial value for left action state (default is false)
+	 */
+	initialLeftActionState: boolean,
+	/**
+	 * Initial value for right action state (default is false)
+	 */
+	initialRightActionState: boolean,
 	/**
 	 * TranslateX value for stop the row to the left (positive number)
 	 */

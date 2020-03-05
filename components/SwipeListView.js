@@ -190,6 +190,14 @@ class SwipeListView extends Component {
                     rightActionValue={
                         item.rightActionValue || this.props.rightActionValue
                     }
+                    initialLeftActionState={
+                        item.initialLeftActionState ||
+                        this.props.initialLeftActionState
+                    }
+                    initialRightActionState={
+                        item.initialRightActionState ||
+                        this.props.initialRightActionState
+                    }
                     onLeftAction={() =>
                         item.onLeftAction ||
                         (this.props.onLeftAction &&
@@ -409,6 +417,14 @@ SwipeListView.propTypes = {
      * TranslateX value for right action to which the row will be shifted after gesture release
      */
     rightActionValue: PropTypes.number,
+    /**
+     * Initial value for left action state (default is false)
+     */
+    initialLeftActionState: PropTypes.bool,
+    /**
+     * Initial value for right action state (default is false)
+     */
+    initialRightActionState: PropTypes.bool,
     /**
      * TranslateX value for stop the row to the left (positive number)
      */

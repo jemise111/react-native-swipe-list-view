@@ -11,6 +11,8 @@ export type SwipeRowPropsType = {
     rightActivationValue?: number,
     leftActionValue?: number,
     rightActionValue?: number,
+    initialLeftActionState?: boolean,
+    initialRightActionState?: boolean,
     stopLeftSwipe?: number,
     stopRightSwipe?: number,
     friction?: number,
@@ -53,6 +55,10 @@ export type SwipeRowPropsType = {
 };
 
 export type SwipeRowStateType = {
+    leftActionActivated: boolean,
+    rightActionActivated: boolean,
+    leftActionEvaluated: boolean,
+    rightActionEvaluated: boolean,
     previewRepeatInterval: number,
     timeBetweenPreviewRepeats: number,
     dimensionsSet: boolean,
@@ -71,6 +77,8 @@ export type SwipeListPropsType = {
     rightActivationValue?: number,
     leftActionValue?: number,
     rightActionValue?: number,
+    initialLeftActionState?: boolean,
+    initialRightActionState?: boolean,
     stopLeftSwipe?: number,
     stopRightSwipe?: number,
     closeOnScroll: boolean,

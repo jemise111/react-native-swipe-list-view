@@ -406,7 +406,12 @@ class App extends Component {
 
                 {this.state.listType === 'Actions' && (
                     <SwipeListView
-                        data={this.state.listViewData}
+                        data={this.state.listViewData.map((row, i) => {
+                            if (i == 2) {
+                                row.initialLeftActionState = true;
+                            }
+                            return row;
+                        })}
                         renderItem={(data, rowMap) => {
                             const rowHeightAnimatedValue = new Animated.Value(
                                 50

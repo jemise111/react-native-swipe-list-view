@@ -45,8 +45,8 @@ class SwipeRow extends Component {
         this.state = {
             leftActionActivated: false,
             rightActionActivated: false,
-            leftActionEvaluated: false,
-            rightActionEvaluated: false,
+            leftActionEvaluated: this.props.initialLeftActionState || false,
+            rightActionEvaluated: this.props.initialRightActionState || false,
             previewRepeatInterval: null,
             timeBetweenPreviewRepeats: null,
             dimensionsSet: false,
@@ -466,19 +466,17 @@ class SwipeRow extends Component {
         if (actionSide === 'right') {
             return () => {
                 this.props.onRightAction && this.props.onRightAction();
-                !this.state.rightActionEvaluated &&
-                    this.setState({
-                        rightActionEvaluated: true,
-                    });
+                this.setState({
+                    rightActionEvaluated: !this.state.rightActionEvaluated,
+                });
             };
         }
         if (actionSide === 'left') {
             return () => {
                 this.props.onLeftAction && this.props.onLeftAction();
-                !this.state.leftActionEvaluated &&
-                    this.setState({
-                        leftActionEvaluated: true,
-                    });
+                this.setState({
+                    leftActionEvaluated: !this.state.leftActionEvaluated,
+                });
             };
         }
     }
