@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, SectionList, Platform, ViewPropTypes } from 'react-native';
 
@@ -9,7 +9,7 @@ import SwipeRow from './SwipeRow';
 /**
  * ListView that renders SwipeRows.
  */
-class SwipeListView extends Component {
+class SwipeListView extends PureComponent {
     constructor(props) {
         super(props);
         this._rows = {};
@@ -269,6 +269,10 @@ class SwipeListView extends Component {
                     previewRepeat={this.props.previewRepeat}
                     previewRepeatDelay={this.props.previewRepeatDelay}
                     tension={this.props.tension}
+                    restSpeedThreshold={this.props.restSpeedThreshold}
+                    restDisplacementThreshold={
+                        this.props.restDisplacementThreshold
+                    }
                     friction={this.props.friction}
                     directionalDistanceChangeThreshold={
                         this.props.directionalDistanceChangeThreshold
@@ -337,6 +341,12 @@ class SwipeListView extends Component {
         );
     }
 
+    _renderItem = rowData => this.renderItem(rowData, this._rows);
+
+    _onScroll = e => this.onScroll(e);
+
+    _onRef = c => this.setRefs(c);
+
     render() {
         const { useSectionList, renderListView, ...props } = this.props;
 
@@ -359,9 +369,9 @@ class SwipeListView extends Component {
                 <SectionList
                     {...props}
                     {...this.listViewProps}
-                    ref={c => this.setRefs(c)}
-                    onScroll={e => this.onScroll(e)}
-                    renderItem={rowData => this.renderItem(rowData, this._rows)}
+                    ref={this._onRef}
+                    onScroll={this._onScroll}
+                    renderItem={this._renderItem}
                 />
             );
         }
@@ -370,9 +380,9 @@ class SwipeListView extends Component {
             <FlatList
                 {...props}
                 {...this.listViewProps}
-                ref={c => this.setRefs(c)}
-                onScroll={e => this.onScroll(e)}
-                renderItem={rowData => this.renderItem(rowData, this._rows)}
+                ref={this._onRef}
+                onScroll={this._onScroll}
+                renderItem={this._renderItem}
             />
         );
     }
@@ -567,6 +577,14 @@ SwipeListView.propTypes = {
      * Tension for the open / close animation
      */
     tension: PropTypes.number,
+    /**
+     * RestSpeedThreshold for the open / close animation
+     */
+    restSpeedThreshold: PropTypes.number,
+    /**
+     * RestDisplacementThreshold for the open / close animation
+     */
+    restDisplacementThreshold: PropTypes.number,
     /**
      * The dx value used to detect when a user has begun a swipe gesture
      */

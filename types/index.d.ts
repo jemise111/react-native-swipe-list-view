@@ -72,6 +72,14 @@ interface IPropsSwipeRow<T> {
 	 */
 	tension: number;
 	/**
+	 * RestSpeedThreshold for the open / close animation
+	 */
+	restSpeedThreshold: number;
+	/**
+	 * RestDisplacementThreshold for the open / close animation
+	 */
+	restDisplacementThreshold: number;
+	/**
 	 * Should the row be closed when it is tapped
 	 */
 	closeOnRowPress: boolean;
@@ -409,6 +417,14 @@ interface IPropsSwipeListView<T> {
 	 * Tension for the open / close animation
 	 */
 	tension: number;
+	/**
+	 * RestSpeedThreshold for the open / close animation
+	 */
+	restSpeedThreshold: number;
+	/**
+	 * RestDisplacementThreshold for the open / close animation
+	 */
+	restDisplacementThreshold: number;
 	/**
 	 * The dx value used to detect when a user has begun a swipe gesture
 	 */
