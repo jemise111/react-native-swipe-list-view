@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, SectionList, Platform, ViewPropTypes } from 'react-native';
+import { Animated, Platform, ViewPropTypes } from 'react-native';
 
 import SwipeRow from './SwipeRow';
 
@@ -24,6 +24,12 @@ class SwipeListView extends PureComponent {
                 onLayout: e => this.onLayout(e),
                 onContentSizeChange: (w, h) => this.onContentSizeChange(w, h),
             };
+        }
+        this._onScroll = this.onScroll.bind(this);
+        if (typeof this.props.onScroll === 'object') {
+            // Animated.event
+            this.props.onScroll.__addListener(this._onScroll);
+            this._onScroll = this.props.onScroll;
         }
     }
 
@@ -102,7 +108,7 @@ class SwipeListView extends PureComponent {
                 this.openCellKey = null;
             }
         }
-        this.props.onScroll && this.props.onScroll(e);
+        typeof this.props.onScroll === 'function' && this.props.onScroll(e);
     }
 
     onLayout(e) {
@@ -117,8 +123,8 @@ class SwipeListView extends PureComponent {
     onContentSizeChange(w, h) {
         const height = h - this.layoutHeight;
         if (this.yScrollOffset >= height && height > 0) {
-            if (this._listView instanceof FlatList) {
-                this._listView && this._listView.scrollToEnd();
+            if (this._listView instanceof Animated.FlatList) {
+                this._listView.scrollToEnd && this._listView.scrollToEnd();
             }
         }
         this.props.onContentSizeChange && this.props.onContentSizeChange(w, h);
@@ -293,8 +299,6 @@ class SwipeListView extends PureComponent {
 
     _renderItem = rowData => this.renderItem(rowData, this._rows);
 
-    _onScroll = e => this.onScroll(e);
-
     _onRef = c => this.setRefs(c);
 
     render() {
@@ -316,7 +320,7 @@ class SwipeListView extends PureComponent {
 
         if (useSectionList) {
             return (
-                <SectionList
+                <Animated.SectionList
                     {...props}
                     {...this.listViewProps}
                     ref={this._onRef}
@@ -327,7 +331,7 @@ class SwipeListView extends PureComponent {
         }
 
         return (
-            <FlatList
+            <Animated.FlatList
                 {...props}
                 {...this.listViewProps}
                 ref={this._onRef}
@@ -434,6 +438,10 @@ SwipeListView.propTypes = {
      * Called when scrolling on the SwipeListView has been enabled/disabled
      */
     onScrollEnabled: PropTypes.func,
+    /**
+     * Called when a scroll event is emitted
+     */
+    onScroll: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     /**
      * Styles for the parent wrapper View of the SwipeRow
      */
