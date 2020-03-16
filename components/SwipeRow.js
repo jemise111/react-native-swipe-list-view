@@ -723,6 +723,14 @@ SwipeRow.propTypes = {
      */
     rightActionValue: PropTypes.number,
     /**
+     * Initial value for left action state (default is false)
+     */
+    initialLeftActionState: PropTypes.bool,
+    /**
+     * Initial value for right action state (default is false)
+     */
+    initialRightActionState: PropTypes.bool,
+    /**
      * TranslateX value for stop the row to the left (positive number)
      */
     stopLeftSwipe: PropTypes.number,
