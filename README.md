@@ -124,11 +124,13 @@ And see `example.js` for a full usage example.
 ## Also see `docs/` for help with
  * [Manually Closing Rows](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/manually-closing-rows.md)
  * [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/per-row-behavior.md)
+ * [Actions](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/actions.md)
 
 ## And the `examples/` folder for examples on
  * Swipe to Delete
  * Per Row Behavior
  * UI Based on Swipe Values
+ * Actions
 
 ## Core Support
 

@@ -12,6 +12,12 @@ The following values can be dynamic by passing them as props on the ```<SwipeRow
  * ```disableRightSwipe```
  * ```recalculateHiddenLayout```
  * ```directionalDistanceChangeThreshold```
+ * ```leftActivationValue```
+ * ```rightActivationValue```
+ * ```leftActionValue```
+ * ```rightActionValue```
+ * ```initialLeftActionState```
+ * ```initialRightActionState```
 
 ```javascript
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
@@ -24,6 +30,7 @@ import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
             disableLeftSwipe={parseInt(data.item.key) % 2 === 0}
             leftOpenValue={20 + parseInt(data.item.key) * 5}
             rightOpenValue={-150}
+            leftActivationValue={200}
         >
             <View style={styles.rowBack}>
                 <Text>Left Hidden</Text>
@@ -47,6 +54,12 @@ You can also customize your individual rows by passing in your row's `data` next
  * ```disableRightSwipe```
  * ```stopLeftSwipe```
  * ```stopRightSwipe```
+ * ```leftActivationValue```
+ * ```rightActivationValue```
+ * ```leftActionValue```
+ * ```rightActionValue```
+ * ```initialLeftActionState```
+ * ```initialRightActionState```
 
 Example:
 ```javascript
@@ -64,6 +77,7 @@ const dataSource = [
     {
         name: 'Carl',
         age: 11,
+        leftActivationValue: 200,
     },
 ];
 ```
