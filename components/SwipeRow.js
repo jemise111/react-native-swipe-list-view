@@ -440,10 +440,10 @@ class SwipeRow extends Component {
         this.horizontalSwipeGestureBegan = false;
     }
 
-    combinedOnPress = () => {
+    combinedOnPress = (...args) => {
         const onPress = this.props.children[1].props.onPress;
         this.onRowPress();
-        onPress && onPress();
+        onPress && onPress(...args);
     };
 
     renderVisibleContent() {
