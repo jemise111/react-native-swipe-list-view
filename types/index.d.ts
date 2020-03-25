@@ -48,6 +48,14 @@ interface IPropsSwipeRow<T> {
 	 */
 	rightActionValue: number,
 	/**
+	 * Initial value for left action state (default is false)
+	 */
+	initialLeftActionState: boolean,
+	/**
+	 * Initial value for right action state (default is false)
+	 */
+	initialRightActionState: boolean,
+	/**
 	 * TranslateX value for stop the row to the left (positive number)
 	 */
 	stopLeftSwipe: number;
@@ -63,6 +71,14 @@ interface IPropsSwipeRow<T> {
 	 * Tension for the open / close animation
 	 */
 	tension: number;
+	/**
+	 * RestSpeedThreshold for the open / close animation
+	 */
+	restSpeedThreshold: number;
+	/**
+	 * RestDisplacementThreshold for the open / close animation
+	 */
+	restDisplacementThreshold: number;
 	/**
 	 * Should the row be closed when it is tapped
 	 */
@@ -244,6 +260,14 @@ interface IPropsSwipeListView<T> {
 	 */
 	rightActionValue: number,
 	/**
+	 * Initial value for left action state (default is false)
+	 */
+	initialLeftActionState: boolean,
+	/**
+	 * Initial value for right action state (default is false)
+	 */
+	initialRightActionState: boolean,
+	/**
 	 * TranslateX value for stop the row to the left (positive number)
 	 */
 	stopLeftSwipe: number;
@@ -393,6 +417,14 @@ interface IPropsSwipeListView<T> {
 	 * Tension for the open / close animation
 	 */
 	tension: number;
+	/**
+	 * RestSpeedThreshold for the open / close animation
+	 */
+	restSpeedThreshold: number;
+	/**
+	 * RestDisplacementThreshold for the open / close animation
+	 */
+	restDisplacementThreshold: number;
 	/**
 	 * The dx value used to detect when a user has begun a swipe gesture
 	 */

@@ -1,15 +1,15 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, SectionList, Platform, ViewPropTypes } from 'react-native';
+import { Animated, Platform, ViewPropTypes } from 'react-native';
 
 import SwipeRow from './SwipeRow';
 
 /**
  * ListView that renders SwipeRows.
  */
-class SwipeListView extends Component {
+class SwipeListView extends PureComponent {
     constructor(props) {
         super(props);
         this._rows = {};
@@ -24,6 +24,12 @@ class SwipeListView extends Component {
                 onLayout: e => this.onLayout(e),
                 onContentSizeChange: (w, h) => this.onContentSizeChange(w, h),
             };
+        }
+        this._onScroll = this.onScroll.bind(this);
+        if (typeof this.props.onScroll === 'object') {
+            // Animated.event
+            this.props.onScroll.__addListener(this._onScroll);
+            this._onScroll = this.props.onScroll;
         }
     }
 
@@ -102,7 +108,7 @@ class SwipeListView extends Component {
                 this.openCellKey = null;
             }
         }
-        this.props.onScroll && this.props.onScroll(e);
+        typeof this.props.onScroll === 'function' && this.props.onScroll(e);
     }
 
     onLayout(e) {
@@ -117,8 +123,8 @@ class SwipeListView extends Component {
     onContentSizeChange(w, h) {
         const height = h - this.layoutHeight;
         if (this.yScrollOffset >= height && height > 0) {
-            if (this._listView instanceof FlatList) {
-                this._listView && this._listView.scrollToEnd();
+            if (this._listView instanceof Animated.FlatList) {
+                this._listView.scrollToEnd && this._listView.scrollToEnd();
             }
         }
         this.props.onContentSizeChange && this.props.onContentSizeChange(w, h);
@@ -190,13 +196,23 @@ class SwipeListView extends Component {
                     rightActionValue={
                         item.rightActionValue || this.props.rightActionValue
                     }
+                    initialLeftActionState={
+                        item.initialLeftActionState ||
+                        this.props.initialLeftActionState
+                    }
+                    initialRightActionState={
+                        item.initialRightActionState ||
+                        this.props.initialRightActionState
+                    }
                     onLeftAction={() =>
-                        item.onLeftAction | this.props.onLeftAction &&
-                        this.props.onLeftAction(key, this._rows)
+                        item.onLeftAction ||
+                        (this.props.onLeftAction &&
+                            this.props.onLeftAction(key, this._rows))
                     }
                     onRightAction={() =>
-                        item.onRightAction | this.props.onRightAction &&
-                        this.props.onRightAction(key, this._rows)
+                        item.onRightAction ||
+                        (this.props.onRightAction &&
+                            this.props.onRightAction(key, this._rows))
                     }
                     onLeftActionStatusChange={
                         this.props.onLeftActionStatusChange
@@ -259,6 +275,10 @@ class SwipeListView extends Component {
                     previewRepeat={this.props.previewRepeat}
                     previewRepeatDelay={this.props.previewRepeatDelay}
                     tension={this.props.tension}
+                    restSpeedThreshold={this.props.restSpeedThreshold}
+                    restDisplacementThreshold={
+                        this.props.restDisplacementThreshold
+                    }
                     friction={this.props.friction}
                     directionalDistanceChangeThreshold={
                         this.props.directionalDistanceChangeThreshold
@@ -327,6 +347,10 @@ class SwipeListView extends Component {
         );
     }
 
+    _renderItem = rowData => this.renderItem(rowData, this._rows);
+
+    _onRef = c => this.setRefs(c);
+
     render() {
         const { useSectionList, renderListView, ...props } = this.props;
 
@@ -346,23 +370,23 @@ class SwipeListView extends Component {
 
         if (useSectionList) {
             return (
-                <SectionList
+                <Animated.SectionList
                     {...props}
                     {...this.listViewProps}
-                    ref={c => this.setRefs(c)}
-                    onScroll={e => this.onScroll(e)}
-                    renderItem={rowData => this.renderItem(rowData, this._rows)}
+                    ref={this._onRef}
+                    onScroll={this._onScroll}
+                    renderItem={this._renderItem}
                 />
             );
         }
 
         return (
-            <FlatList
+            <Animated.FlatList
                 {...props}
                 {...this.listViewProps}
-                ref={c => this.setRefs(c)}
-                onScroll={e => this.onScroll(e)}
-                renderItem={rowData => this.renderItem(rowData, this._rows)}
+                ref={this._onRef}
+                onScroll={this._onScroll}
+                renderItem={this._renderItem}
             />
         );
     }
@@ -407,6 +431,14 @@ SwipeListView.propTypes = {
      * TranslateX value for right action to which the row will be shifted after gesture release
      */
     rightActionValue: PropTypes.number,
+    /**
+     * Initial value for left action state (default is false)
+     */
+    initialLeftActionState: PropTypes.bool,
+    /**
+     * Initial value for right action state (default is false)
+     */
+    initialRightActionState: PropTypes.bool,
     /**
      * TranslateX value for stop the row to the left (positive number)
      */
@@ -497,6 +529,10 @@ SwipeListView.propTypes = {
      */
     onScrollEnabled: PropTypes.func,
     /**
+     * Called when a scroll event is emitted
+     */
+    onScroll: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    /**
      * Styles for the parent wrapper View of the SwipeRow
      */
     swipeRowStyle: ViewPropTypes.style,
@@ -549,6 +585,14 @@ SwipeListView.propTypes = {
      * Tension for the open / close animation
      */
     tension: PropTypes.number,
+    /**
+     * RestSpeedThreshold for the open / close animation
+     */
+    restSpeedThreshold: PropTypes.number,
+    /**
+     * RestDisplacementThreshold for the open / close animation
+     */
+    restDisplacementThreshold: PropTypes.number,
     /**
      * The dx value used to detect when a user has begun a swipe gesture
      */

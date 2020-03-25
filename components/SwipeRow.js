@@ -45,8 +45,8 @@ class SwipeRow extends Component {
         this.state = {
             leftActionActivated: false,
             rightActionActivated: false,
-            leftActionEvaluated: false,
-            rightActionEvaluated: false,
+            leftActionState: this.props.initialLeftActionState || false,
+            rightActionState: this.props.initialRightActionState || false,
             previewRepeatInterval: null,
             timeBetweenPreviewRepeats: null,
             dimensionsSet: false,
@@ -185,9 +185,8 @@ class SwipeRow extends Component {
             this.state.leftActionActivated !== nextState.leftActionActivated ||
             this.state.rightActionActivated !==
                 nextState.rightActionActivated ||
-            this.state.leftActionEvaluated !== nextState.leftActionEvaluated ||
-            this.state.rightActionEvaluated !==
-                nextState.rightActionEvaluated ||
+            this.state.leftActionState !== nextState.leftActionState ||
+            this.state.rightActionState !== nextState.rightActionState ||
             !this.props.shouldItemUpdate ||
             (this.props.shouldItemUpdate &&
                 this.props.shouldItemUpdate(this.props.item, nextProps.item))
@@ -365,128 +364,120 @@ class SwipeRow extends Component {
         );
 
         // finish up the animation
-        let toValue = 0;
-        let actionSide;
         if (this.currentTranslateX >= 0) {
             // trying to swipe right
-            if (this.props.disableRightSwipe) {
-                return;
-            }
+            // if (this.props.disableRightSwipe) {
+            //    return;
+            // }
 
-            if (this.swipeInitialX < this.currentTranslateX) {
-                if (
-                    this.currentTranslateX - projectedExtraPixels >
-                    this.props.leftOpenValue *
-                        (this.props.swipeToOpenPercent / 100)
-                ) {
-                    // we're more than halfway
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.leftOpenValue;
-                }
-                if (
-                    this.currentTranslateX - projectedExtraPixels >
-                    this.props.leftActivationValue
-                ) {
-                    // we're more than halfway
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.leftActionValue;
-
-                    actionSide = 'left';
-                }
-            } else {
-                if (
-                    this.currentTranslateX - projectedExtraPixels >
-                    this.props.leftOpenValue *
-                        (1 - this.props.swipeToClosePercent / 100)
-                ) {
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.leftOpenValue;
-                }
-                if (
-                    this.currentTranslateX - projectedExtraPixels >
-                    this.props.leftActivationValue
-                ) {
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.leftActionValue;
-                    actionSide = 'left';
-                }
-            }
+            this.handleRightSwipe(projectedExtraPixels);
         } else {
             // trying to swipe left
             if (this.props.disableLeftSwipe) {
                 return;
             }
 
-            if (this.swipeInitialX > this.currentTranslateX) {
-                if (
-                    this.currentTranslateX - projectedExtraPixels <
-                    this.props.rightOpenValue *
-                        (this.props.swipeToOpenPercent / 100)
-                ) {
-                    // we're more than halfway
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.rightOpenValue;
-                }
-                if (
-                    this.currentTranslateX - projectedExtraPixels <
-                    this.props.rightActivationValue
-                ) {
-                    // we're more than halfway
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.rightActionValue;
+            this.handleLeftSwipe(projectedExtraPixels);
+        }
+    }
 
-                    actionSide = 'right';
-                }
-            } else {
-                if (
-                    this.currentTranslateX - projectedExtraPixels <
-                    this.props.rightOpenValue
-                ) {
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.rightOpenValue;
-                }
-                if (
-                    this.currentTranslateX - projectedExtraPixels <
-                    this.props.rightActivationValue *
-                        (1 - this.props.swipeToClosePercent / 100)
-                ) {
-                    toValue = this.isForceClosing
-                        ? 0
-                        : this.props.rightActionValue;
-
-                    actionSide = 'right';
-                }
+    handleRightSwipe(projectedExtraPixels) {
+        let toValue = 0;
+        let actionSide;
+        if (this.swipeInitialX < this.currentTranslateX) {
+            if (
+                this.currentTranslateX - projectedExtraPixels >
+                this.props.leftOpenValue * (this.props.swipeToOpenPercent / 100)
+            ) {
+                // we're more than halfway
+                toValue = this.isForceClosing ? 0 : this.props.leftOpenValue;
+            }
+            if (
+                this.currentTranslateX - projectedExtraPixels >
+                this.props.leftActivationValue
+            ) {
+                // we've passed the threshold to trigger the leftActionValue
+                toValue = this.isForceClosing ? 0 : this.props.leftActionValue;
+                actionSide = 'left';
+            }
+        } else {
+            if (
+                this.currentTranslateX - projectedExtraPixels >
+                this.props.leftOpenValue *
+                    (1 - this.props.swipeToClosePercent / 100)
+            ) {
+                toValue = this.isForceClosing ? 0 : this.props.leftOpenValue;
+            }
+            if (
+                this.currentTranslateX - projectedExtraPixels >
+                this.props.leftActivationValue
+            ) {
+                toValue = this.isForceClosing ? 0 : this.props.leftActionValue;
+                actionSide = 'left';
             }
         }
 
-        let action;
+        const action = this.determineAction(actionSide);
+        this.manuallySwipeRow(toValue, action);
+    }
+
+    handleLeftSwipe(projectedExtraPixels) {
+        let toValue = 0;
+        let actionSide;
+        if (this.swipeInitialX > this.currentTranslateX) {
+            if (
+                this.currentTranslateX - projectedExtraPixels <
+                this.props.rightOpenValue *
+                    (this.props.swipeToOpenPercent / 100)
+            ) {
+                // we're more than halfway
+                toValue = this.isForceClosing ? 0 : this.props.rightOpenValue;
+            }
+            if (
+                this.currentTranslateX - projectedExtraPixels <
+                this.props.rightActivationValue
+            ) {
+                // we've passed the threshold to trigger the rightActionValue
+                toValue = this.isForceClosing ? 0 : this.props.rightActionValue;
+                actionSide = 'right';
+            }
+        } else {
+            if (
+                this.currentTranslateX - projectedExtraPixels <
+                this.props.rightOpenValue
+            ) {
+                toValue = this.isForceClosing ? 0 : this.props.rightOpenValue;
+            }
+            if (
+                this.currentTranslateX - projectedExtraPixels <
+                this.props.rightActivationValue *
+                    (1 - this.props.swipeToClosePercent / 100)
+            ) {
+                toValue = this.isForceClosing ? 0 : this.props.rightActionValue;
+                actionSide = 'right';
+            }
+        }
+        const action = this.determineAction(actionSide);
+        this.manuallySwipeRow(toValue, action);
+    }
+
+    determineAction(actionSide) {
         if (actionSide === 'right') {
-            action = () => {
+            return () => {
                 this.props.onRightAction && this.props.onRightAction();
-                !this.state.rightActionEvaluated &&
-                    this.setState({
-                        rightActionEvaluated: true,
-                    });
+                this.setState({
+                    rightActionState: !this.state.rightActionState,
+                });
             };
         }
         if (actionSide === 'left') {
-            action = () => {
+            return () => {
                 this.props.onLeftAction && this.props.onLeftAction();
-                !this.state.leftActionEvaluated &&
-                    this.setState({
-                        leftActionEvaluated: true,
-                    });
+                this.setState({
+                    leftActionState: !this.state.leftActionState,
+                });
             };
         }
-
-        this.manuallySwipeRow(toValue, action);
     }
 
     /*
@@ -531,6 +522,8 @@ class SwipeRow extends Component {
             toValue,
             friction: this.props.friction,
             tension: this.props.tension,
+            restSpeedThreshold: this.props.restSpeedThreshold,
+            restDisplacementThreshold: this.props.restDisplacementThreshold,
             useNativeDriver: this.props.useNativeDriver,
         }).start(() => {
             this.ensureScrollEnabled();
@@ -569,8 +562,8 @@ class SwipeRow extends Component {
                 ...this.props.children[1].props,
                 leftActionActivated: this.state.leftActionActivated,
                 rightActionActivated: this.state.rightActionActivated,
-                leftActionEvaluated: this.state.leftActionEvaluated,
-                rightActionEvaluated: this.state.rightActionEvaluated,
+                leftActionState: this.state.leftActionState,
+                rightActionState: this.state.rightActionState,
                 swipeAnimatedValue: this._translateX,
             });
         }
@@ -584,8 +577,8 @@ class SwipeRow extends Component {
                 onPress: this.combinedOnPress,
                 leftActionActivated: this.state.leftActionActivated,
                 rightActionActivated: this.state.rightActionActivated,
-                leftActionEvaluated: this.state.leftActionEvaluated,
-                rightActionEvaluated: this.state.rightActionEvaluated,
+                leftActionState: this.state.leftActionState,
+                rightActionState: this.state.rightActionState,
                 swipeAnimatedValue: this._translateX,
             });
         }
@@ -600,8 +593,8 @@ class SwipeRow extends Component {
                     ...this.props.children[1].props,
                     leftActionActivated: this.state.leftActionActivated,
                     rightActionActivated: this.state.rightActionActivated,
-                    leftActionEvaluated: this.state.leftActionEvaluated,
-                    rightActionEvaluated: this.state.rightActionEvaluated,
+                    leftActionState: this.state.leftActionState,
+                    rightActionState: this.state.rightActionState,
                     swipeAnimatedValue: this._translateX,
                 })}
             </TouchableOpacity>
@@ -659,8 +652,8 @@ class SwipeRow extends Component {
                         ...this.props.children[0].props,
                         leftActionActivated: this.state.leftActionActivated,
                         rightActionActivated: this.state.rightActionActivated,
-                        leftActionEvaluated: this.state.leftActionEvaluated,
-                        rightActionEvaluated: this.state.rightActionEvaluated,
+                        leftActionState: this.state.leftActionState,
+                        rightActionState: this.state.rightActionState,
                         swipeAnimatedValue: this._translateX,
                     })}
                 </View>
@@ -730,6 +723,14 @@ SwipeRow.propTypes = {
      */
     rightActionValue: PropTypes.number,
     /**
+     * Initial value for left action state (default is false)
+     */
+    initialLeftActionState: PropTypes.bool,
+    /**
+     * Initial value for right action state (default is false)
+     */
+    initialRightActionState: PropTypes.bool,
+    /**
      * TranslateX value for stop the row to the left (positive number)
      */
     stopLeftSwipe: PropTypes.number,
@@ -745,6 +746,14 @@ SwipeRow.propTypes = {
      * Tension for the open / close animation
      */
     tension: PropTypes.number,
+    /**
+     * RestSpeedThreshold for the open / close animation
+     */
+    restSpeedThreshold: PropTypes.number,
+    /**
+     * RestDisplacementThreshold for the open / close animation
+     */
+    restDisplacementThreshold: PropTypes.number,
     /**
      * Should the row be closed when it is tapped
      */
