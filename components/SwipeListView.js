@@ -82,6 +82,12 @@ class SwipeListView extends PureComponent {
         }
     }
 
+    rowSwipeGestureEnded(key) {
+        if (this.props.swipeGestureEnded) {
+            this.props.swipeGestureEnded(key);
+        }
+    }
+
     onRowOpen(key, toValue) {
         if (
             this.openCellKey &&
@@ -161,6 +167,7 @@ class SwipeListView extends PureComponent {
                 onRowPress: () => this.onRowPress(),
                 setScrollEnabled: enable => this.setScrollEnabled(enable),
                 swipeGestureBegan: () => this.rowSwipeGestureBegan(key),
+                swipeGestureEnded: () => this.rowSwipeGestureEnded(key),
             });
         } else {
             return (
@@ -176,6 +183,7 @@ class SwipeListView extends PureComponent {
                     }
                     ref={row => (this._rows[key] = row)}
                     swipeGestureBegan={() => this.rowSwipeGestureBegan(key)}
+                    swipeGestureEnded={() => this.rowSwipeGestureEnded(key)}
                     onRowOpen={toValue => this.onRowOpen(key, toValue)}
                     onRowDidOpen={toValue =>
                         this.props.onRowDidOpen &&
@@ -431,6 +439,10 @@ SwipeListView.propTypes = {
      * Called when a swipe row is animating swipe
      */
     swipeGestureBegan: PropTypes.func,
+    /**
+     * Called when user has ended their swipe gesture
+     */
+    swipeGestureEnded: PropTypes.func,
     /**
      * Called when a swipe row is animating open
      */
