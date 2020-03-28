@@ -12,6 +12,10 @@ interface IPropsSwipeRow<T> {
 	 */
 	swipeGestureBegan(): void;
 	/**
+	 * Called when user has ended their swipe gesture
+	 */
+	swipeGestureEnded(): void;
+	/**
 	 * Called when a swipe row is animating open. Used by the SwipeListView
 	 * to keep references to open rows.
 	 */
@@ -249,6 +253,10 @@ interface IPropsSwipeListView<T> {
 	 */
 	swipeGestureBegan(rowKey: string): void;
 	/**
+	 * Called when user has ended their swipe gesture
+	 */
+	swipeGestureEnded(rowKey: string): void;
+	/**
 	 * Called when a swipe row is animating open
 	 */
 	onRowOpen(rowKey: string, rowMap: RowMap<T>, toValue: number): void;
@@ -362,6 +370,10 @@ interface IPropsSwipeListView<T> {
 		direction: 'left' | 'right';
 		isOpen: boolean;
 	}): void;
+	/**
+	 * Use Animated.Flatlist or Animated.Sectionlist
+	 */
+	useAnimateList: boolean;
 }
 
 type SectionListPropsOverride<T> = Omit<SectionListProps<T>, 'renderItem'>
