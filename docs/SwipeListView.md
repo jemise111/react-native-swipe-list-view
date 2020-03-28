@@ -6,6 +6,7 @@ A List that renders `<SwipeRow />`s
 
 | Prop | Notes | Type | Signature (func) | Default |
 |---|---|---|---|---|
+| `data` | List of objects to be passed into the `renderItem` and `renderHiddenItem` functions. Each item must include a unique `key` property to ensure full functionality. | `array` || 
 | `useSectionList` | Render list using React Native's `SectionList` | `bool` || `false`
 | `renderItem` | How to render a row in a FlatList. Should return a valid React Element. | `func` | `{ rowData: any, rowMap: { string: SwipeRowRef } } : ReactElement`
 | `renderHiddenItem` | How to render a hidden row in a FlatList (renders behind the row). Should return a valid React Element. This is required unless `renderItem` returns a `<SwipeRow>` (see [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/per-row-behavior.md)). | `func` | `{ rowData: any, rowMap: { string: SwipeRowRef } } : ReactElement`
