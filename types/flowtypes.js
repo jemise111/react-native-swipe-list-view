@@ -3,6 +3,7 @@
 export type SwipeRowPropsType = {
     setScrollEnabled?: Function,
     swipeGestureBegan?: Function,
+    swipeGestureEnded?: Function,
     onRowOpen?: Function,
     onRowDidOpen?: Function,
     leftOpenValue?: number,
@@ -92,6 +93,7 @@ export type SwipeListPropsType = {
     recalculateHiddenLayout: boolean,
     disableHiddenLayoutCalculation: boolean,
     swipeGestureBegan?: Function,
+    swipeGestureEnded?: Function,
     onRowOpen?: Function,
     onRowDidOpen?: Function,
     onRowClose?: Function,
@@ -121,6 +123,7 @@ export type SwipeListPropsType = {
     shouldItemUpdate?: Function,
     onSwipeValueChange?: Function,
     useNativeDriver: boolean,
+    useAnimatedList: boolean,
     renderHiddenRow?: Function,
     keyExtractor?: any,
     scrollEnabled?: boolean,

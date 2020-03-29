@@ -61,7 +61,8 @@ class SwipeRow extends Component {
             onMoveShouldSetPanResponder: (e, gs) =>
                 this.handleOnMoveShouldSetPanResponder(e, gs),
             onPanResponderMove: (e, gs) => this.handlePanResponderMove(e, gs),
-            onPanResponderRelease: (e, gs) => this.handlePanResponderEnd(e, gs),
+            onPanResponderRelease: (e, gs) =>
+                this.handlePanResponderRelease(e, gs),
             onPanResponderTerminate: (e, gs) =>
                 this.handlePanResponderEnd(e, gs),
             onShouldBlockNativeResponder: () => false,
@@ -338,6 +339,11 @@ class SwipeRow extends Component {
         }
     };
 
+    handlePanResponderRelease(e, gestureState) {
+        this.props.swipeGestureEnded && this.props.swipeGestureEnded();
+        this.handlePanResponderEnd(e, gestureState);
+    }
+
     handlePanResponderEnd(e, gestureState) {
         /* PandEnd will reset the force-closing state when it's true. */
         if (this.isForceClosing) {
@@ -550,10 +556,10 @@ class SwipeRow extends Component {
         this.horizontalSwipeGestureBegan = false;
     }
 
-    combinedOnPress = () => {
+    combinedOnPress = (...args) => {
         const onPress = this.props.children[1].props.onPress;
         this.onRowPress();
-        onPress && onPress();
+        onPress && onPress(...args);
     };
 
     renderVisibleContent() {
@@ -689,6 +695,10 @@ SwipeRow.propTypes = {
      * Called when it has been detected that a row should be swiped open.
      */
     swipeGestureBegan: PropTypes.func,
+    /**
+     * Called when user has ended their swipe gesture
+     */
+    swipeGestureEnded: PropTypes.func,
     /**
      * Called when a swipe row is animating open. Used by the SwipeListView
      * to keep references to open rows.

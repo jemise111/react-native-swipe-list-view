@@ -2,7 +2,13 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Animated, Platform, ViewPropTypes } from 'react-native';
+import {
+    Animated,
+    FlatList,
+    Platform,
+    SectionList,
+    ViewPropTypes,
+} from 'react-native';
 
 import SwipeRow from './SwipeRow';
 
@@ -76,6 +82,12 @@ class SwipeListView extends PureComponent {
         }
     }
 
+    rowSwipeGestureEnded(key) {
+        if (this.props.swipeGestureEnded) {
+            this.props.swipeGestureEnded(key);
+        }
+    }
+
     onRowOpen(key, toValue) {
         if (
             this.openCellKey &&
@@ -123,7 +135,9 @@ class SwipeListView extends PureComponent {
     onContentSizeChange(w, h) {
         const height = h - this.layoutHeight;
         if (this.yScrollOffset >= height && height > 0) {
-            if (this._listView instanceof Animated.FlatList) {
+            if (this._listView instanceof FlatList) {
+                this._listView && this._listView.scrollToEnd();
+            } else if (this._listView instanceof Animated.FlatList) {
                 this._listView.scrollToEnd && this._listView.scrollToEnd();
             }
         }
@@ -153,6 +167,7 @@ class SwipeListView extends PureComponent {
                 onRowPress: () => this.onRowPress(),
                 setScrollEnabled: enable => this.setScrollEnabled(enable),
                 swipeGestureBegan: () => this.rowSwipeGestureBegan(key),
+                swipeGestureEnded: () => this.rowSwipeGestureEnded(key),
             });
         } else {
             return (
@@ -168,6 +183,7 @@ class SwipeListView extends PureComponent {
                     }
                     ref={row => (this._rows[key] = row)}
                     swipeGestureBegan={() => this.rowSwipeGestureBegan(key)}
+                    swipeGestureEnded={() => this.rowSwipeGestureEnded(key)}
                     onRowOpen={toValue => this.onRowOpen(key, toValue)}
                     onRowDidOpen={toValue =>
                         this.props.onRowDidOpen &&
@@ -369,8 +385,11 @@ class SwipeListView extends PureComponent {
         }
 
         if (useSectionList) {
+            const ListComponent = this.props.useAnimatedList
+                ? Animated.SectionList
+                : SectionList;
             return (
-                <Animated.SectionList
+                <ListComponent
                     {...props}
                     {...this.listViewProps}
                     ref={this._onRef}
@@ -379,9 +398,11 @@ class SwipeListView extends PureComponent {
                 />
             );
         }
-
+        const ListComponent = this.props.useAnimatedList
+            ? Animated.FlatList
+            : FlatList;
         return (
-            <Animated.FlatList
+            <ListComponent
                 {...props}
                 {...this.listViewProps}
                 ref={this._onRef}
@@ -492,6 +513,10 @@ SwipeListView.propTypes = {
      * Called when a swipe row is animating swipe
      */
     swipeGestureBegan: PropTypes.func,
+    /**
+     * Called when user has ended their swipe gesture
+     */
+    swipeGestureEnded: PropTypes.func,
     /**
      * Called when a swipe row is animating open
      */
@@ -625,6 +650,10 @@ SwipeListView.propTypes = {
      * useNativeDriver: true for all animations where possible
      */
     useNativeDriver: PropTypes.bool,
+    /**
+     * Use Animated.Flatlist or Animated.Sectionlist
+     */
+    useAnimatedList: PropTypes.bool,
 };
 
 SwipeListView.defaultProps = {
@@ -646,6 +675,7 @@ SwipeListView.defaultProps = {
     useNativeDriver: true,
     previewRepeat: false,
     previewRepeatDelay: 1000,
+    useAnimatedList: false,
 };
 
 export default SwipeListView;

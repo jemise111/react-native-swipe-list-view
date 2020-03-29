@@ -26,9 +26,9 @@ import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
     data={data}
     renderItem={ (rowData, rowMap) => (
         <SwipeRow
-            disableRightSwipe={parseInt(data.item.key) % 2 !== 0}
-            disableLeftSwipe={parseInt(data.item.key) % 2 === 0}
-            leftOpenValue={20 + parseInt(data.item.key) * 5}
+            disableRightSwipe={parseInt(rowData.item.key) % 2 !== 0}
+            disableLeftSwipe={parseInt(rowData.item.key) % 2 === 0}
+            leftOpenValue={20 + parseInt(rowData.item.key) * 5}
             rightOpenValue={-150}
             leftActivationValue={200}
         >
@@ -37,7 +37,7 @@ import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
                 <Text>Right Hidden</Text>
             </View>
             <View style={styles.rowFront}>
-                <Text>Row front | {data.item.key}</Text>
+                <Text>Row front | {rowData.item.key}</Text>
             </View>
         </SwipeRow>
     )}
