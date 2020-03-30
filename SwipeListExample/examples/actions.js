@@ -18,7 +18,7 @@ export default function Actions() {
             .map((_, i) => ({
                 key: `${i}`,
                 text: `item #${i}`,
-                initialLeftActionState: i % 2,
+                initialLeftActionState: i % 2 !== 0,
             }))
     );
 
