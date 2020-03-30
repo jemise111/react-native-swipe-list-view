@@ -198,6 +198,56 @@ class SwipeListView extends PureComponent {
                         this.props.onRowDidClose(key, this._rows)
                     }
                     onRowPress={() => this.onRowPress(key)}
+                    leftActivationValue={
+                        item.leftActivationValue ||
+                        this.props.leftActivationValue
+                    }
+                    rightActivationValue={
+                        item.rightActivationValue ||
+                        this.props.rightActivationValue
+                    }
+                    leftActionValue={
+                        item.leftActionValue || this.props.leftActionValue
+                    }
+                    rightActionValue={
+                        item.rightActionValue || this.props.rightActionValue
+                    }
+                    initialLeftActionState={
+                        item.initialLeftActionState ||
+                        this.props.initialLeftActionState
+                    }
+                    initialRightActionState={
+                        item.initialRightActionState ||
+                        this.props.initialRightActionState
+                    }
+                    onLeftAction={() =>
+                        item.onLeftAction ||
+                        (this.props.onLeftAction &&
+                            this.props.onLeftAction(key, this._rows))
+                    }
+                    onRightAction={() =>
+                        item.onRightAction ||
+                        (this.props.onRightAction &&
+                            this.props.onRightAction(key, this._rows))
+                    }
+                    onLeftActionStatusChange={
+                        this.props.onLeftActionStatusChange
+                            ? data =>
+                                  this.props.onLeftActionStatusChange({
+                                      ...data,
+                                      key,
+                                  })
+                            : null
+                    }
+                    onRightActionStatusChange={
+                        this.props.onRightActionStatusChange
+                            ? data =>
+                                  this.props.onRightActionStatusChange({
+                                      ...data,
+                                      key,
+                                  })
+                            : null
+                    }
                     shouldItemUpdate={
                         this.props.shouldItemUpdate
                             ? (currentItem, newItem) =>
@@ -387,6 +437,30 @@ SwipeListView.propTypes = {
      */
     rightOpenValue: PropTypes.number,
     /**
+     * TranslateX value for firing onLeftActionStatusChange (positive number)
+     */
+    leftActivationValue: PropTypes.number,
+    /**
+     * TranslateX value for firing onRightActionStatusChange (negative number)
+     */
+    rightActivationValue: PropTypes.number,
+    /**
+     * TranslateX value for left action to which the row will be shifted after gesture release
+     */
+    leftActionValue: PropTypes.number,
+    /**
+     * TranslateX value for right action to which the row will be shifted after gesture release
+     */
+    rightActionValue: PropTypes.number,
+    /**
+     * Initial value for left action state (default is false)
+     */
+    initialLeftActionState: PropTypes.bool,
+    /**
+     * Initial value for right action state (default is false)
+     */
+    initialRightActionState: PropTypes.bool,
+    /**
      * TranslateX value for stop the row to the left (positive number)
      */
     stopLeftSwipe: PropTypes.number,
@@ -459,6 +533,22 @@ SwipeListView.propTypes = {
      * Called when a swipe row has animated closed
      */
     onRowDidClose: PropTypes.func,
+    /**
+     * Called when row shifted to leftActivationValue
+     */
+    onLeftAction: PropTypes.func,
+    /**
+     * Called when row shifted to rightActivationValue
+     */
+    onRightAction: PropTypes.func,
+    /**
+     * Called once when swipe value crosses the leftActivationValue
+     */
+    onLeftActionStatusChange: PropTypes.func,
+    /**
+     * Called once when swipe value crosses the rightActivationValue
+     */
+    onRightActionStatusChange: PropTypes.func,
     /**
      * Called when scrolling on the SwipeListView has been enabled/disabled
      */
