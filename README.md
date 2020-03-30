@@ -22,7 +22,7 @@ The `useFlatList` prop is no longer required, as `FlatList` is the default ListV
 
 ## Example
 
-![](https://media.giphy.com/media/XAaoqXk1blvXukLIcZ/giphy.gif)
+![Imgur](https://i.imgur.com/edYK1nZ.gifv)
 
 Try it out! https://snack.expo.io/@jemise111/react-native-swipe-list-view
 
@@ -127,7 +127,7 @@ And see `example.js` for a full usage example.
  * [Actions](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/actions.md)
 
 ## And the `examples/` folder for examples on
- * Swipe to Delete
+ * Swipe to Delete (also see "Actions" for an alternative way to achieve this)
  * Per Row Behavior
  * UI Based on Swipe Values
  * Actions

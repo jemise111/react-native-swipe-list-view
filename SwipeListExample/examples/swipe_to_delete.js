@@ -87,6 +87,7 @@ export default function SwipeToDelete() {
                 renderHiddenItem={renderHiddenItem}
                 rightOpenValue={-Dimensions.get('window').width}
                 onSwipeValueChange={onSwipeValueChange}
+                useNativeDriver={false}
             />
         </View>
     );
