@@ -22,7 +22,7 @@ The `useFlatList` prop is no longer required, as `FlatList` is the default ListV
 
 ## Example
 
-![Imgur](https://i.imgur.com/edYK1nZ.gifv)
+![](https://media.giphy.com/media/WrmrvmwMnvvmzN3ZpX/giphy.gif)
 
 Try it out! https://snack.expo.io/@jemise111/react-native-swipe-list-view
 
