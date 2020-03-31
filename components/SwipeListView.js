@@ -535,6 +535,10 @@ SwipeListView.propTypes = {
      * useNativeDriver: true for all animations where possible
      */
     useNativeDriver: PropTypes.bool,
+    /**
+     * keyExtractor: function to generate key value for each row in the list
+     */
+    keyExtractor: PropTypes.func,
 };
 
 SwipeListView.defaultProps = {
