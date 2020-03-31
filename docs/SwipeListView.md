@@ -8,7 +8,6 @@ A List that renders `<SwipeRow />`s
 | Prop | Notes | Type | Signature (func) | Default |
 |---|---|---|---|---|
 | `data` | List of objects to be passed into the `renderItem` and `renderHiddenItem` functions. Each item must include a unique `key` property or `keyExtractor` must be implemented to ensure full functionality. | `array` || 
-| `keyExtractor` | Function to generate `key` value for each row in the list. | `func` |`(item, index) => {}`| 
 | `useSectionList` | Render list using React Native's `SectionList` | `bool` || `false`
 | `renderItem` | How to render a row in a FlatList. Should return a valid React Element. | `func` | `{ rowData: any, rowMap: { string: SwipeRowRef } } : ReactElement`
 | `renderHiddenItem` | How to render a hidden row in a FlatList (renders behind the row). Should return a valid React Element. This is required unless `renderItem` returns a `<SwipeRow>` (see [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/per-row-behavior.md)). | `func` | `{ rowData: any, rowMap: { string: SwipeRowRef } } : ReactElement`
@@ -51,3 +50,6 @@ A List that renders `<SwipeRow />`s
 | `previewRowIndex` [DEPRECATED] | Should the specified rowId do a slide out preview to show that the list is swipeable. ***Note***: This ID will be passed to this function to get the correct row index. https://facebook.github.io/react-native/docs/listviewdatasource.html#getrowidforflatindex | `number`
 | `shouldItemUpdate` | Callback to determine whether component should update | `func` | `{ currentItem: any, newItem: any }`
 | `useNativeDriver` | useNativeDriver: `true` for all animations | `bool` | `true` |
+
+
+See [FlatList](https://reactnative.dev/docs/flatlist) for all other inherited props
