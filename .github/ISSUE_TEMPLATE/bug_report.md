@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 Your issue may already be reported!
-Please search on the [issue tracker](../) before creating one.
+Please search on the [issue tracker](https://github.com/jemise111/react-native-swipe-list-view/issues) before creating one.
 
 **Describe the bug**
 A clear and concise description of what the bug is.

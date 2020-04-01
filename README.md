@@ -22,7 +22,7 @@ The `useFlatList` prop is no longer required, as `FlatList` is the default ListV
 
 ## Example
 
-![](https://media.giphy.com/media/XAaoqXk1blvXukLIcZ/giphy.gif)
+![](https://media.giphy.com/media/WrmrvmwMnvvmzN3ZpX/giphy.gif)
 
 Try it out! https://snack.expo.io/@jemise111/react-native-swipe-list-view
 
@@ -42,6 +42,9 @@ The application under ./SwipeListExample will produce the above example. To run 
 * ```cd react-native-swipe-list-view```
 * ```cd SwipeListExample```
 * ```yarn```
+* ```cd ios```
+* ```pod install```
+* ```cd ..```
 * ```react-native run-ios | react-native run-android```
 
 > Android: If you get the [following error](https://github.com/facebook/react-native/issues/25629#issuecomment-511209583) `SwipeListExample/android/app/debug.keystore' not found for signing config 'debug'.`:
@@ -130,11 +133,13 @@ And see `example.js` for a full usage example.
 ## Also see `docs/` for help with
  * [Manually Closing Rows](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/manually-closing-rows.md)
  * [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/per-row-behavior.md)
+ * [Actions](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/actions.md)
 
 ## And the `examples/` folder for examples on
- * Swipe to Delete
+ * Swipe to Delete (also see "Actions" for an alternative way to achieve this)
  * Per Row Behavior
  * UI Based on Swipe Values
+ * Actions
 
 ## Core Support
 

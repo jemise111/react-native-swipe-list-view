@@ -12,6 +12,10 @@ interface IPropsSwipeRow<T> {
 	 */
 	swipeGestureBegan(): void;
 	/**
+	 * Called when user has ended their swipe gesture
+	 */
+	swipeGestureEnded(): void;
+	/**
 	 * Called when a swipe row is animating open. Used by the SwipeListView
 	 * to keep references to open rows.
 	 */
@@ -31,6 +35,30 @@ interface IPropsSwipeRow<T> {
 	 * TranslateX value for opening the row to the right (negative number)
 	 */
 	rightOpenValue: number;
+	/**
+	* TranslateX value for firing onLeftActionStatusChange (positive number)
+	*/
+	leftActivationValue: number,
+	/**
+	 * TranslateX value for firing onRightActionStatusChange (negative number)
+	 */
+	rightActivationValue: number,
+	/**
+	 * TranslateX value for left action to which the row will be shifted after gesture release
+	 */
+	leftActionValue: number,
+	/**
+	 * TranslateX value for right action to which the row will be shifted after gesture release
+	 */
+	rightActionValue: number,
+	/**
+	 * Initial value for left action state (default is false)
+	 */
+	initialLeftActionState: boolean,
+	/**
+	 * Initial value for right action state (default is false)
+	 */
+	initialRightActionState: boolean,
 	/**
 	 * TranslateX value for stop the row to the left (positive number)
 	 */
@@ -83,6 +111,30 @@ interface IPropsSwipeRow<T> {
 	 * Called when a swipe row has animated closed
 	 */
 	onRowDidClose(): void;
+	/**
+	 * Called when row shifted to leftActivationValue
+	 */
+	onLeftAction(rowKey: string, rowMap: RowMap<T>): void;
+	/**
+	 * Called when row shifted to rightActivationValue
+	 */
+	onRightAction(rowKey: string, rowMap: RowMap<T>): void;
+	/**
+	 * Called once when swipe value crosses the leftActivationValue
+	 */
+	onLeftActionStatusChange(data: {
+		isActivated: boolean;
+		value: number;
+		key: string;
+	}): void;
+	/**
+	 * Called once when swipe value crosses the rightActivationValue
+	 */
+	onRightActionStatusChange(data: {
+		isActivated: boolean;
+		value: number;
+		key: string;
+	}): void;
 	/**
 	 * Styles for the parent wrapper View of the SwipeRow
 	 */
@@ -196,6 +248,30 @@ interface IPropsSwipeListView<T> {
 	 */
 	rightOpenValue: number;
 	/**
+	* TranslateX value for firing onLeftActionStatusChange (positive number)
+	*/
+	leftActivationValue: number,
+	/**
+	 * TranslateX value for firing onRightActionStatusChange (negative number)
+	 */
+	rightActivationValue: number,
+	/**
+	 * TranslateX value for left action to which the row will be shifted after gesture release
+	 */
+	leftActionValue: number,
+	/**
+	 * TranslateX value for right action to which the row will be shifted after gesture release
+	 */
+	rightActionValue: number,
+	/**
+	 * Initial value for left action state (default is false)
+	 */
+	initialLeftActionState: boolean,
+	/**
+	 * Initial value for right action state (default is false)
+	 */
+	initialRightActionState: boolean,
+	/**
 	 * TranslateX value for stop the row to the left (positive number)
 	 */
 	stopLeftSwipe: number;
@@ -249,6 +325,10 @@ interface IPropsSwipeListView<T> {
 	 */
 	swipeGestureBegan(rowKey: string): void;
 	/**
+	 * Called when user has ended their swipe gesture
+	 */
+	swipeGestureEnded(rowKey: string): void;
+	/**
 	 * Called when a swipe row is animating open
 	 */
 	onRowOpen(rowKey: string, rowMap: RowMap<T>, toValue: number): void;
@@ -264,6 +344,30 @@ interface IPropsSwipeListView<T> {
 	 * Called when a swipe row has animated closed
 	 */
 	onRowDidClose(rowKey: string, rowMap: RowMap<T>): void;
+	/**
+	 * Called when row shifted to leftActivationValue
+	 */
+	onLeftAction(rowKey: string, rowMap: RowMap<T>): void;
+	/**
+	 * Called when row shifted to rightActivationValue
+	 */
+	onRightAction(rowKey: string, rowMap: RowMap<T>): void;
+	/**
+	 * Called once when swipe value crosses the leftActivationValue
+	 */
+	onLeftActionStatusChange(data: {
+		isActivated: boolean;
+		value: number;
+		key: string;
+	}): void;
+	/**
+	 * Called once when swipe value crosses the rightActivationValue
+	 */
+	onRightActionStatusChange(data: {
+		isActivated: boolean;
+		value: number;
+		key: string;
+	}): void;
 	/**
 	 * Called when scrolling on the SwipeListView has been enabled/disabled
 	 */
@@ -362,6 +466,10 @@ interface IPropsSwipeListView<T> {
 		direction: 'left' | 'right';
 		isOpen: boolean;
 	}): void;
+	/**
+	 * Use Animated.Flatlist or Animated.Sectionlist
+	 */
+	useAnimateList: boolean;
 }
 
 type SectionListPropsOverride<T> = Omit<SectionListProps<T>, 'renderItem'>

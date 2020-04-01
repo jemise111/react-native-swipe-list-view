@@ -2,7 +2,13 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Animated, Platform, ViewPropTypes } from 'react-native';
+import {
+    Animated,
+    FlatList,
+    Platform,
+    SectionList,
+    ViewPropTypes,
+} from 'react-native';
 
 import SwipeRow from './SwipeRow';
 
@@ -76,6 +82,12 @@ class SwipeListView extends PureComponent {
         }
     }
 
+    rowSwipeGestureEnded(key) {
+        if (this.props.swipeGestureEnded) {
+            this.props.swipeGestureEnded(key);
+        }
+    }
+
     onRowOpen(key, toValue) {
         if (
             this.openCellKey &&
@@ -123,7 +135,9 @@ class SwipeListView extends PureComponent {
     onContentSizeChange(w, h) {
         const height = h - this.layoutHeight;
         if (this.yScrollOffset >= height && height > 0) {
-            if (this._listView instanceof Animated.FlatList) {
+            if (this._listView instanceof FlatList) {
+                this._listView && this._listView.scrollToEnd();
+            } else if (this._listView instanceof Animated.FlatList) {
                 this._listView.scrollToEnd && this._listView.scrollToEnd();
             }
         }
@@ -153,6 +167,7 @@ class SwipeListView extends PureComponent {
                 onRowPress: () => this.onRowPress(),
                 setScrollEnabled: enable => this.setScrollEnabled(enable),
                 swipeGestureBegan: () => this.rowSwipeGestureBegan(key),
+                swipeGestureEnded: () => this.rowSwipeGestureEnded(key),
             });
         } else {
             return (
@@ -168,6 +183,7 @@ class SwipeListView extends PureComponent {
                     }
                     ref={row => (this._rows[key] = row)}
                     swipeGestureBegan={() => this.rowSwipeGestureBegan(key)}
+                    swipeGestureEnded={() => this.rowSwipeGestureEnded(key)}
                     onRowOpen={toValue => this.onRowOpen(key, toValue)}
                     onRowDidOpen={toValue =>
                         this.props.onRowDidOpen &&
@@ -182,6 +198,56 @@ class SwipeListView extends PureComponent {
                         this.props.onRowDidClose(key, this._rows)
                     }
                     onRowPress={() => this.onRowPress(key)}
+                    leftActivationValue={
+                        item.leftActivationValue ||
+                        this.props.leftActivationValue
+                    }
+                    rightActivationValue={
+                        item.rightActivationValue ||
+                        this.props.rightActivationValue
+                    }
+                    leftActionValue={
+                        item.leftActionValue || this.props.leftActionValue
+                    }
+                    rightActionValue={
+                        item.rightActionValue || this.props.rightActionValue
+                    }
+                    initialLeftActionState={
+                        item.initialLeftActionState ||
+                        this.props.initialLeftActionState
+                    }
+                    initialRightActionState={
+                        item.initialRightActionState ||
+                        this.props.initialRightActionState
+                    }
+                    onLeftAction={() =>
+                        item.onLeftAction ||
+                        (this.props.onLeftAction &&
+                            this.props.onLeftAction(key, this._rows))
+                    }
+                    onRightAction={() =>
+                        item.onRightAction ||
+                        (this.props.onRightAction &&
+                            this.props.onRightAction(key, this._rows))
+                    }
+                    onLeftActionStatusChange={
+                        this.props.onLeftActionStatusChange
+                            ? data =>
+                                  this.props.onLeftActionStatusChange({
+                                      ...data,
+                                      key,
+                                  })
+                            : null
+                    }
+                    onRightActionStatusChange={
+                        this.props.onRightActionStatusChange
+                            ? data =>
+                                  this.props.onRightActionStatusChange({
+                                      ...data,
+                                      key,
+                                  })
+                            : null
+                    }
                     shouldItemUpdate={
                         this.props.shouldItemUpdate
                             ? (currentItem, newItem) =>
@@ -319,8 +385,11 @@ class SwipeListView extends PureComponent {
         }
 
         if (useSectionList) {
+            const ListComponent = this.props.useAnimatedList
+                ? Animated.SectionList
+                : SectionList;
             return (
-                <Animated.SectionList
+                <ListComponent
                     {...props}
                     {...this.listViewProps}
                     ref={this._onRef}
@@ -329,9 +398,11 @@ class SwipeListView extends PureComponent {
                 />
             );
         }
-
+        const ListComponent = this.props.useAnimatedList
+            ? Animated.FlatList
+            : FlatList;
         return (
-            <Animated.FlatList
+            <ListComponent
                 {...props}
                 {...this.listViewProps}
                 ref={this._onRef}
@@ -365,6 +436,30 @@ SwipeListView.propTypes = {
      * TranslateX value for opening the row to the right (negative number)
      */
     rightOpenValue: PropTypes.number,
+    /**
+     * TranslateX value for firing onLeftActionStatusChange (positive number)
+     */
+    leftActivationValue: PropTypes.number,
+    /**
+     * TranslateX value for firing onRightActionStatusChange (negative number)
+     */
+    rightActivationValue: PropTypes.number,
+    /**
+     * TranslateX value for left action to which the row will be shifted after gesture release
+     */
+    leftActionValue: PropTypes.number,
+    /**
+     * TranslateX value for right action to which the row will be shifted after gesture release
+     */
+    rightActionValue: PropTypes.number,
+    /**
+     * Initial value for left action state (default is false)
+     */
+    initialLeftActionState: PropTypes.bool,
+    /**
+     * Initial value for right action state (default is false)
+     */
+    initialRightActionState: PropTypes.bool,
     /**
      * TranslateX value for stop the row to the left (positive number)
      */
@@ -419,6 +514,10 @@ SwipeListView.propTypes = {
      */
     swipeGestureBegan: PropTypes.func,
     /**
+     * Called when user has ended their swipe gesture
+     */
+    swipeGestureEnded: PropTypes.func,
+    /**
      * Called when a swipe row is animating open
      */
     onRowOpen: PropTypes.func,
@@ -434,6 +533,22 @@ SwipeListView.propTypes = {
      * Called when a swipe row has animated closed
      */
     onRowDidClose: PropTypes.func,
+    /**
+     * Called when row shifted to leftActivationValue
+     */
+    onLeftAction: PropTypes.func,
+    /**
+     * Called when row shifted to rightActivationValue
+     */
+    onRightAction: PropTypes.func,
+    /**
+     * Called once when swipe value crosses the leftActivationValue
+     */
+    onLeftActionStatusChange: PropTypes.func,
+    /**
+     * Called once when swipe value crosses the rightActivationValue
+     */
+    onRightActionStatusChange: PropTypes.func,
     /**
      * Called when scrolling on the SwipeListView has been enabled/disabled
      */
@@ -536,6 +651,10 @@ SwipeListView.propTypes = {
      */
     useNativeDriver: PropTypes.bool,
     /**
+     * Use Animated.Flatlist or Animated.Sectionlist
+     */
+    useAnimatedList: PropTypes.bool,
+    /**
      * keyExtractor: function to generate key value for each row in the list
      */
     keyExtractor: PropTypes.func,
@@ -560,6 +679,7 @@ SwipeListView.defaultProps = {
     useNativeDriver: true,
     previewRepeat: false,
     previewRepeatDelay: 1000,
+    useAnimatedList: false,
 };
 
 export default SwipeListView;
