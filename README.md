@@ -59,6 +59,15 @@ The application under ./SwipeListExample will produce the above example. To run 
 ```javascript
 import { SwipeListView } from 'react-native-swipe-list-view';
 
+//... note: your data array objects MUST contain a key property 
+//          or you must pass a keyExtractor to the SwipeListView to ensure proper functionality
+//          see: https://reactnative.dev/docs/flatlist#keyextractor
+
+  this.state.listViewData = Array(20)
+    .fill("")
+    .map((_, i) => ({ key: `${i}`, text: `item #${i}` }));
+
+//...
 render() {
     return (
         <SwipeListView

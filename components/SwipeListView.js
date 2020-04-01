@@ -654,6 +654,10 @@ SwipeListView.propTypes = {
      * Use Animated.Flatlist or Animated.Sectionlist
      */
     useAnimatedList: PropTypes.bool,
+    /**
+     * keyExtractor: function to generate key value for each row in the list
+     */
+    keyExtractor: PropTypes.func,
 };
 
 SwipeListView.defaultProps = {
