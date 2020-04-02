@@ -54,7 +54,7 @@ e.g.
 | `previewOpenValue` | TranslateX value for the slide out preview animation | `number` | | 0.5 * props.rightOpenValue |
 | `onSwipeValueChange` | Callback invoked any time the translateX value of the row changes | `func` | <code>{ swipeData: { key: string, value: number, direction: 'left' &#124; 'right', isOpen: bool } } : void</code> |
 | `swipeGestureBegan` | Called when the row is animating swipe | `func` | `{ } : void` |
-| `swipeGestureEnded` | Called when user has ended their swipe gesture | `func` | `{ } : void`
+| `swipeGestureEnded` | Called when user has ended their swipe gesture | `func` | `{ data: { translateX: number; } } : void`
 | `swipeToOpenVelocityContribution` | Describes how much the ending velocity of the gesture affects whether the swipe will result in the item being closed or open. A velocity factor of 0 (the default) means that the velocity will have no bearing on whether the swipe settles on a closed or open position and it'll just take into consideration the swipeToOpenPercent. Ideal values for this prop tend to be between 5 and 15. | `number` | | `0` |
 | `shouldItemUpdate` | Callback to determine whether component should update | `func` | `{ currentItem: any, newItem: any }` |
 | `forceCloseToLeftThreshold` | TranslateX amount(not value!) threshold that triggers force-closing the row to the Left End (positive number) | `number` |

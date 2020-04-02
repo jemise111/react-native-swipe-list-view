@@ -340,7 +340,10 @@ class SwipeRow extends Component {
     };
 
     handlePanResponderRelease(e, gestureState) {
-        this.props.swipeGestureEnded && this.props.swipeGestureEnded();
+        this.props.swipeGestureEnded &&
+            this.props.swipeGestureEnded({
+                translateX: this.currentTranslateX,
+            });
         this.handlePanResponderEnd(e, gestureState);
     }
 

@@ -14,7 +14,7 @@ interface IPropsSwipeRow<T> {
 	/**
 	 * Called when user has ended their swipe gesture
 	 */
-	swipeGestureEnded(): void;
+	swipeGestureEnded(data: { translateX: number; }): void;
 	/**
 	 * Called when a swipe row is animating open. Used by the SwipeListView
 	 * to keep references to open rows.
@@ -327,7 +327,7 @@ interface IPropsSwipeListView<T> {
 	/**
 	 * Called when user has ended their swipe gesture
 	 */
-	swipeGestureEnded(rowKey: string): void;
+	swipeGestureEnded(rowKey: string, data: { translateX: number; }): void;
 	/**
 	 * Called when a swipe row is animating open
 	 */

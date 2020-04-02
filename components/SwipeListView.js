@@ -82,9 +82,9 @@ class SwipeListView extends PureComponent {
         }
     }
 
-    rowSwipeGestureEnded(key) {
+    rowSwipeGestureEnded(key, data) {
         if (this.props.swipeGestureEnded) {
-            this.props.swipeGestureEnded(key);
+            this.props.swipeGestureEnded(key, data);
         }
     }
 
@@ -183,7 +183,9 @@ class SwipeListView extends PureComponent {
                     }
                     ref={row => (this._rows[key] = row)}
                     swipeGestureBegan={() => this.rowSwipeGestureBegan(key)}
-                    swipeGestureEnded={() => this.rowSwipeGestureEnded(key)}
+                    swipeGestureEnded={data =>
+                        this.rowSwipeGestureEnded(key, data)
+                    }
                     onRowOpen={toValue => this.onRowOpen(key, toValue)}
                     onRowDidOpen={toValue =>
                         this.props.onRowDidOpen &&
