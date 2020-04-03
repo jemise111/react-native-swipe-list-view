@@ -183,7 +183,7 @@ class SwipeListView extends PureComponent {
                     }
                     ref={row => (this._rows[key] = row)}
                     swipeGestureBegan={() => this.rowSwipeGestureBegan(key)}
-                    swipeGestureEnded={data =>
+                    swipeGestureEnded={(swipeKey, data) =>
                         this.rowSwipeGestureEnded(key, data)
                     }
                     onRowOpen={toValue => this.onRowOpen(key, toValue)}
