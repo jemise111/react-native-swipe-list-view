@@ -347,11 +347,15 @@ class SwipeRow extends Component {
                 event: e,
                 gestureState,
             });
-        this.handlePanResponderEnd(e, gestureState);
+
+        // If preventDefault() called on the event, do not handle responder end.
+        if (!e.defaultPrevented) {
+            this.handlePanResponderEnd(e, gestureState);
+        }
     }
 
     handlePanResponderEnd(e, gestureState) {
-        /* PandEnd will reset the force-closing state when it's true. */
+        /* PanEnd will reset the force-closing state when it's true. */
         if (this.isForceClosing) {
             setTimeout(() => {
                 this.isForceClosing = false;
