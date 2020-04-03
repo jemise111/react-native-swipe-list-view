@@ -72,7 +72,10 @@ class SwipeRow extends Component {
             this.currentTranslateX = value;
             if (this.props.onSwipeValueChange) {
                 let direction = this.previousTrackedDirection;
-                if (value !== this.previousTrackedTranslateX) {
+                if (
+                    value !== this.previousTrackedTranslateX &&
+                    Math.abs(value - this.previousTrackedTranslateX) > 0.5
+                ) {
                     direction =
                         value > this.previousTrackedTranslateX
                             ? 'right'
