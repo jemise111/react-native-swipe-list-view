@@ -82,9 +82,9 @@ class SwipeListView extends PureComponent {
         }
     }
 
-    rowSwipeGestureEnded(key) {
+    rowSwipeGestureEnded(key, data) {
         if (this.props.swipeGestureEnded) {
-            this.props.swipeGestureEnded(key);
+            this.props.swipeGestureEnded(key, data);
         }
     }
 
@@ -167,7 +167,8 @@ class SwipeListView extends PureComponent {
                 onRowPress: () => this.onRowPress(),
                 setScrollEnabled: enable => this.setScrollEnabled(enable),
                 swipeGestureBegan: () => this.rowSwipeGestureBegan(key),
-                swipeGestureEnded: () => this.rowSwipeGestureEnded(key),
+                swipeGestureEnded: (_, data) =>
+                    this.rowSwipeGestureEnded(key, data),
             });
         } else {
             return (
@@ -183,7 +184,9 @@ class SwipeListView extends PureComponent {
                     }
                     ref={row => (this._rows[key] = row)}
                     swipeGestureBegan={() => this.rowSwipeGestureBegan(key)}
-                    swipeGestureEnded={() => this.rowSwipeGestureEnded(key)}
+                    swipeGestureEnded={(_, data) =>
+                        this.rowSwipeGestureEnded(key, data)
+                    }
                     onRowOpen={toValue => this.onRowOpen(key, toValue)}
                     onRowDidOpen={toValue =>
                         this.props.onRowDidOpen &&

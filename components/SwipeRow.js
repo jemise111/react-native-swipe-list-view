@@ -72,7 +72,10 @@ class SwipeRow extends Component {
             this.currentTranslateX = value;
             if (this.props.onSwipeValueChange) {
                 let direction = this.previousTrackedDirection;
-                if (value !== this.previousTrackedTranslateX) {
+                if (
+                    value !== this.previousTrackedTranslateX &&
+                    Math.abs(value - this.previousTrackedTranslateX) > 0.5
+                ) {
                     direction =
                         value > this.previousTrackedTranslateX
                             ? 'right'
@@ -340,12 +343,22 @@ class SwipeRow extends Component {
     };
 
     handlePanResponderRelease(e, gestureState) {
-        this.props.swipeGestureEnded && this.props.swipeGestureEnded();
-        this.handlePanResponderEnd(e, gestureState);
+        this.props.swipeGestureEnded &&
+            this.props.swipeGestureEnded(this.props.swipeKey, {
+                translateX: this.currentTranslateX,
+                direction: this.previousTrackedDirection,
+                event: e,
+                gestureState,
+            });
+
+        // If preventDefault() called on the event, do not handle responder end.
+        if (!e.defaultPrevented) {
+            this.handlePanResponderEnd(e, gestureState);
+        }
     }
 
     handlePanResponderEnd(e, gestureState) {
-        /* PandEnd will reset the force-closing state when it's true. */
+        /* PanEnd will reset the force-closing state when it's true. */
         if (this.isForceClosing) {
             setTimeout(() => {
                 this.isForceClosing = false;

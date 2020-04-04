@@ -1,5 +1,12 @@
 import { Component } from 'react';
-import { StyleProp, ViewStyle, ListView, NativeSyntheticEvent, NativeScrollEvent, ListRenderItemInfo, ListViewDataSource, SectionListProps, FlatListProps } from 'react-native';
+import { StyleProp, ViewStyle, ListView, NativeSyntheticEvent, NativeScrollEvent, ListRenderItemInfo, ListViewDataSource, SectionListProps, FlatListProps, GestureResponderEvent, PanResponderGestureState } from 'react-native';
+
+type SwipeGestureEndedData = {
+	translateX: number;
+	direction: 'left' | 'right';
+	event: GestureResponderEvent;
+	gestureState: PanResponderGestureState;
+}
 
 interface IPropsSwipeRow<T> {
 	/**
@@ -14,7 +21,7 @@ interface IPropsSwipeRow<T> {
 	/**
 	 * Called when user has ended their swipe gesture
 	 */
-	swipeGestureEnded(): void;
+	swipeGestureEnded(swipeKey: string, data: SwipeGestureEndedData): void;
 	/**
 	 * Called when a swipe row is animating open. Used by the SwipeListView
 	 * to keep references to open rows.
@@ -327,7 +334,7 @@ interface IPropsSwipeListView<T> {
 	/**
 	 * Called when user has ended their swipe gesture
 	 */
-	swipeGestureEnded(rowKey: string): void;
+	swipeGestureEnded(rowKey: string, data: SwipeGestureEndedData): void;
 	/**
 	 * Called when a swipe row is animating open
 	 */
