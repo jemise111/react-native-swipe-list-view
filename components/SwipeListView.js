@@ -167,7 +167,7 @@ class SwipeListView extends PureComponent {
                 onRowPress: () => this.onRowPress(),
                 setScrollEnabled: enable => this.setScrollEnabled(enable),
                 swipeGestureBegan: () => this.rowSwipeGestureBegan(key),
-                swipeGestureEnded: (swipeKey, data) =>
+                swipeGestureEnded: (_, data) =>
                     this.rowSwipeGestureEnded(key, data),
             });
         } else {
@@ -184,7 +184,7 @@ class SwipeListView extends PureComponent {
                     }
                     ref={row => (this._rows[key] = row)}
                     swipeGestureBegan={() => this.rowSwipeGestureBegan(key)}
-                    swipeGestureEnded={(swipeKey, data) =>
+                    swipeGestureEnded={(_, data) =>
                         this.rowSwipeGestureEnded(key, data)
                     }
                     onRowOpen={toValue => this.onRowOpen(key, toValue)}
