@@ -167,7 +167,8 @@ class SwipeListView extends PureComponent {
                 onRowPress: () => this.onRowPress(),
                 setScrollEnabled: enable => this.setScrollEnabled(enable),
                 swipeGestureBegan: () => this.rowSwipeGestureBegan(key),
-                swipeGestureEnded: () => this.rowSwipeGestureEnded(key),
+                swipeGestureEnded: (swipeKey, data) =>
+                    this.rowSwipeGestureEnded(key, data),
             });
         } else {
             return (
