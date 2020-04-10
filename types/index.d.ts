@@ -476,7 +476,7 @@ interface IPropsSwipeListView<T> {
 	/**
 	 * Use Animated.Flatlist or Animated.Sectionlist
 	 */
-	useAnimateList: boolean;
+	useAnimatedList: boolean;
 }
 
 type SectionListPropsOverride<T> = Omit<SectionListProps<T>, 'renderItem'>
