@@ -74,7 +74,7 @@ render() {
             data={this.state.listViewData}
             renderItem={ (data, rowMap) => (
                 <View style={styles.rowFront}>
-                    <Text>I am {data.item} in a SwipeListView</Text>
+                    <Text>I am {data.text} in a SwipeListView</Text>
                 </View>
             )}
             renderHiddenItem={ (data, rowMap) => (
