@@ -824,7 +824,7 @@ SwipeRow.propTypes = {
     /**
      * Styles for the parent wrapper View of the SwipeRow
      */
-    style: ViewPropTypes.style,
+    style: ViewPropTypes ? ViewPropTypes.style : PropTypes.object,
     /**
      * Should the row do a slide out preview to show that it is swipeable
      */
