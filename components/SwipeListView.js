@@ -32,7 +32,7 @@ class SwipeListView extends PureComponent {
             };
         }
         this._onScroll = this.onScroll.bind(this);
-        if (typeof this.props.onScroll === 'object') {
+        if (this.props.onScroll && typeof this.props.onScroll === 'object') {
             // Animated.event
             this.props.onScroll.__addListener(this._onScroll);
             this._onScroll = this.props.onScroll;
