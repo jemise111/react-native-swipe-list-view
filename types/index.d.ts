@@ -204,6 +204,7 @@ interface IPropsSwipeRow<T> {
 }
 
 export class SwipeRow<T> extends Component<Partial<IPropsSwipeRow<T>>> {
+	isOpen: boolean;
 	closeRow: () => void;
 	closeRowWithoutAnimation: () => void;
 	render(): JSX.Element;
