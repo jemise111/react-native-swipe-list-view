@@ -201,6 +201,10 @@ interface IPropsSwipeRow<T> {
 		value: number;
 	}): void;
 	item: T;
+	/**
+	 * useNativeDriver: true for all animations where possible
+	 */
+	useNativeDriver: boolean;
 }
 
 export class SwipeRow<T> extends Component<Partial<IPropsSwipeRow<T>>> {
@@ -478,6 +482,10 @@ interface IPropsSwipeListView<T> {
 	 * Use Animated.Flatlist or Animated.Sectionlist
 	 */
 	useAnimatedList: boolean;
+	/**
+	 * useNativeDriver: true for all animations where possible
+	 */
+	useNativeDriver: boolean;
 }
 
 type SectionListPropsOverride<T> = Omit<SectionListProps<T>, 'renderItem'>
