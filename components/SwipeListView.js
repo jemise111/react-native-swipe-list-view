@@ -149,6 +149,16 @@ class SwipeListView extends PureComponent {
         this.props.listViewRef && this.props.listViewRef(ref);
     }
 
+    closeAllOpenRows() {
+        Object.keys(this._rows).forEach(rowKey => {
+            const row = this._rows[rowKey];
+            const rowTranslateX = Math.round(row.currentTranslateX || 0);
+            if (row.closeRow && rowTranslateX !== 0) {
+                row.closeRow();
+            }
+        });
+    }
+
     renderCell(VisibleComponent, HiddenComponent, key, item, shouldPreviewRow) {
         if (!HiddenComponent) {
             return React.cloneElement(VisibleComponent, {
