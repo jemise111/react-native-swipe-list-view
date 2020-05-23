@@ -13,7 +13,7 @@ Also includes ```<SwipeRow>``` if you want to use a swipeable row outside of the
 
 For use with RN 0.60+ please use react-native-swipe-list-view@2.0.0+
 
-RN 0.60 and RNSLV 2.0.0 deprecate the use of ListView entirely, please see `example.js` for examples and see the [migrating-to-flatlist doc](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/migrating-to-flatlist.md) for a migration guide if you aren't already using `FlatList`.
+RN 0.60 and RNSLV 2.0.0 deprecate the use of ListView entirely, please see [`example.js`](https://github.com/jemise111/react-native-swipe-list-view/blob/master/SwipeListExample/example.js) for examples and see the [migrating-to-flatlist doc](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/migrating-to-flatlist.md) for a migration guide if you aren't already using `FlatList`.
 
 The `useFlatList` prop is no longer required, as `FlatList` is the default ListView used.
 
@@ -128,7 +128,7 @@ renderItem={ data => (
 `SwipeListView` now supports `FlatList` and `SectionList`! (as of v1.0.0)
 
 Please see the [migrating-to-flatlist doc](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/migrating-to-flatlist.md) for all details.
-And see `example.js` for a full usage example.
+And see [`example.js`](https://github.com/jemise111/react-native-swipe-list-view/blob/master/SwipeListExample/example.js) for a full usage example.
 
 ## Also see `docs/` for help with
  * [Manually Closing Rows](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/manually-closing-rows.md)
