@@ -137,6 +137,8 @@ class SwipeListView extends PureComponent {
         if (this.yScrollOffset >= height && height > 0) {
             if (this._listView instanceof FlatList) {
                 this._listView && this._listView.scrollToEnd();
+            } else if (this._listView instanceof SectionList) {
+                this._listView.scrollToEnd && this._listView.scrollToEnd();
             } else if (this._listView instanceof Animated.FlatList) {
                 this._listView.scrollToEnd && this._listView.scrollToEnd();
             }
