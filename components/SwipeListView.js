@@ -148,7 +148,13 @@ class SwipeListView extends PureComponent {
 
     setRefs(ref) {
         this._listView = ref;
-        this.props.listViewRef && this.props.listViewRef(ref);
+        if (typeof this.props.listViewRef === 'function') {
+            this.props.listViewRef && this.props.listViewRef(ref);
+        } else if (typeof this.props.listViewRef === 'object') {
+            if (Object.keys(this.props.listViewRef).includes('current')) {
+                this.props.listViewRef.current = ref;
+            }
+        }
     }
 
     closeAllOpenRows() {
@@ -580,7 +586,7 @@ SwipeListView.propTypes = {
      * Called when the FlatList ref is set and passes a ref to the FlatList
      * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
      */
-    listViewRef: PropTypes.func,
+    listViewRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     /**
      * Should the row with this key do a slide out preview to show that the list is swipeable
      */
