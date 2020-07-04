@@ -34,6 +34,7 @@ export default function SwipeToDelete() {
             Animated.timing(rowTranslateAnimatedValues[key], {
                 toValue: 0,
                 duration: 200,
+                useNativeDriver: false,
             }).start(() => {
                 const newData = [...listData];
                 const prevIndex = listData.findIndex(item => item.key === key);
