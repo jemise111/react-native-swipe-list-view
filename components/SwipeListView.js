@@ -7,7 +7,6 @@ import {
     FlatList,
     Platform,
     SectionList,
-    ViewPropTypes,
 } from 'react-native';
 
 import SwipeRow from './SwipeRow';
@@ -581,7 +580,7 @@ SwipeListView.propTypes = {
     /**
      * Styles for the parent wrapper View of the SwipeRow
      */
-    swipeRowStyle: ViewPropTypes ? ViewPropTypes.style : PropTypes.object,
+    swipeRowStyle: PropTypes.object,
     /**
      * Called when the FlatList ref is set and passes a ref to the FlatList
      * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
