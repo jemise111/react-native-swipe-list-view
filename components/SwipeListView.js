@@ -2,12 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-    Animated,
-    FlatList,
-    Platform,
-    SectionList,
-} from 'react-native';
+import { Animated, FlatList, Platform, SectionList } from 'react-native';
 
 import SwipeRow from './SwipeRow';
 
