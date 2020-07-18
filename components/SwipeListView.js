@@ -167,6 +167,15 @@ class SwipeListView extends PureComponent {
         });
     }
 
+    manuallyOpenAllRows(toValue) {
+        Object.keys(this._rows).forEach(rowKey => {
+            const row = this._rows[rowKey];
+            if (row && row.manuallySwipeRow) {
+                row.manuallySwipeRow(toValue);
+            }
+        });
+    }
+
     renderCell(VisibleComponent, HiddenComponent, key, item, shouldPreviewRow) {
         if (!HiddenComponent) {
             return React.cloneElement(VisibleComponent, {
