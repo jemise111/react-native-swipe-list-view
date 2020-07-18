@@ -8,7 +8,6 @@ import {
     PanResponder,
     StyleSheet,
     TouchableOpacity,
-    ViewPropTypes,
     View,
 } from 'react-native';
 
@@ -824,7 +823,7 @@ SwipeRow.propTypes = {
     /**
      * Styles for the parent wrapper View of the SwipeRow
      */
-    style: ViewPropTypes ? ViewPropTypes.style : PropTypes.object,
+    style: PropTypes.object,
     /**
      * Should the row do a slide out preview to show that it is swipeable
      */
