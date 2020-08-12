@@ -231,10 +231,10 @@ class SwipeListView extends PureComponent {
                         this.props.rightActivationValue
                     }
                     leftActionValue={
-                        item.leftActionValue || this.props.leftActionValue
+                        item.leftActionValue || this.props.leftActionValue || 0
                     }
                     rightActionValue={
-                        item.rightActionValue || this.props.rightActionValue
+                        item.rightActionValue || this.props.rightActionValue || 0
                     }
                     initialLeftActionState={
                         item.initialLeftActionState ||
