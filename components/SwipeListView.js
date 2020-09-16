@@ -154,9 +154,11 @@ class SwipeListView extends PureComponent {
     closeAllOpenRows() {
         Object.keys(this._rows).forEach(rowKey => {
             const row = this._rows[rowKey];
-            const rowTranslateX = Math.round(row.currentTranslateX || 0);
-            if (row.closeRow && rowTranslateX !== 0) {
-                row.closeRow();
+            if (row) {
+                const rowTranslateX = Math.round(row.currentTranslateX || 0);
+                if (row.closeRow && rowTranslateX !== 0) {
+                    row.closeRow();
+                }
             }
         });
     }
