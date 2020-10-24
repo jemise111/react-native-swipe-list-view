@@ -8,7 +8,7 @@ import {
     View,
 } from 'react-native';
 
-import SwipeListView from '../SwipeListView';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 const rowTranslateAnimatedValues = {};
 Array(20)
