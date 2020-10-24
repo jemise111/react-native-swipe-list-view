@@ -3,10 +3,10 @@
 const fs = require('fs');
 
 fs.copyFileSync(
-    'components/SwipeListView.js',
+    'src/components/SwipeListView.js',
     'SwipeListExample/SwipeListView.js'
 );
-fs.copyFileSync('components/SwipeRow.js', 'SwipeListExample/SwipeRow.js');
+fs.copyFileSync('src/components/SwipeRow.js', 'SwipeListExample/SwipeRow.js');
 
 fs.readdir('SwipeListExample/examples', (err, files) => {
     if (err) {
