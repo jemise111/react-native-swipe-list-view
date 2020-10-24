@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
     Animated,
     Dimensions,
@@ -8,7 +8,7 @@ import {
     View,
 } from 'react-native';
 
-import { SwipeListView } from 'react-native-swipe-list-view';
+import SwipeListView from '../SwipeListView';
 
 const rowTranslateAnimatedValues = {};
 Array(20)
@@ -24,13 +24,15 @@ export default function SwipeToDelete() {
             .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))
     );
 
+    const animationIsRunning = useRef(false);
+
     const onSwipeValueChange = swipeData => {
         const { key, value } = swipeData;
         if (
             value < -Dimensions.get('window').width &&
-            !this.animationIsRunning
+            !animationIsRunning.current
         ) {
-            this.animationIsRunning = true;
+            animationIsRunning.current = true;
             Animated.timing(rowTranslateAnimatedValues[key], {
                 toValue: 0,
                 duration: 200,
@@ -40,7 +42,7 @@ export default function SwipeToDelete() {
                 const prevIndex = listData.findIndex(item => item.key === key);
                 newData.splice(prevIndex, 1);
                 setListData(newData);
-                this.animationIsRunning = false;
+                animationIsRunning.current = false;
             });
         }
     };
