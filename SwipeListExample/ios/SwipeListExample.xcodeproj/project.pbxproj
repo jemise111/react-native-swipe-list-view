@@ -8,18 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* SwipeListExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SwipeListExampleTests.m */; };
-		022C966D8B08A1A0EDF9F79D /* libPods-SwipeListExample-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90487ED000592D35BD7FA8CB /* libPods-SwipeListExample-tvOS.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* SwipeListExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SwipeListExampleTests.m */; };
-		42A2954504A8E3A30ADD6AB7 /* libPods-SwipeListExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CED1D32251265889E0F2D023 /* libPods-SwipeListExampleTests.a */; };
-		EA4B64371396A481D81BB82B /* libPods-SwipeListExample-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 199EE193FDD111C233C60A9A /* libPods-SwipeListExample-tvOSTests.a */; };
-		FA1A30188F1DE51532943E5A /* libPods-SwipeListExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C1578B30C0783BCA62EF2376 /* libPods-SwipeListExample.a */; };
+		6F965ACB3D1B88040F046F5D /* libPods-SwipeListExample-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35C172F1C2DCC8B7F333C764 /* libPods-SwipeListExample-tvOSTests.a */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		AD8003038830749B8D563455 /* libPods-SwipeListExample-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B6C578268BA8B3205536B2B /* libPods-SwipeListExample-tvOS.a */; };
+		B1822B8D655E06163D6009F8 /* libPods-SwipeListExample-SwipeListExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5781140C839A4E71DEB9812D /* libPods-SwipeListExample-SwipeListExampleTests.a */; };
+		D3B0F02CD4D410DEDA090E04 /* libPods-SwipeListExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 39A940C72369CE5DD527D138 /* libPods-SwipeListExample.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,27 +44,27 @@
 		00E356EE1AD99517003FC87E /* SwipeListExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwipeListExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SwipeListExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SwipeListExampleTests.m; sourceTree = "<group>"; };
-		07D0EDDDC0B3992F7CCA82BC /* Pods-SwipeListExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeListExampleTests/Pods-SwipeListExampleTests.release.xcconfig"; sourceTree = "<group>"; };
-		1039AFF10FC77456AF727C2A /* Pods-SwipeListExample-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeListExample-tvOSTests/Pods-SwipeListExample-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		10F81BA2EC1B989FCF17BBAF /* Pods-SwipeListExample-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeListExample-tvOS/Pods-SwipeListExample-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		114EA744BBB4E410408CEEDC /* Pods-SwipeListExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeListExample/Pods-SwipeListExample.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* SwipeListExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwipeListExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SwipeListExample/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SwipeListExample/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SwipeListExample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SwipeListExample/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SwipeListExample/main.m; sourceTree = "<group>"; };
-		199EE193FDD111C233C60A9A /* libPods-SwipeListExample-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwipeListExample-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		25C2917D1D5EAC45D1D80668 /* Pods-SwipeListExample-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeListExample-tvOS/Pods-SwipeListExample-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		188758D7C6E3BA011AB5D1DB /* Pods-SwipeListExample-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-SwipeListExample-tvOS/Pods-SwipeListExample-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* SwipeListExample-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwipeListExample-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* SwipeListExample-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwipeListExample-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4804CAE089EDB0D0D1163244 /* Pods-SwipeListExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeListExample/Pods-SwipeListExample.release.xcconfig"; sourceTree = "<group>"; };
-		90487ED000592D35BD7FA8CB /* libPods-SwipeListExample-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwipeListExample-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A5076DC7D3FF21F7EA941D2E /* Pods-SwipeListExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeListExampleTests/Pods-SwipeListExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
-		AE89AD598E17C1DD7B465810 /* Pods-SwipeListExample-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwipeListExample-tvOSTests/Pods-SwipeListExample-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		C1578B30C0783BCA62EF2376 /* libPods-SwipeListExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwipeListExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CED1D32251265889E0F2D023 /* libPods-SwipeListExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwipeListExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2FE97780F85EEEDED4B75548 /* Pods-SwipeListExample-SwipeListExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample-SwipeListExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-SwipeListExample-SwipeListExampleTests/Pods-SwipeListExample-SwipeListExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		35C172F1C2DCC8B7F333C764 /* libPods-SwipeListExample-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwipeListExample-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		39A940C72369CE5DD527D138 /* libPods-SwipeListExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwipeListExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4802799536EBE3854E6B0E59 /* Pods-SwipeListExample-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample-tvOS.release.xcconfig"; path = "Target Support Files/Pods-SwipeListExample-tvOS/Pods-SwipeListExample-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		4C94F8F3833E4BF1C30F0225 /* Pods-SwipeListExample-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-SwipeListExample-tvOSTests/Pods-SwipeListExample-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5234F7938EE23127B02D22E1 /* Pods-SwipeListExample-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-SwipeListExample-tvOSTests/Pods-SwipeListExample-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		5781140C839A4E71DEB9812D /* libPods-SwipeListExample-SwipeListExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwipeListExample-SwipeListExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B6C578268BA8B3205536B2B /* libPods-SwipeListExample-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SwipeListExample-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		70F47E798B40EB8109CAD9FF /* Pods-SwipeListExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample.debug.xcconfig"; path = "Target Support Files/Pods-SwipeListExample/Pods-SwipeListExample.debug.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SwipeListExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AAEB3CBA67EBF94A4A31ACB6 /* Pods-SwipeListExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample.release.xcconfig"; path = "Target Support Files/Pods-SwipeListExample/Pods-SwipeListExample.release.xcconfig"; sourceTree = "<group>"; };
+		D1E416D49E92E690A222F2F8 /* Pods-SwipeListExample-SwipeListExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwipeListExample-SwipeListExampleTests.release.xcconfig"; path = "Target Support Files/Pods-SwipeListExample-SwipeListExampleTests/Pods-SwipeListExample-SwipeListExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -74,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42A2954504A8E3A30ADD6AB7 /* libPods-SwipeListExampleTests.a in Frameworks */,
+				B1822B8D655E06163D6009F8 /* libPods-SwipeListExample-SwipeListExampleTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA1A30188F1DE51532943E5A /* libPods-SwipeListExample.a in Frameworks */,
+				D3B0F02CD4D410DEDA090E04 /* libPods-SwipeListExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				022C966D8B08A1A0EDF9F79D /* libPods-SwipeListExample-tvOS.a in Frameworks */,
+				AD8003038830749B8D563455 /* libPods-SwipeListExample-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA4B64371396A481D81BB82B /* libPods-SwipeListExample-tvOSTests.a in Frameworks */,
+				6F965ACB3D1B88040F046F5D /* libPods-SwipeListExample-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,10 +130,26 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = SwipeListExample;
+			sourceTree = "<group>";
+		};
+		2BA557888C61D9D5585AB598 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				70F47E798B40EB8109CAD9FF /* Pods-SwipeListExample.debug.xcconfig */,
+				AAEB3CBA67EBF94A4A31ACB6 /* Pods-SwipeListExample.release.xcconfig */,
+				2FE97780F85EEEDED4B75548 /* Pods-SwipeListExample-SwipeListExampleTests.debug.xcconfig */,
+				D1E416D49E92E690A222F2F8 /* Pods-SwipeListExample-SwipeListExampleTests.release.xcconfig */,
+				188758D7C6E3BA011AB5D1DB /* Pods-SwipeListExample-tvOS.debug.xcconfig */,
+				4802799536EBE3854E6B0E59 /* Pods-SwipeListExample-tvOS.release.xcconfig */,
+				4C94F8F3833E4BF1C30F0225 /* Pods-SwipeListExample-tvOSTests.debug.xcconfig */,
+				5234F7938EE23127B02D22E1 /* Pods-SwipeListExample-tvOSTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -141,27 +157,12 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				C1578B30C0783BCA62EF2376 /* libPods-SwipeListExample.a */,
-				90487ED000592D35BD7FA8CB /* libPods-SwipeListExample-tvOS.a */,
-				199EE193FDD111C233C60A9A /* libPods-SwipeListExample-tvOSTests.a */,
-				CED1D32251265889E0F2D023 /* libPods-SwipeListExampleTests.a */,
+				39A940C72369CE5DD527D138 /* libPods-SwipeListExample.a */,
+				5781140C839A4E71DEB9812D /* libPods-SwipeListExample-SwipeListExampleTests.a */,
+				6B6C578268BA8B3205536B2B /* libPods-SwipeListExample-tvOS.a */,
+				35C172F1C2DCC8B7F333C764 /* libPods-SwipeListExample-tvOSTests.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		353B12A5CA04C77579562978 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				114EA744BBB4E410408CEEDC /* Pods-SwipeListExample.debug.xcconfig */,
-				4804CAE089EDB0D0D1163244 /* Pods-SwipeListExample.release.xcconfig */,
-				25C2917D1D5EAC45D1D80668 /* Pods-SwipeListExample-tvOS.debug.xcconfig */,
-				10F81BA2EC1B989FCF17BBAF /* Pods-SwipeListExample-tvOS.release.xcconfig */,
-				AE89AD598E17C1DD7B465810 /* Pods-SwipeListExample-tvOSTests.debug.xcconfig */,
-				1039AFF10FC77456AF727C2A /* Pods-SwipeListExample-tvOSTests.release.xcconfig */,
-				A5076DC7D3FF21F7EA941D2E /* Pods-SwipeListExampleTests.debug.xcconfig */,
-				07D0EDDDC0B3992F7CCA82BC /* Pods-SwipeListExampleTests.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -179,7 +180,7 @@
 				00E356EF1AD99517003FC87E /* SwipeListExampleTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				353B12A5CA04C77579562978 /* Pods */,
+				2BA557888C61D9D5585AB598 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -204,10 +205,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "SwipeListExampleTests" */;
 			buildPhases = (
-				928E0AD47464067CA8CF0914 /* [CP] Check Pods Manifest.lock */,
+				A68F21DE6B8410639DBBE3D3 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				BCCAD1541C01859E6DF8F84F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -223,12 +225,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "SwipeListExample" */;
 			buildPhases = (
-				CEAC0EBAE9C8F13911DCB544 /* [CP] Check Pods Manifest.lock */,
+				555472962BE1A535F735A00F /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				9AE4F7C527B4B8C84F0AFDC5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -243,7 +246,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "SwipeListExample-tvOS" */;
 			buildPhases = (
-				DFFB4A40CE0037CE1027FD90 /* [CP] Check Pods Manifest.lock */,
+				F3676BDDB9EAA8540DC6A71A /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -263,7 +266,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "SwipeListExample-tvOSTests" */;
 			buildPhases = (
-				979ED69224C2EC42864F720D /* [CP] Check Pods Manifest.lock */,
+				5347D4299F4108F6441BCCEE /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -284,12 +287,14 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
-				ORGANIZATIONNAME = Facebook;
+				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						LastSwiftMigration = 1120;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -304,7 +309,7 @@
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "SwipeListExample" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -335,8 +340,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,29 +391,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		928E0AD47464067CA8CF0914 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SwipeListExampleTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		979ED69224C2EC42864F720D /* [CP] Check Pods Manifest.lock */ = {
+		5347D4299F4108F6441BCCEE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -430,7 +413,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CEAC0EBAE9C8F13911DCB544 /* [CP] Check Pods Manifest.lock */ = {
+		555472962BE1A535F735A00F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -452,7 +435,65 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DFFB4A40CE0037CE1027FD90 /* [CP] Check Pods Manifest.lock */ = {
+		9AE4F7C527B4B8C84F0AFDC5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SwipeListExample/Pods-SwipeListExample-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SwipeListExample/Pods-SwipeListExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A68F21DE6B8410639DBBE3D3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SwipeListExample-SwipeListExampleTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BCCAD1541C01859E6DF8F84F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SwipeListExample-SwipeListExampleTests/Pods-SwipeListExample-SwipeListExampleTests-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SwipeListExample-SwipeListExampleTests/Pods-SwipeListExample-SwipeListExampleTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F3676BDDB9EAA8540DC6A71A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -564,22 +605,10 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = SwipeListExample;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A5076DC7D3FF21F7EA941D2E /* Pods-SwipeListExampleTests.debug.xcconfig */;
+			baseConfigurationReference = 2FE97780F85EEEDED4B75548 /* Pods-SwipeListExample-SwipeListExampleTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -587,7 +616,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = SwipeListExampleTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -602,12 +631,12 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 07D0EDDDC0B3992F7CCA82BC /* Pods-SwipeListExampleTests.release.xcconfig */;
+			baseConfigurationReference = D1E416D49E92E690A222F2F8 /* Pods-SwipeListExample-SwipeListExampleTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = SwipeListExampleTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -622,11 +651,12 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 114EA744BBB4E410408CEEDC /* Pods-SwipeListExample.debug.xcconfig */;
+			baseConfigurationReference = 70F47E798B40EB8109CAD9FF /* Pods-SwipeListExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = NO;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = SwipeListExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -636,15 +666,18 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SwipeListExample;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4804CAE089EDB0D0D1163244 /* Pods-SwipeListExample.release.xcconfig */;
+			baseConfigurationReference = AAEB3CBA67EBF94A4A31ACB6 /* Pods-SwipeListExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = SwipeListExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -655,13 +688,14 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SwipeListExample;
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25C2917D1D5EAC45D1D80668 /* Pods-SwipeListExample-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 188758D7C6E3BA011AB5D1DB /* Pods-SwipeListExample-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -679,17 +713,17 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.SwipeListExample-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.SwipeListExample-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 10F81BA2EC1B989FCF17BBAF /* Pods-SwipeListExample-tvOS.release.xcconfig */;
+			baseConfigurationReference = 4802799536EBE3854E6B0E59 /* Pods-SwipeListExample-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -707,17 +741,17 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.SwipeListExample-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.SwipeListExample-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AE89AD598E17C1DD7B465810 /* Pods-SwipeListExample-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 4C94F8F3833E4BF1C30F0225 /* Pods-SwipeListExample-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -734,7 +768,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.SwipeListExample-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.SwipeListExample-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwipeListExample-tvOS.app/SwipeListExample-tvOS";
@@ -744,7 +778,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1039AFF10FC77456AF727C2A /* Pods-SwipeListExample-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 5234F7938EE23127B02D22E1 /* Pods-SwipeListExample-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -761,7 +795,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.SwipeListExample-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.SwipeListExample-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwipeListExample-tvOS.app/SwipeListExample-tvOS";
@@ -773,6 +807,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -815,7 +850,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -826,6 +867,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -861,7 +903,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
+					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
+					"\"$(inherited)\"",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
