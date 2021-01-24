@@ -253,7 +253,9 @@ class SwipeRow extends Component {
             previewOpenValue,
             this.props.previewOpenDelay
         ).start(() => {
-            this.getPreviewAnimation(0, PREVIEW_CLOSE_DELAY).start();
+            this.getPreviewAnimation(0, PREVIEW_CLOSE_DELAY).start(() => {
+                this.props.onPreviewEnd && this.props.onPreviewEnd();
+            });
         });
     }
 
@@ -910,6 +912,10 @@ SwipeRow.propTypes = {
      * Key used to identify rows on swipe value changes
      */
     swipeKey: PropTypes.string,
+    /**
+     * Callback that runs after row swipe preview is finished
+     */
+    onPreviewEnd: PropTypes.func,
 };
 
 SwipeRow.defaultProps = {

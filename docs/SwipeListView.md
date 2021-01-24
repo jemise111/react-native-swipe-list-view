@@ -62,5 +62,6 @@ A List that renders `<SwipeRow />`s
 | `shouldItemUpdate` | Callback to determine whether component should update | `func` | `{ currentItem: any, newItem: any }` |
 | `useNativeDriver` | useNativeDriver: `true` for all animations | `bool` | `true` |
 | `useAnimatedList` | Use Animated.Flatlist or Animated.Sectionlist | `bool` | `false` |
+| `onPreviewEnd` | Callback that runs after row swipe preview is finished | `func` | `{ } : void` | 
 
 See [FlatList](https://reactnative.dev/docs/flatlist) for all other inherited props
