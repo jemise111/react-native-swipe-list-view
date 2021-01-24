@@ -236,7 +236,9 @@ class SwipeListView extends PureComponent {
                         item.leftActionValue || this.props.leftActionValue || 0
                     }
                     rightActionValue={
-                        item.rightActionValue || this.props.rightActionValue || 0
+                        item.rightActionValue ||
+                        this.props.rightActionValue ||
+                        0
                     }
                     initialLeftActionState={
                         item.initialLeftActionState ||
@@ -332,6 +334,7 @@ class SwipeListView extends PureComponent {
                     swipeToClosePercent={this.props.swipeToClosePercent}
                     item={item} // used for should item update comparisons
                     useNativeDriver={this.props.useNativeDriver}
+                    onPreviewEnd={this.props.onPreviewEnd}
                 >
                     {HiddenComponent}
                     {VisibleComponent}
@@ -684,6 +687,10 @@ SwipeListView.propTypes = {
      * keyExtractor: function to generate key value for each row in the list
      */
     keyExtractor: PropTypes.func,
+    /**
+     * Callback that runs after row swipe preview is finished
+     */
+    onPreviewEnd: PropTypes.func,
 };
 
 SwipeListView.defaultProps = {

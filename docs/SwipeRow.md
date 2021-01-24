@@ -65,3 +65,4 @@ e.g.
 | `onForceCloseToRightEnd` | Callback invoked when row has finished force closing to the Right End | `func` |
 | `useNativeDriver` | useNativeDriver: `true` for all animations | `bool` | `true` |
 | `swipeKey` | Optional key to identify a standalone row, used in the `onSwipeValueChange` callback | `string` |
+| `onPreviewEnd` | Callback that runs after row swipe preview is finished | `func` | `{ } : void` | 
