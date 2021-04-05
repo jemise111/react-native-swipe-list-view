@@ -376,7 +376,7 @@ class SwipeListView extends PureComponent {
             this.props.renderHiddenItem(rowData, rowMap);
         const { item, index } = rowData;
         let { key } = item;
-        if (!key && this.props.keyExtractor) {
+        if (this.props.keyExtractor) {
             key = this.props.keyExtractor(item, index);
         }
 
