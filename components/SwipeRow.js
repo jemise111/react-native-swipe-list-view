@@ -404,6 +404,7 @@ class SwipeRow extends Component {
     handleRightSwipe(projectedExtraPixels) {
         let toValue = 0;
         let actionSide;
+        const leftActionValue = this.props.leftActionValue || 0;
         if (this.swipeInitialX < this.currentTranslateX) {
             if (
                 this.currentTranslateX - projectedExtraPixels >
@@ -417,7 +418,7 @@ class SwipeRow extends Component {
                 this.props.leftActivationValue
             ) {
                 // we've passed the threshold to trigger the leftActionValue
-                toValue = this.isForceClosing ? 0 : this.props.leftActionValue;
+                toValue = this.isForceClosing ? 0 : leftActionValue;
                 actionSide = 'left';
             }
         } else {
@@ -432,7 +433,7 @@ class SwipeRow extends Component {
                 this.currentTranslateX - projectedExtraPixels >
                 this.props.leftActivationValue
             ) {
-                toValue = this.isForceClosing ? 0 : this.props.leftActionValue;
+                toValue = this.isForceClosing ? 0 : leftActionValue;
                 actionSide = 'left';
             }
         }
@@ -444,6 +445,7 @@ class SwipeRow extends Component {
     handleLeftSwipe(projectedExtraPixels) {
         let toValue = 0;
         let actionSide;
+        const rightActionValue = this.props.rightActionValue || 0;
         if (this.swipeInitialX > this.currentTranslateX) {
             if (
                 this.currentTranslateX - projectedExtraPixels <
@@ -458,7 +460,7 @@ class SwipeRow extends Component {
                 this.props.rightActivationValue
             ) {
                 // we've passed the threshold to trigger the rightActionValue
-                toValue = this.isForceClosing ? 0 : this.props.rightActionValue;
+                toValue = this.isForceClosing ? 0 : rightActionValue;
                 actionSide = 'right';
             }
         } else {
@@ -473,7 +475,7 @@ class SwipeRow extends Component {
                 this.props.rightActivationValue *
                     (1 - this.props.swipeToClosePercent / 100)
             ) {
-                toValue = this.isForceClosing ? 0 : this.props.rightActionValue;
+                toValue = this.isForceClosing ? 0 : rightActionValue;
                 actionSide = 'right';
             }
         }
