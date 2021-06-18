@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SwipeRow } from 'react-native-swipe-list-view';
 
-export default function StandalonSwipeRow() {
+export default function StandaloneRow() {
     return (
         <View style={styles.container}>
             <View style={styles.standalone}>
