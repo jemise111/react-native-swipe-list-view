@@ -10,19 +10,21 @@ import {
 import Basic from './examples/basic';
 import SectionList from './examples/sectionlist';
 import PerRowConfig from './examples/per_row_config';
-import StandloneSwipeRow from './examples/standalone_swipe_row';
+import StandaloneRow from './examples/standalone_row';
 import SwipeToDelete from './examples/swipe_to_delete';
 import SwipeValueBasedUi from './examples/swipe_value_based_ui';
 import Actions from './examples/actions';
+import CloseRowManually from './examples/close_row_manually';
 
 const componentMap = {
     Basic,
     SectionList,
     PerRowConfig,
-    StandloneSwipeRow,
+    StandaloneRow,
     SwipeToDelete,
     SwipeValueBasedUi,
     Actions,
+    CloseRowManually,
 };
 
 export default function App() {
