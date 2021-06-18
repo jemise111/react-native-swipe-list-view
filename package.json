@@ -8,7 +8,7 @@
         "start": "node_modules/react-native/packager/packager.sh",
         "dev": "node bin/dev.js && cd SwipeListExample && npm run start",
         "prettier": "prettier --write --loglevel=warn \"**/*.js\"",
-        "lint": "eslint **/*.js",
+        "lint": "eslint . --ext .js",
         "fix": "yarn run prettier && yarn run lint"
     },
     "repository": {
