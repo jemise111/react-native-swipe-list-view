@@ -39,7 +39,7 @@ export default function Basic() {
         </TouchableHighlight>
     );
 
-    const renderHiddenItem = (data, rowMap) => (
+    const renderHiddenItem = () => (
         <View style={styles.rowBack}>
             <Text>Left</Text>
             <View style={[styles.backRightBtn, styles.backRightBtnLeft]}>
