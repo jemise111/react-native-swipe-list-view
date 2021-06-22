@@ -7,7 +7,8 @@ import {
     View,
 } from 'react-native';
 
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import SwipeListView from '../SwipeListView';
+import SwipeRow from '../SwipeRow';
 
 export default function PerRowConfig() {
     const [listData, setListData] = useState(

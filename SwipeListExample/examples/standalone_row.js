@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { SwipeRow } from 'react-native-swipe-list-view';
+import SwipeRow from '../SwipeRow';
 
 export default function StandaloneRow() {
     return (
