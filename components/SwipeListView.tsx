@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import SwipeRow from './SwipeRow';
 
+type ListRef<Item> = Ref<FlatList<Item> | SectionList<Item>>;
 type RowRef = any; // <=== FIXME:
 type RowData<Item> = ListRenderItemInfo<Item>;
 type RowMap = { [key: string]: RowRef };
@@ -40,27 +41,7 @@ type ActionData = {
     key: string;
 };
 
-type Props<Item> = FlatListProps<Item> & {
-    /**
-     * To render a custom ListView component, if you don't want to use ReactNative one.
-     * Note: This will call `renderRow`, not `renderItem`
-     */
-    renderListView: any; // <=== FIXME:
-    /**
-     * How to render a row in a FlatList. Should return a valid React Element.
-     */
-    renderItem: (
-        rowData: RowData<Item>,
-        rowMap: RowMap
-    ) => React.ReactElement | null;
-    /**
-     * How to render a hidden row in a FlatList (renders behind the row). Should return a valid React Element.
-     * This is required unless renderItem is passing a SwipeRow.
-     */
-    renderHiddenItem: (
-        rowData: RowData<Item>,
-        rowMap: RowMap
-    ) => React.ReactElement | null;
+type BaseItem = {
     /**
      * TranslateX value for opening the row to the left (positive number)
      */
@@ -102,22 +83,6 @@ type Props<Item> = FlatListProps<Item> & {
      */
     stopRightSwipe: number;
     /**
-     * Should open rows be closed when the listView begins scrolling
-     */
-    closeOnScroll: boolean;
-    /**
-     * Should open rows be closed when a row is pressed
-     */
-    closeOnRowPress: boolean;
-    /**
-     * Should open rows be closed when a row begins to swipe open
-     */
-    closeOnRowBeginSwipe: boolean;
-    /**
-     * Should open rows be closed when another row is opened
-     */
-    closeOnRowOpen: boolean;
-    /**
      * Disable ability to swipe rows left
      */
     disableLeftSwipe: boolean;
@@ -126,46 +91,9 @@ type Props<Item> = FlatListProps<Item> & {
      */
     disableRightSwipe: boolean;
     /**
-     * Enable hidden row onLayout calculations to run always.
-     *
-     * By default, hidden row size calculations are only done on the first onLayout event
-     * for performance reasons.
-     * Passing ```true``` here will cause calculations to run on every onLayout event.
-     * You may want to do this if your rows' sizes can change.
-     * One case is a SwipeListView with rows of different heights and an options to delete rows.
+     * Should open rows be closed when a row is pressed
      */
-    recalculateHiddenLayout: boolean;
-    /**
-     * Disable hidden row onLayout calculations
-     *
-     * Instead, {width: '100%', height: '100%'} will be used.
-     * Improves performance by avoiding component updates, while still working with orientation changes.
-     */
-    disableHiddenLayoutCalculation: boolean;
-    /**
-     * Called when a swipe row is animating swipe
-     */
-    swipeGestureBegan: (rowKey: string) => void;
-    /**
-     * Called when user has ended their swipe gesture
-     */
-    swipeGestureEnded: (rowKey: string, data: SwipeGestureData) => void;
-    /**
-     * Called when a swipe row is animating open
-     */
-    onRowOpen: (rowKey: string, rowMap: RowMap, toValue: number) => void;
-    /**
-     * Called when a swipe row has animated open
-     */
-    onRowDidOpen: (rowKey: string, rowMap: RowMap, toValue: number) => void;
-    /**
-     * Called when a swipe row is animating closed
-     */
-    onRowClose: (rowKey: string, rowMap: RowMap) => void;
-    /**
-     * Called when a swipe row has animated closed
-     */
-    onRowDidClose: (rowKey: string, rowMap: RowMap) => void;
+    closeOnRowPress: boolean;
     /**
      * Called when row shifted to leftActivationValue
      */
@@ -182,114 +110,191 @@ type Props<Item> = FlatListProps<Item> & {
      * Called once when swipe value crosses the rightActivationValue
      */
     onRightActionStatusChange: (data: ActionData) => void;
-    /**
-     * Called when scrolling on the SwipeListView has been enabled/disabled
-     */
-    onScrollEnabled: (isEnabled: boolean) => void;
-    /**
-     * Styles for the parent wrapper View of the SwipeRow
-     */
-    swipeRowStyle: StyleProp<ViewStyle>;
-    /**
-     * Called when the FlatList ref is set and passes a ref to the FlatList
-     * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
-     */
-    listViewRef: Ref<FlatList<Item> | SectionList<Item>>; //FIXME: Unsure about this one
-    /**
-     * Should the row with this key do a slide out preview to show that the list is swipeable
-     */
-    previewRowKey: string;
-    /**
-     * [DEPRECATED] Should the first SwipeRow do a slide out preview to show that the list is swipeable
-     */
-    previewFirstRow: boolean;
-    /**
-     * [DEPRECATED] Should the specified rowId do a slide out preview to show that the list is swipeable
-     * Note: This ID will be passed to this function to get the correct row index
-     * https://facebook.github.io/react-native/docs/listviewdatasource.html#getrowidforflatindex
-     */
-    previewRowIndex: number;
-    /**
-     * Duration of the slide out preview animation (milliseconds)
-     */
-    previewDuration: number;
-    /**
-     * Should the animation repeat until false is provided
-     */
-    previewRepeat: boolean;
-    /**
-     * Time between each full completed animation in milliseconds
-     * Default: 1000 (1 second)
-     */
-    previewRepeatDelay: number;
-    /**
-     * Delay of the slide out preview animation (milliseconds) // default 700ms
-     */
-    previewOpenDelay: number;
-    /**
-     * TranslateX value for the slide out preview animation
-     * Default: 0.5 * props.rightOpenValue
-     */
-    previewOpenValue: number;
-    /**
-     * Friction for the open / close animation
-     */
-    friction: number;
-    /**
-     * Tension for the open / close animation
-     */
-    tension: number;
-    /**
-     * RestSpeedThreshold for the open / close animation
-     */
-    restSpeedThreshold: number;
-    /**
-     * RestDisplacementThreshold for the open / close animation
-     */
-    restDisplacementThreshold: number;
-    /**
-     * The dx value used to detect when a user has begun a swipe gesture
-     */
-    directionalDistanceChangeThreshold: number;
-    /**
-     * What % of the left/right openValue does the user need to swipe
-     * past to trigger the row opening.
-     */
-    swipeToOpenPercent: number;
-    /**
-     * Describes how much the ending velocity of the gesture affects whether the swipe will result in the item being closed or open.
-     * A velocity factor of 0 means that the velocity will have no bearing on whether the swipe settles on a closed or open position
-     * and it'll just take into consideration the swipeToOpenPercent.
-     */
-    swipeToOpenVelocityContribution: number;
-    /**
-     * What % of the left/right openValue does the user need to swipe
-     * past to trigger the row closing.
-     */
-    swipeToClosePercent: number;
-    /**
-     * callback to determine whether component should update (currentItem, newItem)
-     */
-    shouldItemUpdate: (currentItem: Item, newItem: Item) => boolean;
-    /**
-     * Callback invoked any time the swipe value of a SwipeRow is changed
-     */
-    onSwipeValueChange: (swipeValueData: SwipeValueData) => void;
-    /**
-     * useNativeDriver: true for all animations where possible
-     */
-    useNativeDriver: boolean;
-    /**
-     * Use Animated.Flatlist or Animated.Sectionlist
-     */
-    useAnimatedList: boolean;
-    /**
-     * Callback that runs after row swipe preview is finished
-     */
-    onPreviewEnd: () => void;
 };
 
-class SwipeListView<Item> extends PureComponent<Props<Item>> {
+type Props<Item extends BaseItem> = FlatListProps<Item> &
+    BaseItem & {
+        /**
+         * To render a custom ListView component, if you don't want to use ReactNative one.
+         * Note: This will call `renderRow`, not `renderItem`
+         */
+        renderListView: any; // <=== FIXME:
+        /**
+         * How to render a row in a FlatList. Should return a valid React Element.
+         */
+        renderItem: (
+            rowData: RowData<Item>,
+            rowMap: RowMap
+        ) => React.ReactElement | null;
+        /**
+         * How to render a hidden row in a FlatList (renders behind the row). Should return a valid React Element.
+         * This is required unless renderItem is passing a SwipeRow.
+         */
+        renderHiddenItem: (
+            rowData: RowData<Item>,
+            rowMap: RowMap
+        ) => React.ReactElement | null;
+        /**
+         * Should open rows be closed when the listView begins scrolling
+         */
+        closeOnScroll: boolean;
+        /**
+         * Should open rows be closed when a row begins to swipe open
+         */
+        closeOnRowBeginSwipe: boolean;
+        /**
+         * Should open rows be closed when another row is opened
+         */
+        closeOnRowOpen: boolean;
+        /**
+         * Enable hidden row onLayout calculations to run always.
+         *
+         * By default, hidden row size calculations are only done on the first onLayout event
+         * for performance reasons.
+         * Passing ```true``` here will cause calculations to run on every onLayout event.
+         * You may want to do this if your rows' sizes can change.
+         * One case is a SwipeListView with rows of different heights and an options to delete rows.
+         */
+        recalculateHiddenLayout: boolean;
+        /**
+         * Disable hidden row onLayout calculations
+         *
+         * Instead, {width: '100%', height: '100%'} will be used.
+         * Improves performance by avoiding component updates, while still working with orientation changes.
+         */
+        disableHiddenLayoutCalculation: boolean;
+        /**
+         * Called when a swipe row is animating swipe
+         */
+        swipeGestureBegan: (rowKey: string) => void;
+        /**
+         * Called when user has ended their swipe gesture
+         */
+        swipeGestureEnded: (rowKey: string, data: SwipeGestureData) => void;
+        /**
+         * Called when a swipe row is animating open
+         */
+        onRowOpen: (rowKey: string, rowMap: RowMap, toValue: number) => void;
+        /**
+         * Called when a swipe row has animated open
+         */
+        onRowDidOpen: (rowKey: string, rowMap: RowMap, toValue: number) => void;
+        /**
+         * Called when a swipe row is animating closed
+         */
+        onRowClose: (rowKey: string, rowMap: RowMap) => void;
+        /**
+         * Called when a swipe row has animated closed
+         */
+        onRowDidClose: (rowKey: string, rowMap: RowMap) => void;
+        /**
+         * Called when scrolling on the SwipeListView has been enabled/disabled
+         */
+        onScrollEnabled: (isEnabled: boolean) => void;
+        /**
+         * Styles for the parent wrapper View of the SwipeRow
+         */
+        swipeRowStyle: StyleProp<ViewStyle>;
+        /**
+         * Called when the FlatList ref is set and passes a ref to the FlatList
+         * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
+         */
+        listViewRef: ListRef<Item> | ((ref: ListRef<Item>) => void); //FIXME: Unsure about this one
+        /**
+         * Should the row with this key do a slide out preview to show that the list is swipeable
+         */
+        previewRowKey: string;
+        /**
+         * [DEPRECATED] Should the first SwipeRow do a slide out preview to show that the list is swipeable
+         */
+        previewFirstRow: boolean;
+        /**
+         * [DEPRECATED] Should the specified rowId do a slide out preview to show that the list is swipeable
+         * Note: This ID will be passed to this function to get the correct row index
+         * https://facebook.github.io/react-native/docs/listviewdatasource.html#getrowidforflatindex
+         */
+        previewRowIndex: number;
+        /**
+         * Duration of the slide out preview animation (milliseconds)
+         */
+        previewDuration: number;
+        /**
+         * Should the animation repeat until false is provided
+         */
+        previewRepeat: boolean;
+        /**
+         * Time between each full completed animation in milliseconds
+         * Default: 1000 (1 second)
+         */
+        previewRepeatDelay: number;
+        /**
+         * Delay of the slide out preview animation (milliseconds) // default 700ms
+         */
+        previewOpenDelay: number;
+        /**
+         * TranslateX value for the slide out preview animation
+         * Default: 0.5 * props.rightOpenValue
+         */
+        previewOpenValue: number;
+        /**
+         * Friction for the open / close animation
+         */
+        friction: number;
+        /**
+         * Tension for the open / close animation
+         */
+        tension: number;
+        /**
+         * RestSpeedThreshold for the open / close animation
+         */
+        restSpeedThreshold: number;
+        /**
+         * RestDisplacementThreshold for the open / close animation
+         */
+        restDisplacementThreshold: number;
+        /**
+         * The dx value used to detect when a user has begun a swipe gesture
+         */
+        directionalDistanceChangeThreshold: number;
+        /**
+         * What % of the left/right openValue does the user need to swipe
+         * past to trigger the row opening.
+         */
+        swipeToOpenPercent: number;
+        /**
+         * Describes how much the ending velocity of the gesture affects whether the swipe will result in the item being closed or open.
+         * A velocity factor of 0 means that the velocity will have no bearing on whether the swipe settles on a closed or open position
+         * and it'll just take into consideration the swipeToOpenPercent.
+         */
+        swipeToOpenVelocityContribution: number;
+        /**
+         * What % of the left/right openValue does the user need to swipe
+         * past to trigger the row closing.
+         */
+        swipeToClosePercent: number;
+        /**
+         * callback to determine whether component should update (currentItem, newItem)
+         */
+        shouldItemUpdate: (currentItem: Item, newItem: Item) => boolean;
+        /**
+         * Callback invoked any time the swipe value of a SwipeRow is changed
+         */
+        onSwipeValueChange: (swipeValueData: SwipeValueData) => void;
+        /**
+         * useNativeDriver: true for all animations where possible
+         */
+        useNativeDriver: boolean;
+        /**
+         * Use Animated.Flatlist or Animated.Sectionlist
+         */
+        useAnimatedList: boolean;
+        /**
+         * Callback that runs after row swipe preview is finished
+         */
+        onPreviewEnd: () => void;
+    };
+
+class SwipeListView<Item extends BaseItem> extends PureComponent<Props<Item>> {
     _rows: { [key: string]: RowRef };
     openCellKey: string | null;
     listViewProps: Pick<
@@ -318,7 +323,7 @@ class SwipeListView<Item> extends PureComponent<Props<Item>> {
         this._onScroll = this.onScroll.bind(this);
         if (this.props.onScroll && typeof this.props.onScroll === 'object') {
             // Animated.event
-            this.props.onScroll.__addListener(this._onScroll);
+            this.props.onScroll.__addListener(this._onScroll); //FIXME: <====
             this._onScroll = this.props.onScroll;
         }
     }
@@ -346,13 +351,15 @@ class SwipeListView<Item> extends PureComponent<Props<Item>> {
     }
 
     safeCloseOpenRow() {
-        const rowRef = this._rows[this.openCellKey];
-        if (rowRef && rowRef.closeRow) {
-            this._rows[this.openCellKey].closeRow();
+        if (this.openCellKey) {
+            const rowRef = this._rows[this.openCellKey];
+            if (rowRef && rowRef.closeRow) {
+                this._rows[this.openCellKey].closeRow();
+            }
         }
     }
 
-    rowSwipeGestureBegan(key) {
+    rowSwipeGestureBegan(key: string) {
         if (
             this.props.closeOnRowBeginSwipe &&
             this.openCellKey &&
@@ -366,13 +373,13 @@ class SwipeListView<Item> extends PureComponent<Props<Item>> {
         }
     }
 
-    rowSwipeGestureEnded(key, data) {
+    rowSwipeGestureEnded(key: string, data: SwipeGestureData) {
         if (this.props.swipeGestureEnded) {
             this.props.swipeGestureEnded(key, data);
         }
     }
 
-    onRowOpen(key, toValue) {
+    onRowOpen(key: string, toValue: number) {
         if (
             this.openCellKey &&
             this.openCellKey !== key &&
@@ -416,7 +423,10 @@ class SwipeListView<Item> extends PureComponent<Props<Item>> {
     // which will prevent swiping any of the remaining rows. This triggers a scrollToEnd
     // when that happens, which will make sure the list is kept in bounds.
     // See: https://github.com/jemise111/react-native-swipe-list-view/issues/109
-    onContentSizeChange(w, h) {
+    onContentSizeChange(w: number, h: number) {
+        if (!this.layoutHeight || !this.yScrollOffset) {
+            return;
+        }
         const height = h - this.layoutHeight;
         if (this.yScrollOffset >= height && height > 0) {
             if (this._listView instanceof FlatList) {
@@ -430,8 +440,7 @@ class SwipeListView<Item> extends PureComponent<Props<Item>> {
         this.props.onContentSizeChange && this.props.onContentSizeChange(w, h);
     }
 
-    setRefs(ref) {
-        this._listView = ref;
+    setRefs(ref: ListRef<Item>) {
         if (typeof this.props.listViewRef === 'function') {
             this.props.listViewRef && this.props.listViewRef(ref);
         } else if (typeof this.props.listViewRef === 'object') {
@@ -453,7 +462,7 @@ class SwipeListView<Item> extends PureComponent<Props<Item>> {
         });
     }
 
-    manuallyOpenAllRows(toValue) {
+    manuallyOpenAllRows(toValue: number) {
         Object.keys(this._rows).forEach(rowKey => {
             const row = this._rows[rowKey];
             if (row && row.manuallySwipeRow) {
@@ -462,13 +471,19 @@ class SwipeListView<Item> extends PureComponent<Props<Item>> {
         });
     }
 
-    renderCell(VisibleComponent, HiddenComponent, key, item, shouldPreviewRow) {
+    renderCell(
+        VisibleComponent: JSX.Element,
+        HiddenComponent: JSX.Element,
+        key: string,
+        item: Item,
+        shouldPreviewRow: boolean
+    ) {
         if (!HiddenComponent) {
             return React.cloneElement(VisibleComponent, {
                 ...VisibleComponent.props,
-                ref: row => (this._rows[key] = row),
-                onRowOpen: toValue => this.onRowOpen(key, toValue),
-                onRowDidOpen: toValue =>
+                ref: (row: RowRef) => (this._rows[key] = row),
+                onRowOpen: (toValue: number) => this.onRowOpen(key, toValue),
+                onRowDidOpen: (toValue: number) =>
                     this.props.onRowDidOpen &&
                     this.props.onRowDidOpen(key, this._rows, toValue),
                 onRowClose: () =>
@@ -478,9 +493,10 @@ class SwipeListView<Item> extends PureComponent<Props<Item>> {
                     this.props.onRowDidClose &&
                     this.props.onRowDidClose(key, this._rows),
                 onRowPress: () => this.onRowPress(),
-                setScrollEnabled: enable => this.setScrollEnabled(enable),
+                setScrollEnabled: (enable: boolean) =>
+                    this.setScrollEnabled(enable),
                 swipeGestureBegan: () => this.rowSwipeGestureBegan(key),
-                swipeGestureEnded: (_, data) =>
+                swipeGestureEnded: (_: string, data: SwipeGestureData) =>
                     this.rowSwipeGestureEnded(key, data),
             });
         } else {
@@ -488,7 +504,7 @@ class SwipeListView<Item> extends PureComponent<Props<Item>> {
                 <SwipeRow
                     onSwipeValueChange={
                         this.props.onSwipeValueChange
-                            ? data =>
+                            ? (data: SwipeValueData) =>
                                   this.props.onSwipeValueChange({
                                       ...data,
                                       key,
@@ -497,11 +513,13 @@ class SwipeListView<Item> extends PureComponent<Props<Item>> {
                     }
                     ref={row => (this._rows[key] = row)}
                     swipeGestureBegan={() => this.rowSwipeGestureBegan(key)}
-                    swipeGestureEnded={(_, data) =>
+                    swipeGestureEnded={(_: string, data: SwipeGestureData) =>
                         this.rowSwipeGestureEnded(key, data)
                     }
-                    onRowOpen={toValue => this.onRowOpen(key, toValue)}
-                    onRowDidOpen={toValue =>
+                    onRowOpen={(toValue: number) =>
+                        this.onRowOpen(key, toValue)
+                    }
+                    onRowDidOpen={(toValue: number) =>
                         this.props.onRowDidOpen &&
                         this.props.onRowDidOpen(key, this._rows, toValue)
                     }
@@ -513,7 +531,7 @@ class SwipeListView<Item> extends PureComponent<Props<Item>> {
                         this.props.onRowDidClose &&
                         this.props.onRowDidClose(key, this._rows)
                     }
-                    onRowPress={() => this.onRowPress(key)}
+                    onRowPress={this.onRowPress}
                     leftActivationValue={
                         item.leftActivationValue ||
                         this.props.leftActivationValue
