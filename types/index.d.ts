@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { StyleProp, ViewStyle, ListView, NativeSyntheticEvent, NativeScrollEvent, ListRenderItemInfo, ListViewDataSource, SectionListProps, FlatListProps, GestureResponderEvent, PanResponderGestureState } from 'react-native';
+import { StyleProp, ViewStyle, ListView, NativeSyntheticEvent, NativeScrollEvent, ListRenderItemInfo, ListViewDataSource, SectionListProps, FlatListProps, GestureResponderEvent, PanResponderGestureState, FlatList } from 'react-native';
 
 type SwipeGestureEndedData = {
 	translateX: number;
@@ -219,6 +219,8 @@ type IRenderListViewProps<T> = Omit<Omit<Omit<IPropsSwipeListView<T>, 'useFlatLi
 
 type RowMap<T> = { [open_cell_key: string]: SwipeRow<T>; };
 
+export type ListViewRef<T> = SwipeListView<T> & FlatList<T>;
+
 interface IPropsSwipeListView<T> {
 	// data: T[];
 	// sections: Array<{
@@ -392,7 +394,7 @@ interface IPropsSwipeListView<T> {
 	 * Called when the ListView (or FlatList) ref is set and passes a ref to the ListView (or FlatList)
 	 * e.g. listViewRef={ ref => this._swipeListViewRef = ref }
 	 */
-	listViewRef(ref: SwipeListView<T>): void;
+	listViewRef(ref: ListViewRef<T>): void;
 	/**
 	 * Should the row with this key do a slide out preview to show that the list is swipeable
 	 */
