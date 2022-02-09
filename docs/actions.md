@@ -8,9 +8,9 @@ With actions both visible and hidden component can react when you swipe a row fo
 
 To configure actions you can use props below:
 - `leftActivationValue` - TranslateX value for firing `onLeftActionStatusChange` (positive number)
-- `rightActivationValue` - TranslateX value for firing - `onRightActionStatusChange` (negative number)
+- `rightActivationValue` - TranslateX value for firing `onRightActionStatusChange` (negative number)
 - `leftActionValue` - TranslateX value for left action to which the row will be shifted after gesture release
-`rightActionValue` - TranslateX value for right action to which the row will be shifted after gesture release
+- `rightActionValue` - TranslateX value for right action to which the row will be shifted after gesture release
 - `initialLeftActionState` - initial value for left action state (default is false)
 - `initialRightActionState` - initial value for right action state (default is false)
 
