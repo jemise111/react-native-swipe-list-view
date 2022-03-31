@@ -9,7 +9,7 @@ import {
     View,
 } from 'react-native';
 
-import SwipeListView from '../SwipeListView';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 export default function Actions() {
     const [listData, setListData] = useState(
