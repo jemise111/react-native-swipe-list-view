@@ -1,3 +1,4 @@
+import React = require('react');
 import { Component } from 'react';
 import { StyleProp, ViewStyle, ListView, NativeSyntheticEvent, NativeScrollEvent, ListRenderItemInfo, ListViewDataSource, SectionListProps, FlatListProps, GestureResponderEvent, PanResponderGestureState } from 'react-native';
 
@@ -207,7 +208,7 @@ interface IPropsSwipeRow<T> {
 	useNativeDriver: boolean;
 }
 
-export class SwipeRow<T> extends Component<Partial<IPropsSwipeRow<T>>> {
+export class SwipeRow<T> extends Component<Partial<React.PropsWithChildren<IPropsSwipeRow<T>>>> {
 	isOpen: boolean;
 	closeRow: () => void;
 	closeRowWithoutAnimation: () => void;
