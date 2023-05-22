@@ -1,15 +1,19 @@
 {
     "name": "react-native-swipe-list-view",
     "version": "3.2.9",
-    "main": "lib/index.js",
     "author": "Jesse Sessler <jesse.sessler@gmail.com>",
     "description": "A ListView with rows that swipe open and closed.",
+    "source": "src/index.js",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.module.js",
     "scripts": {
         "start": "node_modules/react-native/packager/packager.sh",
         "dev": "node bin/dev.js && cd SwipeListExample && npm run start",
         "prettier": "prettier --write --loglevel=warn \"**/*.js\"",
         "lint": "eslint . --ext .js",
-        "fix": "yarn run prettier && yarn run lint"
+        "fix": "yarn run prettier && yarn run lint",
+        "build": "microbundle --generateTypes false",
+        "prepublishOnly": "npm run build"
     },
     "repository": {
         "type": "git",
@@ -40,6 +44,7 @@
         "eslint-config-prettier": "^6.3.0",
         "eslint-plugin-prettier": "^3.1.1",
         "eslint-plugin-react": "^7.16.0",
+        "microbundle": "^0.15.1",
         "prettier": "1.18.2"
     }
 }
