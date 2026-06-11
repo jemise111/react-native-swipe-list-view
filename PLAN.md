@@ -10,7 +10,7 @@
 > (`v4`) starts from scratch off `master` (v3.2.9). Do not copy code from `v4-rewrite`;
 > the "Known pitfalls" section below already captures the useful lessons from it.
 
-**Status:** Phase 0 complete (branch created, plan written). Next: Phase 1.
+**Status:** Phase 1 complete (scaffolding & tooling; all verification commands pass locally). Awaiting user verification + commit go-ahead. Next: Phase 2.
 
 ---
 
@@ -91,19 +91,26 @@ Also in core scope: **migration guide** (`docs/MIGRATION.md`) and **docs site** 
 
 ## 3. Phases
 
-### Phase 1 — Scaffolding & tooling  ☐
+### Phase 1 — Scaffolding & tooling  ☑
 
 Goal: `v4` branch builds an empty-but-valid TypeScript library with CI green.
 
-- [ ] `package.json` rewrite: version `4.0.0`, entry points / `files` per Locked decisions, peer deps, devDeps (typescript ^5, react-native-builder-bob, RNGH, Reanimated, react/RN for local typecheck), scripts: `build` (bob build), `typecheck` (tsc --noEmit -p tsconfig.build.json), `lint`, `test`, `prepare` (bob build)
-- [ ] `tsconfig.json` (strict) + `tsconfig.build.json` (excludes `example/`, tests)
-- [ ] react-native-builder-bob config (targets: commonjs, module, typescript)
-- [ ] Modern ESLint flat config + prettier for `src/` (replace v3 eslint 6 setup)
-- [ ] Jest config with `react-native` preset + RNGH/Reanimated mocks (`react-native-gesture-handler/jestSetup`, `react-native-reanimated/mock`)
-- [ ] `src/` stubs: `index.ts`, `SwipeRow.tsx`, `SwipeListView.tsx`, `types.ts`, `constants.ts`, `deprecations.ts` — compiling placeholders only
-- [ ] **C9:** `.github/workflows/ci.yml` — install (`npm ci --legacy-peer-deps` if needed), lint, typecheck, test, build; Node 20
-- [ ] Update `.gitignore` (`lib/`, example artifacts), `.npmignore` removed in favor of `files`
-- [ ] Do **not** delete v3 `components/`, `types/`, `lib/`, `SwipeListExample/` yet — they are the reference implementation during the rewrite; deletion happens in Phase 8
+- [x] `package.json` rewrite: version `4.0.0`, entry points / `files` per Locked decisions, peer deps, devDeps (typescript ^5, react-native-builder-bob, RNGH, Reanimated, react/RN for local typecheck), scripts: `build` (bob build), `typecheck` (tsc --noEmit -p tsconfig.build.json), `lint`, `test`, `prepare` (bob build)
+- [x] `tsconfig.json` (strict) + `tsconfig.build.json` (excludes `example/`, tests)
+- [x] react-native-builder-bob config (targets: commonjs, module, typescript)
+- [x] Modern ESLint flat config + prettier for `src/` (replace v3 eslint 6 setup)
+- [x] Jest config with `react-native` preset + RNGH/Reanimated mocks (`react-native-gesture-handler/jestSetup`, `react-native-reanimated/mock`)
+- [x] `src/` stubs: `index.ts`, `SwipeRow.tsx`, `SwipeListView.tsx`, `types.ts`, `constants.ts`, `deprecations.ts` — compiling placeholders only
+- [x] **C9:** `.github/workflows/ci.yml` — install (`npm ci --legacy-peer-deps`), lint, typecheck, test, build; Node 20
+- [x] Update `.gitignore` (`lib/`, example artifacts), `.npmignore` removed in favor of `files`
+- [x] Do **not** delete v3 `components/`, `types/`, `lib/`, `SwipeListExample/` yet — they are the reference implementation during the rewrite; deletion happens in Phase 8 *(see deviation below re: `lib/`)*
+
+Phase 1 notes / deviations:
+- **`lib/` untracked early** (was scheduled for Phase 8 deletion): bob writes build output to `lib/`, so the tracked v3 `lib/index.js` (4-line re-export) would dirty the worktree on every build. Removed from git index and disk; content lives in git history (master) and is mirrored by `src/index.ts`. v3 reference code (`components/`, `types/`) untouched.
+- **`yarn.lock` → `package-lock.json`** (user-confirmed 2026-06-10; revisit package manager later). Repo standardizes on npm: all plan commands are npm, CI uses `npm ci --legacy-peer-deps` (requires package-lock). Stale v3 yarn.lock deleted.
+- `deprecations.ts` is a real (tiny) `warnOnce` implementation rather than an empty stub — it is the natural compiling placeholder; tests come in Phase 5.
+- Smoke test `src/__tests__/index.test.ts` added so `npm test` exercises the jest/babel/RNGH/Reanimated-mock pipeline instead of passing on zero tests.
+- Resolved toolchain: typescript 5.9.3, bob 0.33.3, eslint 9 (flat config), jest 29.7, react-native 0.76.5, reanimated 3.19.5, RNGH 2.31.2 (devDeps only; peer ranges per Locked decisions).
 
 Verify: `npm run typecheck && npm run lint && npm test && npm run build` all pass locally; push-less CI check by running the same commands. Then user verifies → commit.
 

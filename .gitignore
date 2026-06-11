@@ -1,3 +1,7 @@
 node_modules/
+lib/
+coverage/
+.expo/
+*.tgz
 .idea
 .claude/settings.local.json
