@@ -1,13 +1,13 @@
 // Placeholder — full implementation in Phase 3.
 import { forwardRef } from 'react';
 import { View } from 'react-native';
-import type { SwipeRowProps } from './types';
+import type { SwipeRowProps, SwipeRowRef } from './types';
 
-const SwipeRow = forwardRef<View, SwipeRowProps>(function SwipeRow(
+const SwipeRow = forwardRef<SwipeRowRef, SwipeRowProps>(function SwipeRow(
     props,
-    ref
+    _ref
 ) {
-    return <View ref={ref}>{props.children}</View>;
+    return <View>{props.children}</View>;
 });
 
 export default SwipeRow;

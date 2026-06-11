@@ -10,7 +10,7 @@
 > (`v4`) starts from scratch off `master` (v3.2.9). Do not copy code from `v4-rewrite`;
 > the "Known pitfalls" section below already captures the useful lessons from it.
 
-**Status:** Phase 1 complete (scaffolding & tooling; all verification commands pass locally). Awaiting user verification + commit go-ahead. Next: Phase 2.
+**Status:** Phase 2 complete (types & constants; typecheck/lint/test/build pass). Awaiting user verification + commit go-ahead. Next: Phase 3.
 
 ---
 
@@ -59,9 +59,11 @@ A swipeable-row list for React Native. Two public components:
 
 1. Peer dependencies: users must install `react-native-gesture-handler` and `react-native-reanimated`, and wrap their app root in `<GestureHandlerRootView>`.
 2. Minimum versions: react 18, react-native 0.73.
-3. ListView-era API **removed** (already non-functional — `ListView` no longer exists in RN core): `dataSource`, `renderRow`, `renderHiddenRow`, `renderListView`, `useFlatList`, `previewFirstRow`, `previewRowIndex` (the index-based ones only if they are ListView-only — verify in source before removing).
+3. ListView-era API **removed** (already non-functional — `ListView` no longer exists in RN core): `dataSource`, `renderRow`, `renderHiddenRow`, `renderListView`, `useFlatList`, `previewFirstRow`, `previewRowIndex`. *(Verified in Phase 2: `previewFirstRow`/`previewRowIndex` are only read in the legacy `renderRow`/`dataSource` path — SwipeListView.js:354-361 — so they are ListView-only and safe to remove.)*
 4. `useNativeDriver` and `useAnimatedList` props removed (meaningless under Reanimated — everything is UI-thread). Accept-and-warn in dev, ignore at runtime (see Deprecation policy).
 5. `onSwipeValueChange` still works but crosses to the JS thread per frame; new `swipeAnimatedValue` SharedValue path is the recommended replacement (see improvement C1).
+6. `swipeGestureEnded` data payload: `event` is now an RNGH `GestureStateChangeEvent<PanGestureHandlerEventPayload>`; the PanResponder-specific `gestureState` field is removed. `translateX` and `direction` unchanged. (Discovered in Phase 2 — PanResponder types cannot survive the RNGH port.)
+7. `rowMap` entries (and SwipeRow refs) are imperative handles (`closeRow`, `closeRowWithoutAnimation`, `manuallySwipeRow`, `isOpen`, new `swipeAnimatedValue`) instead of class component instances. The public method surface is identical, but undocumented internals (e.g. `currentTranslateX`) are no longer reachable.
 
 Anything else discovered to be unavoidably breaking during implementation: add it here **and** to `docs/MIGRATION.md` in the same commit.
 
@@ -114,15 +116,23 @@ Phase 1 notes / deviations:
 
 Verify: `npm run typecheck && npm run lint && npm test && npm run build` all pass locally; push-less CI check by running the same commands. Then user verifies → commit.
 
-### Phase 2 — Types & constants  ☐
+### Phase 2 — Types & constants  ☑
 
 Goal: complete public TypeScript API, mirroring v3's `types/index.d.ts` minus removed props.
 
-- [ ] `src/constants.ts`: `DEFAULT_PREVIEW_OPEN_DELAY = 700`, `PREVIEW_CLOSE_DELAY = 300`, `MAX_VELOCITY_CONTRIBUTION = 5`, `SCROLL_LOCK_MILLISECONDS = 300` (values copied from v3 `components/SwipeRow.js`)
-- [ ] `src/types.ts`: `SwipeRowProps<T>`, `SwipeListViewProps<T>`, `RowMap<T>`, callback payload types (`SwipeValueChangeData`, action-status types), generic over item type; SectionList variants
-- [ ] Every kept v3 prop present with identical name, type, and documented default (use the API parity checklist in §4 as the authority)
-- [ ] Removed props absent from the types; deprecated-but-tolerated props typed as `never`-ish with `@deprecated` JSDoc so editors show strikethrough
-- [ ] `src/index.ts` re-exports components + all public types
+- [x] `src/constants.ts`: `DEFAULT_PREVIEW_OPEN_DELAY = 700`, `PREVIEW_CLOSE_DELAY = 300`, `MAX_VELOCITY_CONTRIBUTION = 5`, `SCROLL_LOCK_MILLISECONDS = 300` (values copied from v3 `components/SwipeRow.js`)
+- [x] `src/types.ts`: `SwipeRowProps<T>`, `SwipeListViewProps<T>`, `RowMap<T>`, callback payload types (`SwipeValueChangeData`, action-status types), generic over item type; SectionList variants
+- [x] Every kept v3 prop present with identical name, type, and documented default (use the API parity checklist in §4 as the authority)
+- [x] Removed props absent from the types; deprecated-but-tolerated props typed as `never`-ish with `@deprecated` JSDoc so editors show strikethrough
+- [x] `src/index.ts` re-exports components + all public types
+
+Phase 2 notes / deviations (type-surface deltas vs v3 `types/index.d.ts`):
+- **v3 .d.ts was incomplete** — `components/*.js` propTypes/runtime carry props the .d.ts never had. All added to v4 types and appended to §4: `forceCloseToLeftThreshold`, `forceCloseToRightThreshold`, `onForceCloseToLeft(End)`, `onForceCloseToRight(End)`, `swipeKey`, `onPreviewEnd`, row-level `previewOpenDelay`; list-level `onPreviewEnd`; instance method `manuallyOpenAllRows(toValue)`.
+- **Runtime-faithful type corrections** (v3 .d.ts was wrong, not breaking): row-level `onLeftAction`/`onRightAction` take no args (SwipeRow.js:489,497 call them bare; .d.ts claimed `(rowKey, rowMap)`); `shouldItemUpdate` returns `boolean` (was `void`); row `onSwipeValueChange`/action-status payloads include optional `key` (= `swipeKey`); `listViewRef` receives the underlying `FlatList`/`SectionList` ref (.d.ts claimed `SwipeListView<T>`).
+- `SwipeListViewProps<T>` is a discriminated union on `useSectionList` (flat vs section variants); section variant's `renderItem` gets `SectionListRenderItemInfo` (v3 typed both as `ListRenderItemInfo`).
+- New exported types: `SwipeRowRef` (imperative handle, breaking change 7), `SwipeListViewRef` (`closeAllOpenRows` + `manuallyOpenAllRows`), `SharedSwipeProps`, payload types.
+- Breaking changes 6 & 7 added (swipeGestureEnded payload; rowMap entries are handles).
+- `docs/MIGRATION.md` living-draft skeleton created (user-approved scope addition): one section per breaking change, _TBD_ markers where Phase 3/6 fill code samples. See Working agreements.
 
 Verify: typecheck passes; diff the exported type surface against v3 `types/index.d.ts` and record any intentional deltas in the Breaking changes list. User verifies → commit.
 
@@ -196,7 +206,7 @@ Verify: every example runs without redbox on both platforms; behavior matches v3
 
 ### Phase 7 — Docs & migration guide  ☐
 
-- [ ] `docs/MIGRATION.md`: every entry from the Breaking changes list with before/after code; install instructions (RNGH + Reanimated + babel plugin + GestureHandlerRootView); `onSwipeValueChange` → `swipeAnimatedValue` recipe; removed-props table
+- [ ] `docs/MIGRATION.md`: finalize the living draft (skeleton created in Phase 2, updated each phase) — every entry from the Breaking changes list with before/after code; install instructions (RNGH + Reanimated + babel plugin + GestureHandlerRootView); `onSwipeValueChange` → `swipeAnimatedValue` recipe; removed-props table; resolve all _TBD_ markers
 - [ ] `CHANGELOG.md`: 4.0.0 entry — breaking changes, new features (C1, C6), internals note
 - [ ] README rewrite: new install section, quick start, props tables regenerated from `src/types.ts` JSDoc, link migration guide, badge for CI
 - [ ] Update `docs/SwipeRow.md`, `docs/SwipeListView.md`, `docs/actions.md`, `docs/per-row-behavior.md`, `docs/manually-closing-rows.md` for v4 API; delete `docs/migrating-to-flatlist.md` (obsolete)
@@ -248,6 +258,10 @@ Authority for "functionality remains the same." Check each item when implemented
 - [ ] `swipeGestureBegan` / `swipeGestureEnded`
 - [ ] `shouldItemUpdate`
 - [ ] `setScrollEnabled` (internal prop from list)
+- [ ] `swipeKey` (internal prop from list; settable on standalone rows) *(added Phase 2 — missing from v3 .d.ts)*
+- [ ] `forceCloseToLeftThreshold` / `forceCloseToRightThreshold` *(added Phase 2 — missing from v3 .d.ts)*
+- [ ] `onForceCloseToLeft` / `onForceCloseToRight` / `onForceCloseToLeftEnd` / `onForceCloseToRightEnd` *(added Phase 2 — missing from v3 .d.ts)*
+- [ ] `onPreviewEnd` *(added Phase 2 — missing from v3 .d.ts)*
 - [ ] ~~`useNativeDriver`~~ → C4 dev-warn
 - [ ] NEW: `swipeAnimatedValue` exposure (C1)
 - [ ] NEW: accessibility actions (C6)
@@ -273,7 +287,9 @@ Authority for "functionality remains the same." Check each item when implemented
 - [ ] Action callbacks with rowKey signatures
 - [ ] Per-row overrides read from item data (verify full list against v3 source)
 - [ ] Arbitrary FlatList/SectionList prop passthrough
+- [ ] `onPreviewEnd` passthrough *(added Phase 2 — missing from v3 .d.ts)*
 - [ ] `closeAllOpenRows()` imperative
+- [ ] `manuallyOpenAllRows(toValue)` imperative *(added Phase 2 — undocumented v3 instance method)*
 - [ ] ~~`useFlatList` / `useAnimatedList` / `useNativeDriver`~~ → C4 dev-warn
 - [ ] ~~`dataSource` / `renderRow` / `renderHiddenRow` / `renderListView` / `previewFirstRow` / `previewRowIndex`~~ → removed, dev-warn (verify previewFirstRow/previewRowIndex are ListView-only before removing; if FlatList-era, keep them)
 
@@ -307,4 +323,5 @@ Authority for "functionality remains the same." Check each item when implemented
 - User manually verifies each phase before its commit. Never push. Never publish.
 - Commit messages: Conventional Commits (`feat:`, `chore:`, `test:`, `docs:`), one commit per phase unless user requests otherwise.
 - Any deviation from this plan (new breaking change, API tweak, dropped item): record it in this file in the same commit.
+- `docs/MIGRATION.md` is a living draft from Phase 2 onward: any new/changed breaking change updates **both** the §1 Breaking changes list (one-liner index) and its MIGRATION.md section in the same commit. Phase 7 only reviews/polishes.
 - Delete this file when 4.0.0 ships.
