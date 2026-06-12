@@ -1,5 +1,7 @@
 import type { MutableRefObject, ReactElement, ReactNode } from 'react';
 import type {
+    AccessibilityActionEvent,
+    AccessibilityActionInfo,
     DefaultSectionT,
     FlatList,
     FlatListProps,
@@ -377,6 +379,36 @@ export interface SwipeRowProps<T = unknown> extends SharedSwipeProps {
      * Callback invoked when row has finished force closing to the Right End
      */
     onForceCloseToRightEnd?: () => void;
+    /**
+     * NEW in v4 (C6). Set to false to opt out of the row's built-in
+     * accessibility actions; forwarded to the row's wrapper View.
+     */
+    accessible?: boolean;
+    /**
+     * NEW in v4 (C6). Overrides the accessibility actions SwipeRow exposes by
+     * default (`swipeleft` when rightOpenValue is set, `swiperight` when
+     * leftOpenValue is set).
+     */
+    accessibilityActions?: ReadonlyArray<AccessibilityActionInfo>;
+    /**
+     * NEW in v4 (C6). Called after SwipeRow handles its built-in
+     * `swipeleft`/`swiperight` actions (which open/close the row), and for any
+     * custom actions supplied via `accessibilityActions`.
+     */
+    onAccessibilityAction?: (event: AccessibilityActionEvent) => void;
+}
+
+/**
+ * Props SwipeRow injects into both of its children via cloneElement
+ * (v3 behavior, unchanged in v4 except `swipeAnimatedValue` is now a
+ * Reanimated SharedValue rather than an Animated.Value).
+ */
+export interface SwipeRowChildInjectedProps {
+    leftActionActivated?: boolean;
+    rightActionActivated?: boolean;
+    leftActionState?: boolean;
+    rightActionState?: boolean;
+    swipeAnimatedValue?: SharedValue<number>;
 }
 
 /** Props SwipeListView adds on top of the underlying list component's props. */

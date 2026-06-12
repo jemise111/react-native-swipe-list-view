@@ -10,7 +10,7 @@
 > (`v4`) starts from scratch off `master` (v3.2.9). Do not copy code from `v4-rewrite`;
 > the "Known pitfalls" section below already captures the useful lessons from it.
 
-**Status:** Phase 2 complete (types & constants; typecheck/lint/test/build pass). Awaiting user verification + commit go-ahead. Next: Phase 3.
+**Status:** Phase 3 complete (SwipeRow rewrite + helpers + baseline tests; typecheck/lint/test/build pass, 30 tests). Awaiting user verification + commit go-ahead. Behavioral verification on-device deferred to Phase 6 as planned. Next: Phase 4.
 
 ---
 
@@ -136,28 +136,39 @@ Phase 2 notes / deviations (type-surface deltas vs v3 `types/index.d.ts`):
 
 Verify: typecheck passes; diff the exported type surface against v3 `types/index.d.ts` and record any intentional deltas in the Breaking changes list. User verifies → commit.
 
-### Phase 3 — SwipeRow  ☐
+### Phase 3 — SwipeRow  ☑
 
 Goal: full SwipeRow rewrite, behaviorally identical to v3 (`components/SwipeRow.js` is the spec — read it side-by-side while implementing).
 
 Gesture & animation core:
-- [ ] Function component + `forwardRef`, imperative handle: `closeRow()`, `closeRowWithoutAnimation()`, `manuallySwipeRow(toValue, onAnimationEnd?)`, `isOpen` accessor — same surface v3 exposes to SwipeListView's rowMap
-- [ ] `Gesture.Pan()` with `activeOffsetX([-directionalDistanceChangeThreshold, directionalDistanceChangeThreshold])` and `failOffsetY([-10, 10])` so vertical scrolling wins; all gesture callbacks are worklets (`'worklet'` directive where not automatic)
-- [ ] translateX as `useSharedValue(0)`; gesture-internal tracking state (`prevTranslateX`, `prevDirection`, `isForceClosing`, `isOpen`, `leftActivated`, `rightActivated`) as SharedValues — **not** `useRef` (worklets can't read refs)
-- [ ] JS-only mutable state (`parentScrollEnabled` mirror, scroll-lock timer) as `useRef`
-- [ ] Open/close spring: `withSpring`, mapping v3 `Animated.spring` params: `stiffness = tension`, `damping = friction * 2 * Math.sqrt(tension)`; honor `restSpeedThreshold` / `restDisplacementThreshold` via spring config
-- [ ] Swipe-release logic: replicate v3 thresholds exactly — `swipeToOpenPercent`, `swipeToClosePercent`, `swipeToOpenVelocityContribution` (clamped by `MAX_VELOCITY_CONTRIBUTION`), `stopLeftSwipe` / `stopRightSwipe` clamps, `disableLeftSwipe` / `disableRightSwipe`
-- [ ] `setScrollEnabled` fallback: on gesture start call `setScrollEnabled(false)` on parent list, re-enable on end with `SCROLL_LOCK_MILLISECONDS` safety timer (v3 behavior; RNGH makes it mostly redundant but per-row-behavior docs depend on it)
-- [ ] Preview animation: `withDelay(previewOpenDelay, withSequence(withTiming(previewOpenValue, {duration: previewDuration}), withDelay(PREVIEW_CLOSE_DELAY, withTiming(0))))`; support `previewRepeat` + `previewRepeatDelay`
+- [x] Function component + `forwardRef`, imperative handle: `closeRow()`, `closeRowWithoutAnimation()`, `manuallySwipeRow(toValue, onAnimationEnd?)`, `isOpen` accessor — same surface v3 exposes to SwipeListView's rowMap
+- [x] `Gesture.Pan()` with `activeOffsetX([-directionalDistanceChangeThreshold, directionalDistanceChangeThreshold])` and `failOffsetY([-10, 10])` so vertical scrolling wins; all gesture callbacks are worklets (`'worklet'` directive where not automatic)
+- [x] translateX as `useSharedValue(0)`; gesture-internal tracking state (`prevTranslateX`, `prevDirection`, `isForceClosing`, `isOpen`, `leftActivated`, `rightActivated`) as SharedValues — **not** `useRef` (worklets can't read refs)
+- [x] JS-only mutable state (`parentScrollEnabled` mirror, scroll-lock timer) as `useRef`
+- [x] Open/close spring: `withSpring`, mapping v3 `Animated.spring` params: `stiffness = tension`, `damping = friction * 2 * Math.sqrt(tension)`; honor `restSpeedThreshold` / `restDisplacementThreshold` via spring config
+- [x] Swipe-release logic: replicate v3 thresholds exactly — `swipeToOpenPercent`, `swipeToClosePercent`, `swipeToOpenVelocityContribution` (clamped by `MAX_VELOCITY_CONTRIBUTION`), `stopLeftSwipe` / `stopRightSwipe` clamps, `disableLeftSwipe` / `disableRightSwipe`
+- [x] `setScrollEnabled` fallback: on gesture start call `setScrollEnabled(false)` on parent list, re-enable on end with `SCROLL_LOCK_MILLISECONDS` safety timer (v3 behavior; RNGH makes it mostly redundant but per-row-behavior docs depend on it)
+- [x] Preview animation: `withDelay(previewOpenDelay, withSequence(withTiming(previewOpenValue, {duration: previewDuration}), withDelay(PREVIEW_CLOSE_DELAY, withTiming(0))))`; support `previewRepeat` + `previewRepeatDelay`
 
 Callbacks & layout:
-- [ ] All JS callbacks fired via `useAnimatedReaction` + `runOnJS`: `onRowOpen`/`onRowDidOpen`/`onRowClose`/`onRowDidClose` semantics (begin vs animation-settled), `swipeGestureBegan`, `swipeGestureEnded` (with event data per v3 signature), `onRowPress`, activation callbacks `onLeftAction`/`onRightAction`/`onLeftActionStatusChange`/`onRightActionStatusChange` driven by `leftActivationValue`/`rightActivationValue`/`leftActionValue`/`rightActionValue`/`initialLeftActionState`/`initialRightActionState`
-- [ ] `onSwipeValueChange({value, direction, isOpen, key})` via animated reaction (compat path)
-- [ ] Hidden-row layout measurement: `onLayout` of visible row sizes hidden container; honor `recalculateHiddenLayout` and `disableHiddenLayoutCalculation`
-- [ ] Two-children contract preserved (first child = hidden layer, second = visible); `closeOnRowPress` wraps visible row in touchable that closes when open
-- [ ] **C1:** expose `swipeAnimatedValue: SharedValue<number>` on the imperative handle (and therefore via rowMap); document as the preferred replacement for `onSwipeValueChange`
-- [ ] **C6:** `accessibilityActions` — include `{name: 'swipeleft'}` when `rightOpenValue` set, `{name: 'swiperight'}` when `leftOpenValue` set; `onAccessibilityAction` opens to the corresponding value (or closes if already open); allow user-supplied accessibility props to merge/override
-- [ ] **C4:** dev-warn on `useNativeDriver` prop
+- [x] All JS callbacks fired via `useAnimatedReaction` + `runOnJS`: `onRowOpen`/`onRowDidOpen`/`onRowClose`/`onRowDidClose` semantics (begin vs animation-settled), `swipeGestureBegan`, `swipeGestureEnded` (with event data per v3 signature), `onRowPress`, activation callbacks `onLeftAction`/`onRightAction`/`onLeftActionStatusChange`/`onRightActionStatusChange` driven by `leftActivationValue`/`rightActivationValue`/`leftActionValue`/`rightActionValue`/`initialLeftActionState`/`initialRightActionState`
+- [x] `onSwipeValueChange({value, direction, isOpen, key})` via animated reaction (compat path)
+- [x] Hidden-row layout measurement: `onLayout` of visible row sizes hidden container; honor `recalculateHiddenLayout` and `disableHiddenLayoutCalculation`
+- [x] Two-children contract preserved (first child = hidden layer, second = visible); `closeOnRowPress` wraps visible row in touchable that closes when open
+- [x] **C1:** expose `swipeAnimatedValue: SharedValue<number>` on the imperative handle (and therefore via rowMap); document as the preferred replacement for `onSwipeValueChange`
+- [x] **C6:** `accessibilityActions` — include `{name: 'swipeleft'}` when `rightOpenValue` set, `{name: 'swiperight'}` when `leftOpenValue` set; `onAccessibilityAction` opens to the corresponding value (or closes if already open); allow user-supplied accessibility props to merge/override
+- [x] **C4:** dev-warn on `useNativeDriver` prop
+
+Phase 3 notes / deviations:
+- **Velocity units**: v3 `gestureState.vx` is px/ms; RNGH `velocityX` is px/s. SwipeRow divides by 1000 before the `MAX_VELOCITY_CONTRIBUTION` clamp — without this the velocity contribution is 1000× off. Helpers take px/ms to keep v3-derived test cases verbatim.
+- **v3 bug fixed**: SwipeRow.js:116 gated the *left* force-close listener on `forceCloseToRightThreshold > 0` (copy-paste bug — left force-close never worked unless the right threshold was also set). v4 gates on the left threshold.
+- **v3 quirk fixed**: v3 only tracked swipe direction when `onSwipeValueChange` was set, so `swipeGestureEnded` reported `direction: null` otherwise. v4 always tracks direction.
+- `event.preventDefault()` in `swipeGestureEnded` no longer suppresses row settling (RNGH events have no preventDefault) — folded into breaking change 6 / MIGRATION.md §6.
+- `src/helpers.ts` extraction (threshold math, velocity projection, spring mapping) pulled forward from Phase 5; baseline tests written now (30 passing), Phase 5 extends.
+- C6 surface: `accessible` / `accessibilityActions` / `onAccessibilityAction` props added to `SwipeRowProps` (types extension beyond Phase 2 snapshot). User-supplied `accessibilityActions` replace the defaults; `accessible={false}` opts out entirely.
+- C1 surface decided: `swipeAnimatedValue` on the imperative handle/rowMap entries **and** injected into both children via cloneElement (v3 injected the Animated.Value the same way — now a SharedValue; documented in `SwipeRowChildInjectedProps`). No third `renderHiddenItem` argument needed.
+- Dropped v3's non-standard `manipulationModes={['translateX']}` prop on the animated view (not an RN prop; no-op in modern RN).
+- `Gesture.Pan` is recreated per render keyed on props (standard RNGH v2 usage); per-frame listener logic consolidated into one `useAnimatedReaction`.
 
 Verify: typecheck + lint + unit tests for release-threshold math, callback firing, imperative handle (mock-level). Behavioral verification deferred to Phase 6 example app. User verifies → commit.
 

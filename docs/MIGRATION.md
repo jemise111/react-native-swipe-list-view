@@ -79,9 +79,23 @@ no longer exist:
 - `data.gestureState` (PanResponder gesture state) is **removed**. Velocity and
   translation now live on `data.event` (`velocityX`, `translationX`, …).
 - `data.translateX` and `data.direction` are unchanged.
+- Calling `event.preventDefault()` in `swipeGestureEnded` to stop the row from
+  settling no longer works — RNGH events have no `preventDefault`. If you relied
+  on this, open an issue describing the use case.
 
-_TBD (Phase 3): before/after example mapping common `gestureState` reads
-(`dx`, `vx`) to RNGH event fields._
+```ts
+// v3
+swipeGestureEnded={(key, data) => {
+    const distance = data.gestureState.dx;   // px
+    const velocity = data.gestureState.vx;   // px/ms
+}}
+
+// v4
+swipeGestureEnded={(key, data) => {
+    const distance = data.event.translationX; // px
+    const velocity = data.event.velocityX;    // px/s — note the unit change!
+}}
+```
 
 ## 7. `rowMap` entries are imperative handles, not component instances
 

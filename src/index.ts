@@ -14,6 +14,7 @@ export type {
     SwipeListViewProps,
     SwipeListViewRef,
     SwipeListViewSectionListProps,
+    SwipeRowChildInjectedProps,
     SwipeRowProps,
     SwipeRowRef,
     SwipeValueChangeData,
