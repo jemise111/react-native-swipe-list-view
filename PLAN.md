@@ -10,7 +10,7 @@
 > (`v4`) starts from scratch off `master` (v3.2.9). Do not copy code from `v4-rewrite`;
 > the "Known pitfalls" section below already captures the useful lessons from it.
 
-**Status:** Phase 4 complete (SwipeListView rewrite, C12 single pipeline, C2 compat path, C4 list-level warnings + baseline tests; typecheck/lint/test/build pass, 50 tests). Awaiting user verification + commit go-ahead. Behavioral verification on-device deferred to Phase 6 as planned. Next: Phase 5.
+**Status:** Phase 5 complete (test suite: 92 tests across SwipeRow, SwipeListView, row-wiring, deprecations, helpers; typecheck/lint/test/build pass, full strict tsc now clean on tests too). Awaiting user verification + commit go-ahead. Behavioral/gesture verification on-device remains Phase 6. Next: Phase 6.
 
 ---
 
@@ -200,15 +200,22 @@ Phase 4 notes / deviations:
 
 Verify: typecheck + lint + unit tests (rowMap bookkeeping, close-on-X flags, deprecation warnings). User verifies → commit.
 
-### Phase 5 — Test suite  ☐
+### Phase 5 — Test suite  ☑
 
 Goal: regression net for the API surface (C9 makes CI enforce it).
 
-- [ ] `src/__tests__/SwipeRow.test.tsx`: renders two children, imperative handle methods exist and fire callbacks, accessibility actions present/fire, deprecation warnings fire once
-- [ ] `src/__tests__/SwipeListView.test.tsx`: FlatList + SectionList render, rowMap keys correct, `closeAllOpenRows` calls each row, hidden item wrapping vs standalone-SwipeRow detection, per-row prop overrides from item data
-- [ ] `src/__tests__/deprecations.test.ts`: warnOnce behavior
-- [ ] Threshold/spring-mapping pure functions extracted to `src/helpers.ts` and unit-tested with exact v3-derived cases
-- [ ] CI green on all of the above
+- [x] `src/__tests__/SwipeRow.test.tsx`: renders two children, imperative handle methods exist and fire callbacks, accessibility actions present/fire, deprecation warnings fire once
+- [x] `src/__tests__/SwipeListView.test.tsx`: FlatList + SectionList render, rowMap keys correct, `closeAllOpenRows` calls each row, hidden item wrapping vs standalone-SwipeRow detection, per-row prop overrides from item data
+- [x] `src/__tests__/deprecations.test.ts`: warnOnce behavior
+- [x] Threshold/spring-mapping pure functions extracted to `src/helpers.ts` and unit-tested with exact v3-derived cases *(extraction + 30 baseline tests done in Phase 3; closing-branch activation-scaling asymmetry case added here)*
+- [x] CI green on all of the above *(verified by running the CI command set locally — no push per working agreements)*
+
+Phase 5 notes / deviations:
+- **Extra test file `src/__tests__/SwipeListView.rowprops.test.tsx`**: mocks SwipeRow to capture per-row props, since gestures can't be simulated under the Reanimated jest mock. Covers per-row item-data overrides (incl. v3 `||` falsy-fallback semantics), item-level `onLeftAction`/`onRightAction` precedence (v3 bug fix), key injection into `onSwipeValueChange`/action-status payloads, preview routing, `swipeRowStyle`/`shouldItemUpdate`/`item` passthrough, `closeOnRowBeginSwipe`/`closeOnRowPress` bookkeeping, and `onScrollEnabled` plumbing.
+- SwipeRow tests extended beyond the checklist line: C1 child prop injection, row-press handling (TouchableOpacity wrap, child `onPress` composition, `onRowPress` override), hidden-layout measurement (+ `disableHiddenLayoutCalculation`), preview/`onPreviewEnd`, two-children dev warning, `manuallySwipeRow` `onAnimationEnd`. SwipeListView tests gained `closeOnScroll` (via `fireEvent.scroll`), user `onScroll` passthrough, `refreshing` closes open row, and the iOS over-scroll `scrollToEnd` fix.
+- **Test files are now strict-tsc clean**: fixed 17 pre-existing errors in the Phase 4 baseline tests (`noUncheckedIndexedAccess` index assertions, `toJSON()` cast via `unknown`). `npm run typecheck` (tsconfig.build.json) never covered tests; `npx tsc --noEmit` on the root tsconfig now passes as well.
+- **Reanimated jest-mock limits** (affects what can be unit-tested): `useAnimatedReaction` is a no-op, so per-frame paths — `onSwipeValueChange` firing, force-close thresholds, activation-status crossings — and real pan gestures are not unit-testable. These are covered by the Phase 6 example-app manual checklist. `withSpring`/`withTiming` callbacks run synchronously, which is what makes the settle-callback tests (`onRowDidOpen`, `onAnimationEnd`, preview) possible.
+- Total: 92 tests in 6 suites (was 50 after Phase 4).
 
 Verify: `npm test` passes, coverage on `src/` reasonable (no hard gate). User verifies → commit.
 

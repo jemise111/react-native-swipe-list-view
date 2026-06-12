@@ -167,6 +167,27 @@ describe('leftSwipeReleaseTarget (v3 handleLeftSwipe)', () => {
         expect(closes.toValue).toBe(0);
     });
 
+    it('closing-branch activation threshold scales by swipeToClosePercent (v3 asymmetry)', () => {
+        // swiping back toward closed: threshold = -200 * (1 - 0.5) = -100
+        const activates = leftSwipeReleaseTarget({
+            ...baseInput,
+            swipeInitialX: -250,
+            currentTranslateX: -120,
+            rightActivationValue: -200,
+            rightActionValue: -250,
+        });
+        expect(activates).toEqual({ toValue: -250, actionSide: 'right' });
+
+        const noAction = leftSwipeReleaseTarget({
+            ...baseInput,
+            swipeInitialX: -250,
+            currentTranslateX: -90,
+            rightActivationValue: -200,
+            rightActionValue: -250,
+        });
+        expect(noAction).toEqual({ toValue: 0, actionSide: undefined });
+    });
+
     it('triggers the right action past rightActivationValue', () => {
         const target = leftSwipeReleaseTarget({
             ...baseInput,
