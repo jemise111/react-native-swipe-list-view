@@ -111,3 +111,27 @@ now a typed handle exposing the same public surface:
 Documented usage (`rowMap[key].closeRow()` etc.) is unaffected. Code reaching
 into undocumented internals (e.g. `currentTranslateX`, `props`) must migrate —
 `currentTranslateX` reads become `swipeAnimatedValue.value`.
+
+## 8. `onScroll` must be a plain function
+
+v3 accepted an `Animated.event(...)` object as `onScroll` (attaching its own
+listener via the object's internal API). That API no longer exists in v4:
+SwipeListView owns the list's scroll handler for its close-on-scroll
+bookkeeping and calls your `onScroll` only if it is a plain function. Passing
+an object (an `Animated.event` or a Reanimated `useAnimatedScrollHandler`
+handler) logs a one-time dev warning and is ignored.
+
+```ts
+// v3 (no longer works)
+onScroll={Animated.event(
+    [{ nativeEvent: { contentOffset: { y: this.scrollY } } }],
+)}
+
+// v4
+onScroll={event => {
+    setScrollY(event.nativeEvent.contentOffset.y);
+}}
+```
+
+UI-thread scroll handling (composing a user-supplied
+`useAnimatedScrollHandler`) is on the post-4.0 backlog.

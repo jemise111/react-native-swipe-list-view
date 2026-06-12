@@ -10,7 +10,7 @@
 > (`v4`) starts from scratch off `master` (v3.2.9). Do not copy code from `v4-rewrite`;
 > the "Known pitfalls" section below already captures the useful lessons from it.
 
-**Status:** Phase 3 complete (SwipeRow rewrite + helpers + baseline tests; typecheck/lint/test/build pass, 30 tests). Awaiting user verification + commit go-ahead. Behavioral verification on-device deferred to Phase 6 as planned. Next: Phase 4.
+**Status:** Phase 4 complete (SwipeListView rewrite, C12 single pipeline, C2 compat path, C4 list-level warnings + baseline tests; typecheck/lint/test/build pass, 50 tests). Awaiting user verification + commit go-ahead. Behavioral verification on-device deferred to Phase 6 as planned. Next: Phase 5.
 
 ---
 
@@ -64,6 +64,7 @@ A swipeable-row list for React Native. Two public components:
 5. `onSwipeValueChange` still works but crosses to the JS thread per frame; new `swipeAnimatedValue` SharedValue path is the recommended replacement (see improvement C1).
 6. `swipeGestureEnded` data payload: `event` is now an RNGH `GestureStateChangeEvent<PanGestureHandlerEventPayload>`; the PanResponder-specific `gestureState` field is removed. `translateX` and `direction` unchanged. (Discovered in Phase 2 — PanResponder types cannot survive the RNGH port.)
 7. `rowMap` entries (and SwipeRow refs) are imperative handles (`closeRow`, `closeRowWithoutAnimation`, `manuallySwipeRow`, `isOpen`, new `swipeAnimatedValue`) instead of class component instances. The public method surface is identical, but undocumented internals (e.g. `currentTranslateX`) are no longer reachable.
+8. `onScroll` must be a plain function. v3 accepted an `Animated.event` object (attached a listener via `__addListener`); v4 owns the scroll handler for close-on-scroll bookkeeping and ignores object handlers with a one-time dev warning. (Discovered in Phase 4 — composing Reanimated scroll handlers is not possible in 4.0; backlogged.)
 
 Anything else discovered to be unavoidably breaking during implementation: add it here **and** to `docs/MIGRATION.md` in the same commit.
 
@@ -172,21 +173,30 @@ Phase 3 notes / deviations:
 
 Verify: typecheck + lint + unit tests for release-threshold math, callback firing, imperative handle (mock-level). Behavioral verification deferred to Phase 6 example app. User verifies → commit.
 
-### Phase 4 — SwipeListView  ☐
+### Phase 4 — SwipeListView  ☑
 
 Goal: full list wrapper, one internal abstraction (C12).
 
-- [ ] Function component + `forwardRef`; `useImperativeHandle` exposing `closeAllOpenRows()` and (passthrough) the underlying list ref via `listViewRef` callback prop
-- [ ] **C12:** single internal render pipeline; the only fork is which animated list component is rendered — `Animated.FlatList` vs `Animated.createAnimatedComponent(SectionList)` (see pitfalls for the cast). `useSectionList` prop selects it. All row bookkeeping, cell rendering, scroll handling shared.
-- [ ] Row registry: `rowMap` keyed by `keyExtractor` result (same key derivation as v3: `keyExtractor` → `item.key` fallback); refs to SwipeRow handles; expose rowMap to `renderItem`/`renderHiddenItem` exactly as v3 does
-- [ ] Open-row bookkeeping: track `openCellKey`; `closeOnRowOpen` closes previous row when a new one opens; `closeOnRowBeginSwipe` closes on swipe start; `closeOnRowPress` passthrough; `closeOnScroll` via scroll handler
-- [ ] Scroll: `useAnimatedScrollHandler` calling `runOnJS(onScrollJS)(offsetY)`; compose with user's `onScroll`; `onScrollEnabled(isEnabled)` callback when rows toggle parent scroll
-- [ ] `renderItem` wrapping: if `renderHiddenItem` provided → wrap user item + hidden item in internal `<SwipeRow>` carrying all per-row props; **C2:** if no `renderHiddenItem` and the returned element is a SwipeRow → attach ref/props via `cloneElement` (compat path, document as deprecated); per-row prop overrides from `item` data (v3 reads e.g. `item.leftOpenValue` — replicate exactly, check v3 source for the full per-row override list)
-- [ ] Preview: `previewRowKey` (+ `previewOpenDelay`, `previewOpenValue`, `previewDuration`, `previewRepeat`, `previewRepeatDelay`) routed to the matching row
-- [ ] iOS over-scroll close fix from v3: track y-offset + layout height, handle content-size shrink (v3 has explicit handling — port it)
-- [ ] All remaining v3 list props passed through to FlatList/SectionList untouched (it accepts arbitrary FlatList props)
-- [ ] **C4:** dev-warn on `useFlatList`, `useAnimatedList`, `useNativeDriver`; hard dev-warn (removed) on `dataSource`/`renderRow`/`renderHiddenRow`/`renderListView`
-- [ ] `swipeRowStyle`, `shouldItemUpdate` honored
+- [x] Function component + `forwardRef`; `useImperativeHandle` exposing `closeAllOpenRows()` and (passthrough) the underlying list ref via `listViewRef` callback prop
+- [x] **C12:** single internal render pipeline; the only fork is which animated list component is rendered — `Animated.FlatList` vs `Animated.createAnimatedComponent(SectionList)` (see pitfalls for the cast). `useSectionList` prop selects it. All row bookkeeping, cell rendering, scroll handling shared.
+- [x] Row registry: `rowMap` keyed by `keyExtractor` result (same key derivation as v3: `keyExtractor` → `item.key` fallback); refs to SwipeRow handles; expose rowMap to `renderItem`/`renderHiddenItem` exactly as v3 does
+- [x] Open-row bookkeeping: track `openCellKey`; `closeOnRowOpen` closes previous row when a new one opens; `closeOnRowBeginSwipe` closes on swipe start; `closeOnRowPress` passthrough; `closeOnScroll` via scroll handler
+- [x] Scroll: composed JS scroll handler (deviation — see notes); `onScrollEnabled(isEnabled)` callback when rows toggle parent scroll
+- [x] `renderItem` wrapping: if `renderHiddenItem` provided → wrap user item + hidden item in internal `<SwipeRow>` carrying all per-row props; **C2:** if no `renderHiddenItem` and the returned element is a SwipeRow → attach ref/props via `cloneElement` (compat path, document as deprecated); per-row prop overrides from `item` data (v3 reads e.g. `item.leftOpenValue` — replicate exactly, check v3 source for the full per-row override list)
+- [x] Preview: `previewRowKey` (+ `previewOpenDelay`, `previewOpenValue`, `previewDuration`, `previewRepeat`, `previewRepeatDelay`) routed to the matching row
+- [x] iOS over-scroll close fix from v3: track y-offset + layout height, handle content-size shrink (v3 has explicit handling — port it)
+- [x] All remaining v3 list props passed through to FlatList/SectionList untouched (it accepts arbitrary FlatList props)
+- [x] **C4:** dev-warn on `useFlatList`, `useAnimatedList`, `useNativeDriver`; hard dev-warn (removed) on `dataSource`/`renderRow`/`renderHiddenRow`/`renderListView` (+ `previewFirstRow`/`previewRowIndex`, per breaking change 3)
+- [x] `swipeRowStyle`, `shouldItemUpdate` honored
+
+Phase 4 notes / deviations:
+- **Scroll handler is a plain composed JS function, not `useAnimatedScrollHandler`** (deviation from the checklist line above): the bookkeeping (closeOnScroll, iOS offset tracking) is JS-side either way, and a plain handler hands the user's `onScroll` the real scroll event — `useAnimatedScrollHandler` + `runOnJS` would have required reconstructing it. Object `onScroll` handlers (`Animated.event`, Reanimated handlers) are unsupported → breaking change 8 + MIGRATION.md §8 + backlog B12.
+- **v3 bug fixed**: per-item `item.onLeftAction`/`item.onRightAction` were never invoked — SwipeListView.js:251-260 short-circuits to *returning* the function instead of calling it (the item-level fn only suppressed the list-level callback). v4 calls the item-level fn, else falls back to the list-level `(key, rowMap)` callback.
+- `closeAllOpenRows` reads `swipeAnimatedValue.value` (v3 read the undocumented `currentTranslateX` — same semantics, breaking change 7 already covers it).
+- rowMap entries are deleted on row unmount (v3 left stale `null` entries in `_rows` forever; user-visible rowMap no longer contains nulls).
+- `swipeKey` is now passed to rows in both render paths (wrapped + C2 clone, where a user-set `swipeKey` wins), so row-level callback payloads carry `key`; list-level `onSwipeValueChange`/action-status wrappers still inject `key` explicitly like v3.
+- v3's `refreshing`-closes-open-row behavior (componentDidUpdate) ported as an every-render effect.
+- C2 clone path overrides the user element's own `onRowOpen`/`onRowClose`/`onRowPress`/etc. with the list's bookkeeping wrappers — exactly v3's (surprising) behavior, preserved.
 
 Verify: typecheck + lint + unit tests (rowMap bookkeeping, close-on-X flags, deprecation warnings). User verifies → commit.
 
@@ -313,6 +323,7 @@ Authority for "functionality remains the same." Check each item when implemented
 - [ ] **B8 — Haptic hook points**: guarantee `on(Left|Right)ActionStatusChange` fires exactly once per activation crossing with UI-thread-accurate timing; document haptics recipe
 - [ ] **B10 — List component injection**: `renderListComponent` escape hatch enabling FlashList et al.
 - [ ] **B11 — Built-in actions mode**: iOS-Mail-style full-swipe commit sugar (`rightActionElement` + `onRightAction` convenience API)
+- [ ] **B12 — UI-thread scroll handler composition**: accept a user-supplied `useAnimatedScrollHandler` handler as `onScroll` and compose it with the list's close-on-scroll bookkeeping (see breaking change 8)
 - [ ] **B-v5 — Remove** C2 magic SwipeRow detection and C4-tolerated props
 
 ---
