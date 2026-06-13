@@ -20,11 +20,12 @@ To react for actions use handlers:
 - `onLeftActionStatusChange` - fired once when swipe value reached the `leftActivationValue`
 - `onRightActionStatusChange` - fired once when swipe value reached the `rightActivationValue`
 
-Also there is an additional props will be passed to Visible and Hidden row components:
-- `swipeAnimatedValue` - swipeRow `_translateX` animated value
-- `leftActionActivated` - boolean value indicated that left action is currently activated/deactevated
-- `rightActionActivated` - boolean value indicated that right action is currently activated/deactevated
+Also there are additional props passed to the Visible and Hidden row components
+(type them with `SwipeRowChildInjectedProps`):
+- `swipeAnimatedValue` - the row's translateX as a Reanimated `SharedValue<number>` (v4; was an `Animated.Value` in v3). Read `swipeAnimatedValue?.value` inside `useAnimatedStyle`.
+- `leftActionActivated` - boolean indicating the left action is currently activated/deactivated
+- `rightActionActivated` - boolean indicating the right action is currently activated/deactivated
 - `leftActionState` - boolean value of left action state
 - `rightActionState` - boolean value of right action state
 
-See the [actions example](https://github.com/jemise111/react-native-swipe-list-view/blob/master/SwipeListExample/examples/actions.js) for reference.
+See the [actions example](../example/examples/actions.tsx) for reference.

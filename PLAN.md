@@ -10,7 +10,7 @@
 > (`v4`) starts from scratch off `master` (v3.2.9). Do not copy code from `v4-rewrite`;
 > the "Known pitfalls" section below already captures the useful lessons from it.
 
-**Status:** Phase 6 COMPLETE & committed. Example app (Expo SDK 54) verified on **iOS** (2026-06-13): all examples + v3/v4 toggle, spring feel matches v3 after the Origami mapping fix; fixed during verification → slow-close spring mapping (§4/§6), `actions` v3-toggle crash, `close_row_manually` press-twice race. **Android manual verification deferred to a future phase** (reminder planted in Phase 7 & 8). NEXT: Phase 7 — docs & migration guide.
+**Status:** Phase 7 (docs & migration guide) code-complete, awaiting commit go-ahead. Finalized `docs/MIGRATION.md`, created `CHANGELOG.md` (4.0.0), rewrote README for v4, updated all `docs/*.md`, deleted obsolete `migrating-to-flatlist.md`. Authored Docusaurus-friendly (relative links verified). Added **Phase 10 — Manual review & sign-off** as the final phase: a running checklist of user-only manual reviews (currently Android verification + docs/migration read-through). Phase 6 verified on iOS. NEXT (after commit): Phase 8 — v3 removal & release prep.
 
 ---
 
@@ -229,7 +229,7 @@ Goal: manual regression suite + showcase. Replaces `SwipeListExample/` (deleted 
 - [x] New example: accessibility demo (C6) — screen-reader actions (standalone row with action log + list)
 - [x] **TEMPORARY v3/v4 runtime toggle** for the side-by-side comparison: `example/lib-switch.tsx` re-exports either the v4 source (`../src`) or the frozen v3 reference (`../components`); Metro resolves the package name to the switch, so all examples run unmodified on both implementations. Toggle in the App header remounts the active example. The two v4-only examples (SwipeValueShared, Accessibility) show a notice in v3 mode. **Removed in Phase 8** (depends on `components/`, which Phase 8 deletes).
 - [x] Manual verification checklist executed on **iOS** (swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list) — user-confirmed 2026-06-13
-- [ ] **Manual verification on Android still outstanding** — deferred to a future phase at user request; see the reminder checkbox in Phase 7 / Phase 8
+- [ ] **Manual verification on Android still outstanding** — deferred at user request; tracked in the Phase 10 manual-review checklist
 - [x] Record spring-feel comparison vs v3 using the in-app v3/v4 toggle — spring mapping corrected to RN Origami conversion (see §4 / §6); user-confirmed feel matches v3 on iOS
 
 Phase 6 notes / deviations:
@@ -247,19 +247,25 @@ Phase 6 notes / deviations:
 
 Verify: every example runs without redbox on both platforms; behavior matches v3 reference. User verifies → commit.
 
-### Phase 7 — Docs & migration guide  ☐
+### Phase 7 — Docs & migration guide  ☑
 
-- [ ] **REMINDER (carried from Phase 6): run the manual verification checklist on Android** (emulator or device) — swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list; confirm spring feel matches v3. If not done here, carry forward to Phase 8.
-- [ ] `docs/MIGRATION.md`: finalize the living draft (skeleton created in Phase 2, updated each phase) — every entry from the Breaking changes list with before/after code; install instructions (RNGH + Reanimated + babel plugin + GestureHandlerRootView); `onSwipeValueChange` → `swipeAnimatedValue` recipe; removed-props table; resolve all _TBD_ markers
-- [ ] `CHANGELOG.md`: 4.0.0 entry — breaking changes, new features (C1, C6), internals note
-- [ ] README rewrite: new install section, quick start, props tables regenerated from `src/types.ts` JSDoc, link migration guide, badge for CI
-- [ ] Update `docs/SwipeRow.md`, `docs/SwipeListView.md`, `docs/actions.md`, `docs/per-row-behavior.md`, `docs/manually-closing-rows.md` for v4 API; delete `docs/migrating-to-flatlist.md` (obsolete)
+- **Author all markdown Docusaurus-friendly** (so Phase 9 is lift-and-deploy): relative intra-doc links (no GitHub-blob URLs), no repo-only path assumptions, ATX `#` headings with a single H1 per file, fenced code blocks with language tags, assets referenced by relative path. Keep README/CHANGELOG as standard GitHub/npm markdown; the migration + API docs are the ones Phase 9 ingests.
+- [x] `docs/MIGRATION.md`: finalized — removed living-draft banner, filled the §5 `onSwipeValueChange` → `swipeAnimatedValue` before/after recipe (links to the legacy/reanimated example pair); all 8 breaking-change sections complete, no _TBD_ markers remain
+- [x] `CHANGELOG.md`: created with the 4.0.0 entry — internals (TS/RNGH2/Reanimated3/C12/Origami spring), additions (C1 `swipeAnimatedValue`, C6 a11y, tooling/CI, example app), and all 8 breaking changes
+- [x] README rewrite: v4 install (peer deps + Babel plugin + `GestureHandlerRootView`), quick start, links to the API docs + migration guide, CI badge; replaced the stale v2/ListView banner and `SwipeListExample` run instructions with the Expo `example/` app
+- [x] Updated `docs/SwipeRow.md`, `docs/SwipeListView.md`, `docs/actions.md`, `docs/per-row-behavior.md`, `docs/manually-closing-rows.md` for v4 API; deleted `docs/migrating-to-flatlist.md` (obsolete)
 
-Verify: docs review by user → commit.
+Phase 7 notes / deviations:
+- All intra-doc links converted to relative paths (Docusaurus-friendly); verified every relative link + the two MIGRATION anchors resolve.
+- Docs authored against `src/types.ts` rather than mechanically generated from JSDoc (the checklist said "regenerated from JSDoc" — there is no generator; the v3 prop tables were already accurate and were edited in place): corrected the spring-prop notes (dead `facebook.github.io` links → Origami-mapping note), the `swipeGestureEnded` payload (RNGH event, no `gestureState`), and the `listViewRef` type; added the C1 `swipeAnimatedValue` section + imperative-handle table to `SwipeRow.md`, the imperative API (`closeAllOpenRows`/`manuallyOpenAllRows`) + a "Removed props" table to `SwipeListView.md`, and the C6 accessibility props.
+- Minor pre-existing doc bug fixed while editing: the `manually-closing-rows.md` snippet used `{ ... }` (no `return`) for `renderHiddenItem` → changed to `( ... )`.
+- Manual review of the docs themselves is deferred to the Phase 10 manual-review checklist (per user, 2026-06-13); this phase's commit ships the docs as code-complete.
+
+Verify: phase committed as code-complete; thorough docs read-through tracked in Phase 10.
 
 ### Phase 8 — v3 removal & release prep  ☐
 
-- [ ] **REMINDER (carried from Phase 6): Android manual verification MUST be done before release** if not already completed in Phase 7 — same checklist as iOS. Note the v3/v4 toggle is removed in this phase, so verify Android *before* deleting `components/`/`lib-switch` if a v3 comparison is still wanted.
+- [ ] **Android manual verification is a release gate** — see the Phase 10 manual-review checklist. The v3/v4 toggle is removed in *this* phase, so do the Android pass (and any v3 spring-feel comparison) **before** deleting `components/` / `lib-switch.tsx` below.
 - [ ] Delete `components/`, `types/`, `lib/` (committed v3 build output), `bin/dev.js` (v3 dev script), `SwipeListExample/`, `.flowconfig` remnants, old eslint files if superseded
 - [ ] Remove the Phase 6 v3/v4 toggle (depends on `components/`): delete `example/lib-switch.tsx`, drop the toggle UI + `v4OnlyModes` notice from `example/App.tsx`, point the metro `resolveRequest` back at `workspaceRoot/src/index.ts`, and uninstall `prop-types` from the example
 - [ ] `npm pack --dry-run` — confirm tarball contains exactly `lib/`, `src/`, README, LICENSE, CHANGELOG
@@ -271,9 +277,20 @@ Verify: pack contents + fresh install. User verifies → commit. **Publishing/pu
 
 ### Phase 9 — Docs site (optional core — confirm with user before starting)  ☐
 
-- [ ] Docusaurus (or similar static site) in `website/`, deployed via GitHub Pages action
+> **Tool locked (2026-06-13): Docusaurus.** Chosen over VitePress/Nextra/Starlight for React+MDX (live examples / Snack embeds), built-in versioned docs (v3/v4/4.1), free GitHub Pages deploy, and RN-ecosystem familiarity (RN, RNGH, Reanimated all use it). Phase 7 markdown is authored Docusaurus-friendly so this phase is lift-and-deploy, not a rewrite.
+
+- [ ] Docusaurus static site in `website/`, deployed via GitHub Pages action
 - [ ] Pages: Getting started, SwipeRow API, SwipeListView API, Migration v3→v4, Examples (embed expo snack links where possible)
 - [ ] CI job to build site; deploy on master/main merges only
+
+### Phase 10 — Manual review & sign-off (final)  ☐
+
+The running checklist of things the **user must manually review/verify** before
+4.0.0 ships. Items land here from earlier phases as they are deferred; add more as
+they come up. Each box is checked only by the user.
+
+- [ ] **Android manual verification** — run the full example-app checklist on Android (emulator or device): swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list; confirm spring feel matches v3. (Deferred from Phase 6; iOS already verified 2026-06-13. Do this while the v3/v4 toggle still exists — Phase 8 removes it.)
+- [ ] **Documentation & migration guide review** — read through README, `CHANGELOG.md`, `docs/MIGRATION.md`, and `docs/*.md` for accuracy/completeness against the shipped v4 API. (Authored in Phase 7.)
 
 ---
 

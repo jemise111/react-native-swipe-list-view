@@ -1,10 +1,5 @@
 # Migrating from v3 to v4
 
-> **Status: living draft.** Maintained continuously during the v4 rewrite — every
-> entry in PLAN.md's "Breaking changes" list gets a section here in the same commit
-> that introduces or discovers it. Code samples marked _TBD_ are filled in as the
-> relevant phase lands. Finalized in Phase 7.
-
 v4 is a from-scratch rewrite: TypeScript, function components,
 `react-native-gesture-handler` v2 gestures, and `react-native-reanimated` v3
 animations (everything on the UI thread). The public API is prop-for-prop
@@ -63,11 +58,80 @@ removed from the TypeScript types. Just delete them.
 
 `onSwipeValueChange` still works, but it crosses to the JS thread on every frame.
 v4 exposes each row's translateX as a Reanimated `SharedValue` —
-`swipeAnimatedValue` on the row's ref / `rowMap` entry — so you can drive UI from
-`useAnimatedStyle` without leaving the UI thread.
+`swipeAnimatedValue` — so you can drive UI from `useAnimatedStyle` without leaving
+the UI thread. It is available two ways:
 
-_TBD (Phase 3/6): before/after example — the ported `swipe_value_based_ui`
-example is the reference implementation for this recipe._
+- injected into both `SwipeRow` children (via the `SwipeRowChildInjectedProps`
+  type), and
+- on each row's ref / `rowMap` entry (`rowMap[key].swipeAnimatedValue`).
+
+The example below scales a trash icon as the row opens. The v3 version keeps a map
+of `Animated.Value`s and updates them from `onSwipeValueChange` (a JS-thread call
+every frame); the v4 version reads the injected `SharedValue` inside
+`useAnimatedStyle` (UI thread, no callback).
+
+```jsx
+// v3 — one Animated.Value per row, driven from the per-frame JS callback
+const rowSwipeAnimatedValues = {};
+data.forEach((_, i) => { rowSwipeAnimatedValues[`${i}`] = new Animated.Value(0); });
+
+<SwipeListView
+    data={data}
+    onSwipeValueChange={({ key, value }) => {
+        rowSwipeAnimatedValues[key].setValue(Math.abs(value));
+    }}
+    renderHiddenItem={(rowData) => (
+        <Animated.View
+            style={{
+                transform: [{
+                    scale: rowSwipeAnimatedValues[rowData.item.key].interpolate({
+                        inputRange: [45, 90],
+                        outputRange: [0, 1],
+                        extrapolate: 'clamp',
+                    }),
+                }],
+            }}
+        >
+            <Image source={require('./trash.png')} />
+        </Animated.View>
+    )}
+/>
+```
+
+```jsx
+// v4 — read the injected SharedValue inside useAnimatedStyle (UI thread)
+import Animated, {
+    Extrapolation, interpolate, useAnimatedStyle,
+} from 'react-native-reanimated';
+import type { SwipeRowChildInjectedProps } from 'react-native-swipe-list-view';
+
+function HiddenItem({ swipeAnimatedValue }: SwipeRowChildInjectedProps) {
+    const trashStyle = useAnimatedStyle(() => ({
+        transform: [{
+            scale: interpolate(
+                Math.abs(swipeAnimatedValue?.value ?? 0),
+                [45, 90],
+                [0, 1],
+                Extrapolation.CLAMP,
+            ),
+        }],
+    }));
+    return (
+        <Animated.View style={trashStyle}>
+            <Image source={require('./trash.png')} />
+        </Animated.View>
+    );
+}
+
+<SwipeListView
+    data={data}
+    renderHiddenItem={() => <HiddenItem />}
+/>
+```
+
+The full before/after pair lives in the example app:
+`example/examples/swipe_value_based_ui_legacy.tsx` (v3 approach, still works) and
+`example/examples/swipe_value_based_ui_reanimated.tsx` (recommended v4 approach).
 
 ## 6. `swipeGestureEnded` event payload changed
 
