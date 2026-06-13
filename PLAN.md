@@ -10,7 +10,7 @@
 > (`v4`) starts from scratch off `master` (v3.2.9). Do not copy code from `v4-rewrite`;
 > the "Known pitfalls" section below already captures the useful lessons from it.
 
-**Status:** Phase 5 complete (test suite: 92 tests across SwipeRow, SwipeListView, row-wiring, deprecations, helpers; typecheck/lint/test/build pass, full strict tsc now clean on tests too). Awaiting user verification + commit go-ahead. Behavioral/gesture verification on-device remains Phase 6. Next: Phase 6.
+**Status:** Phase 6 COMPLETE & committed. Example app (Expo SDK 54) verified on **iOS** (2026-06-13): all examples + v3/v4 toggle, spring feel matches v3 after the Origami mapping fix; fixed during verification → slow-close spring mapping (§4/§6), `actions` v3-toggle crash, `close_row_manually` press-twice race. **Android manual verification deferred to a future phase** (reminder planted in Phase 7 & 8). NEXT: Phase 7 — docs & migration guide.
 
 ---
 
@@ -146,7 +146,7 @@ Gesture & animation core:
 - [x] `Gesture.Pan()` with `activeOffsetX([-directionalDistanceChangeThreshold, directionalDistanceChangeThreshold])` and `failOffsetY([-10, 10])` so vertical scrolling wins; all gesture callbacks are worklets (`'worklet'` directive where not automatic)
 - [x] translateX as `useSharedValue(0)`; gesture-internal tracking state (`prevTranslateX`, `prevDirection`, `isForceClosing`, `isOpen`, `leftActivated`, `rightActivated`) as SharedValues — **not** `useRef` (worklets can't read refs)
 - [x] JS-only mutable state (`parentScrollEnabled` mirror, scroll-lock timer) as `useRef`
-- [x] Open/close spring: `withSpring`, mapping v3 `Animated.spring` params: `stiffness = tension`, `damping = friction * 2 * Math.sqrt(tension)`; honor `restSpeedThreshold` / `restDisplacementThreshold` via spring config
+- [x] Open/close spring: `withSpring`, mapping v3 `Animated.spring` params via RN's Origami conversion `stiffness = (tension - 30) * 3.62 + 194`, `damping = (friction - 8) * 3 + 25`, `mass = 1`; honor `restSpeedThreshold` / `restDisplacementThreshold` via spring config. **(Phase 6: corrected from earlier naive `stiffness = tension` / `damping = friction*2*sqrt(tension)` mapping — too soft + overdamped → slow close/snap.)**
 - [x] Swipe-release logic: replicate v3 thresholds exactly — `swipeToOpenPercent`, `swipeToClosePercent`, `swipeToOpenVelocityContribution` (clamped by `MAX_VELOCITY_CONTRIBUTION`), `stopLeftSwipe` / `stopRightSwipe` clamps, `disableLeftSwipe` / `disableRightSwipe`
 - [x] `setScrollEnabled` fallback: on gesture start call `setScrollEnabled(false)` on parent list, re-enable on end with `SCROLL_LOCK_MILLISECONDS` safety timer (v3 behavior; RNGH makes it mostly redundant but per-row-behavior docs depend on it)
 - [x] Preview animation: `withDelay(previewOpenDelay, withSequence(withTiming(previewOpenValue, {duration: previewDuration}), withDelay(PREVIEW_CLOSE_DELAY, withTiming(0))))`; support `previewRepeat` + `previewRepeatDelay`
@@ -219,21 +219,37 @@ Phase 5 notes / deviations:
 
 Verify: `npm test` passes, coverage on `src/` reasonable (no hard gate). User verifies → commit.
 
-### Phase 6 — Example app  ☐
+### Phase 6 — Example app  ☑
 
 Goal: manual regression suite + showcase. Replaces `SwipeListExample/` (deleted in Phase 8).
 
-- [ ] `example/`: managed Expo app (current SDK), TypeScript, metro config resolving the library from repo root (`watchFolders` + `extraNodeModules`)
-- [ ] Port all 8 v3 examples from `SwipeListExample/examples/` to TS: `basic`, `sectionlist`, `per_row_config`, `standalone_row`, `swipe_to_delete`, `swipe_value_based_ui`, `actions`, `close_row_manually`
-- [ ] `swipe_value_based_ui` ported twice: legacy `onSwipeValueChange` version AND new C1 `swipeAnimatedValue` + `useAnimatedStyle` version — this is the flagship migration example
-- [ ] New example: accessibility demo (C6) — screen-reader actions
-- [ ] Manual verification checklist executed on iOS + Android (simulator/emulator or device): swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list
-- [ ] Record spring-feel comparison vs v3 example app (run `SwipeListExample` from master for side-by-side); tune mapping if perceptibly different
+- [x] `example/`: managed Expo app (SDK 54, RN 0.81, Reanimated 4.1, RNGH 2.28), TypeScript, metro config resolving the library source from the repo root (`watchFolders` + `resolveRequest` — see notes)
+- [x] Port all 8 v3 examples from `SwipeListExample/examples/` to TS: `basic`, `sectionlist`, `per_row_config`, `standalone_row`, `swipe_to_delete`, `swipe_value_based_ui`, `actions`, `close_row_manually`
+- [x] `swipe_value_based_ui` ported twice: legacy `onSwipeValueChange` version (`swipe_value_based_ui_legacy.tsx`) AND new C1 `swipeAnimatedValue` + `useAnimatedStyle` version (`swipe_value_based_ui_reanimated.tsx`) — this is the flagship migration example
+- [x] New example: accessibility demo (C6) — screen-reader actions (standalone row with action log + list)
+- [x] **TEMPORARY v3/v4 runtime toggle** for the side-by-side comparison: `example/lib-switch.tsx` re-exports either the v4 source (`../src`) or the frozen v3 reference (`../components`); Metro resolves the package name to the switch, so all examples run unmodified on both implementations. Toggle in the App header remounts the active example. The two v4-only examples (SwipeValueShared, Accessibility) show a notice in v3 mode. **Removed in Phase 8** (depends on `components/`, which Phase 8 deletes).
+- [x] Manual verification checklist executed on **iOS** (swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list) — user-confirmed 2026-06-13
+- [ ] **Manual verification on Android still outstanding** — deferred to a future phase at user request; see the reminder checkbox in Phase 7 / Phase 8
+- [x] Record spring-feel comparison vs v3 using the in-app v3/v4 toggle — spring mapping corrected to RN Origami conversion (see §4 / §6); user-confirmed feel matches v3 on iOS
+
+Phase 6 notes / deviations:
+- **Expo SDK 54** resolved: react 19.1.0 / RN 0.81.5 / reanimated 4.1.1 / RNGH 2.28.0 / react-native-worklets 0.5.1. All within the library's peer ranges (`>=3.6.0` admits Reanimated 4; the v3-era Reanimated API the library uses is unchanged in 4). *(Initially scaffolded on SDK 56, downgraded: the App Store ships Expo Go 54.0.2 — SDK 55/56 Go clients are not published there, so user verification via Expo Go requires SDK 54.)*
+- **Metro/Expo resolution setup** (replaces the planned `extraNodeModules` approach): `watchFolders: [repo root]`, `resolver.blockList` on the repo root's `node_modules` (second react copy), `resolver.resolveRequest` mapping the package name to `../src/index.ts`. Plus app.json `experiments.tsconfigPaths: false` (Metro otherwise applies the example tsconfig's types-only `paths` at runtime).
+- **Example tsconfig**: `paths` pin `react`, `react/*`, `react-native`, RNGH and reanimated to the example's node_modules and `typeRoots` is restricted, so `npx tsc --noEmit` in `example/` typechecks the library source against React 19 types without the repo root's React 18 copies leaking in (TS 6 deprecates `baseUrl`; paths are relative).
+- **Library fixes that fell out of example typechecking** (both compile-time only, no runtime change):
+  - `SwipeListViewSectionListProps` now overrides `renderHiddenItem` with `SectionListRenderItemInfo` rowData (runtime always passed the same rowData to both renderers; the base type claiming `ListRenderItemInfo` was a v3 .d.ts inaccuracy carried into Phase 2).
+  - C2 clone path casts the user SwipeRow element so `cloneElement` accepts `ref` under React 19 type definitions (React 18 root typecheck unaffected).
+- Example ports adjusted for v4 API: `swipe_to_delete` drops the removed `useNativeDriver` list prop; `actions` converts the injected `swipeAnimatedValue` usage from `Animated.Value.interpolate` to `useAnimatedStyle` (it is a SharedValue in v4) and adds the now-mandatory `useNativeDriver` flags to its user-land RN Animated calls; components using hooks hoisted to module level.
+- `actions` v3-toggle crash fix: under the v3 reference impl `swipeAnimatedValue` is an `Animated.Value`, which a `useAnimatedStyle` worklet can't capture (UI-thread serialization crash). The trash icon now detects the injected value's type (`isSharedValue`) and mounts either the Reanimated path (v4 SharedValue) or an `Animated.Value.interpolate` path (v3) — keeps the example version-agnostic per lib-switch's design.
+- `close_row_manually` "press twice" fix: the v3-faithful port tracked the open row in `onRowDidOpen`, which fires only when the open spring fully settles to rest (~1s after it visually looks open, given the underdamped v3 spring + 0.001 rest thresholds). Pressing "Close Open Row" during that window saw a stale ref and no-opped. Switched to `onRowOpen` (fires at gesture release) — the correct signal for "which row is open." `onRowDidOpen`/`onRowDidClose` semantics in the library are unchanged (locked = "animation finished").
+- `expo export --platform ios --platform android` bundles cleanly (992 modules, asset included) — this validates Metro+Babel compilation of the library source (worklets plugin included), not runtime behavior; that is the remaining on-device checklist.
+- Local-machine note (not committed): the homebrew watchman install is broken (missing libfmt dylib); Expo's vendored metro defaults to its node crawler, so this did not block bundling.
 
 Verify: every example runs without redbox on both platforms; behavior matches v3 reference. User verifies → commit.
 
 ### Phase 7 — Docs & migration guide  ☐
 
+- [ ] **REMINDER (carried from Phase 6): run the manual verification checklist on Android** (emulator or device) — swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list; confirm spring feel matches v3. If not done here, carry forward to Phase 8.
 - [ ] `docs/MIGRATION.md`: finalize the living draft (skeleton created in Phase 2, updated each phase) — every entry from the Breaking changes list with before/after code; install instructions (RNGH + Reanimated + babel plugin + GestureHandlerRootView); `onSwipeValueChange` → `swipeAnimatedValue` recipe; removed-props table; resolve all _TBD_ markers
 - [ ] `CHANGELOG.md`: 4.0.0 entry — breaking changes, new features (C1, C6), internals note
 - [ ] README rewrite: new install section, quick start, props tables regenerated from `src/types.ts` JSDoc, link migration guide, badge for CI
@@ -243,7 +259,9 @@ Verify: docs review by user → commit.
 
 ### Phase 8 — v3 removal & release prep  ☐
 
+- [ ] **REMINDER (carried from Phase 6): Android manual verification MUST be done before release** if not already completed in Phase 7 — same checklist as iOS. Note the v3/v4 toggle is removed in this phase, so verify Android *before* deleting `components/`/`lib-switch` if a v3 comparison is still wanted.
 - [ ] Delete `components/`, `types/`, `lib/` (committed v3 build output), `bin/dev.js` (v3 dev script), `SwipeListExample/`, `.flowconfig` remnants, old eslint files if superseded
+- [ ] Remove the Phase 6 v3/v4 toggle (depends on `components/`): delete `example/lib-switch.tsx`, drop the toggle UI + `v4OnlyModes` notice from `example/App.tsx`, point the metro `resolveRequest` back at `workspaceRoot/src/index.ts`, and uninstall `prop-types` from the example
 - [ ] `npm pack --dry-run` — confirm tarball contains exactly `lib/`, `src/`, README, LICENSE, CHANGELOG
 - [ ] Fresh-clone install test: `npm ci && npm run build && npm test`
 - [ ] Tag readiness checklist: version 4.0.0 in package.json, CHANGELOG dated, migration guide linked from README
@@ -342,9 +360,13 @@ Authority for "functionality remains the same." Check each item when implemented
 - `Animated.createAnimatedComponent(SectionList)` needs a double cast: `as unknown as React.ComponentType<AnyProps>`. `Animated.FlatList` exists directly.
 - Worklet-accessed mutable state must be `useSharedValue`, never `useRef` — refs silently read stale values inside worklets.
 - All JS side effects from animation/gesture code go through `runOnJS` inside `useAnimatedReaction`/gesture callbacks.
-- Spring mapping that matches v3 feel: `stiffness = tension`, `damping = friction * 2 * Math.sqrt(tension)`.
+- Spring mapping that matches v3 feel: RN Origami conversion `stiffness = (tension - 30) * 3.62 + 194`, `damping = (friction - 8) * 3 + 25`, `mass = 1`. v3 feeds tension/friction to `Animated.spring`, which runs this conversion internally before the stiffness/damping/mass physics — skipping it (naive `stiffness = tension`) gives a soft, overdamped, slow spring.
 - Keep `tsconfig.build.json` excluding `example/` or bob builds the example app into `lib/`.
 - Expo example app: metro needs explicit config to resolve the library from the repo root (watchFolders + resolver), or it bundles a stale node_modules copy.
+- Expo example must target the SDK that Expo Go on the App Store supports (54 as of 2026-06; 55/56 Go clients unpublished) — newer SDKs error "Project is incompatible with this version of Expo Go".
+- `experiments.tsconfigPaths: false` required in app.json — Metro otherwise applies the example tsconfig's types-only `paths` mappings at runtime (the CLI overrides the metro.config.js equivalent).
+- If the example is ever upgraded to SDK 56+: its on-demand filesystem scopes lazy reads to the project root and wipes `watchFolders` on export → "Failed to get the SHA-1" on library source. Fix is app.json `experiments.onDemandFilesystem: "UNSTABLE_ALLOW_ALL"`.
+- Typechecking the library source from a second project (example/) with a different React major: pin `react`, `react/*`, `react-native` via tsconfig `paths` and restrict `typeRoots`, or the other node_modules' @types/react leaks in via hierarchical resolution.
 
 ## 7. Working agreements
 

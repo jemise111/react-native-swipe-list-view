@@ -6,7 +6,14 @@ import { MAX_VELOCITY_CONTRIBUTION } from './constants';
 /**
  * Maps v3 Animated.spring params to a Reanimated withSpring config.
  * Animated.spring defaults: friction 7, tension 40, rest thresholds 0.001.
- * Mapping: stiffness = tension, damping = friction * 2 * sqrt(tension).
+ *
+ * v3 passes tension/friction to RN Animated.spring, which converts them via
+ * the Origami formula (SpringConfig.fromOrigamiTensionAndFriction) before
+ * running the same stiffness/damping/mass physics Reanimated uses. We must
+ * apply that same conversion or the spring is far too soft and overdamped
+ * (the naive `stiffness = tension` / `damping = friction*2*sqrt(tension)`
+ * mapping produced a slow, sluggish close/snap). With the defaults this gives
+ * stiffness ~230.2, damping ~22, mass 1 — identical feel to v3.
  */
 export function springConfigFromV3(
     friction: number = 7,
@@ -16,8 +23,9 @@ export function springConfigFromV3(
 ) {
     'worklet';
     return {
-        stiffness: tension,
-        damping: friction * 2 * Math.sqrt(tension),
+        stiffness: (tension - 30) * 3.62 + 194,
+        damping: (friction - 8) * 3 + 25,
+        mass: 1,
         restSpeedThreshold,
         restDisplacementThreshold,
     };

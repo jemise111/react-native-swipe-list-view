@@ -7,18 +7,23 @@ import {
 import type { ReleaseTargetInput } from '../helpers';
 
 describe('springConfigFromV3', () => {
-    it('maps v3 Animated.spring defaults (friction 7, tension 40)', () => {
+    // Expected values come from RN's SpringConfig.fromOrigamiTensionAndFriction:
+    //   stiffness = (tension - 30) * 3.62 + 194
+    //   damping   = (friction - 8) * 3 + 25
+    it('maps v3 Animated.spring defaults (friction 7, tension 40) via Origami', () => {
         const config = springConfigFromV3();
-        expect(config.stiffness).toBe(40);
-        expect(config.damping).toBeCloseTo(7 * 2 * Math.sqrt(40), 10);
+        expect(config.stiffness).toBeCloseTo((40 - 30) * 3.62 + 194, 10);
+        expect(config.damping).toBeCloseTo((7 - 8) * 3 + 25, 10);
+        expect(config.mass).toBe(1);
         expect(config.restSpeedThreshold).toBe(0.001);
         expect(config.restDisplacementThreshold).toBe(0.001);
     });
 
-    it('maps explicit friction/tension', () => {
+    it('maps explicit friction/tension via Origami', () => {
         const config = springConfigFromV3(10, 100, 0.5, 0.25);
-        expect(config.stiffness).toBe(100);
-        expect(config.damping).toBeCloseTo(10 * 2 * 10, 10);
+        expect(config.stiffness).toBeCloseTo((100 - 30) * 3.62 + 194, 10);
+        expect(config.damping).toBeCloseTo((10 - 8) * 3 + 25, 10);
+        expect(config.mass).toBe(1);
         expect(config.restSpeedThreshold).toBe(0.5);
         expect(config.restDisplacementThreshold).toBe(0.25);
     });

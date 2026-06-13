@@ -544,11 +544,21 @@ export interface SwipeListViewSectionListProps<
     T,
     SectionT = DefaultSectionT,
 > extends Omit<SectionListProps<T, SectionT>, 'renderItem'>,
-        SwipeListViewBaseProps<T> {
+        Omit<SwipeListViewBaseProps<T>, 'renderHiddenItem'> {
     /**
      * Render a SectionList row. Should return a valid React Element.
      */
     renderItem: (
+        rowData: SectionListRenderItemInfo<T, SectionT>,
+        rowMap: RowMap<T>
+    ) => ReactElement | null;
+    /**
+     * How to render a hidden row in a SectionList (renders behind the row).
+     * Receives the same SectionList rowData as renderItem. Should return a
+     * valid React Element. This is required unless renderItem returns a
+     * SwipeRow.
+     */
+    renderHiddenItem?: (
         rowData: SectionListRenderItemInfo<T, SectionT>,
         rowMap: RowMap<T>
     ) => ReactElement | null;

@@ -391,10 +391,13 @@ const SwipeListViewInner = forwardRef<
             // C2 compat path: renderItem returned a user-supplied <SwipeRow>.
             // Attach the list's bookkeeping via cloneElement. Deprecated in
             // docs — removal planned for v5.
-            const visibleProps = (
-                VisibleComponent as React.ReactElement<Record<string, unknown>>
-            ).props;
-            return cloneElement(VisibleComponent, {
+            // `ref` included in the props type so cloneElement accepts it
+            // under both React 18 and React 19 type definitions.
+            const UserSwipeRow = VisibleComponent as React.ReactElement<
+                Record<string, unknown> & { ref?: unknown }
+            >;
+            const visibleProps = UserSwipeRow.props;
+            return cloneElement(UserSwipeRow, {
                 ...visibleProps,
                 ref: setRowRef(key),
                 swipeKey: visibleProps.swipeKey ?? key,
