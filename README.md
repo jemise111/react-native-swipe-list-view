@@ -8,7 +8,7 @@ list scrolls or when another row is opened.
 
 It also exports `<SwipeRow>` for using a swipeable row on its own.
 
-📖 **Full documentation:** <https://jemise111.github.io/react-native-swipe-list-view/>
+📖 **Full documentation:** <https://jessesessler.com/react-native-swipe-list-view/>
 
 ---
 

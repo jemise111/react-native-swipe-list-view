@@ -15,7 +15,10 @@ const config = {
     tagline: 'Swipeable-row FlatList / SectionList for React Native',
     favicon: 'img/favicon.png',
 
-    url: `https://${organizationName}.github.io`,
+    // Served via GitHub Pages on a custom domain (CNAME); `url` must be the
+    // canonical host so sitemap/canonical tags are correct. `organizationName`
+    // stays the GitHub org for repo/edit links.
+    url: 'https://jessesessler.com',
     baseUrl: `/${projectName}/`,
 
     organizationName,
