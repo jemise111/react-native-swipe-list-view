@@ -10,7 +10,7 @@
 > (`v4`) starts from scratch off `master` (v3.2.9). Do not copy code from `v4-rewrite`;
 > the "Known pitfalls" section below already captures the useful lessons from it.
 
-**Status:** Phase 7 (docs & migration guide) code-complete, awaiting commit go-ahead. Finalized `docs/MIGRATION.md`, created `CHANGELOG.md` (4.0.0), rewrote README for v4, updated all `docs/*.md`, deleted obsolete `migrating-to-flatlist.md`. Authored Docusaurus-friendly (relative links verified). Added **Phase 10 — Manual review & sign-off** as the final phase: a running checklist of user-only manual reviews (currently Android verification + docs/migration read-through). Phase 6 verified on iOS. NEXT (after commit): Phase 8 — v3 removal & release prep.
+**Status:** Phase 8 (Docusaurus docs site) code-complete, awaiting user review + commit go-ahead. Hand-authored docs-only Docusaurus 3.10.1 site in `website/` reading the repo's `../docs`; added `docs/intro.md` + `docs/examples.md`; GitHub Pages deploy workflow (`.github/workflows/docs.yml`, master-only). `npm run build` clean, all routes generated. Phase 7 committed (`5364652`). **Phases reordered (2026-06-13): docs site = Phase 8, v3 removal & release prep = Phase 9, manual review = Phase 10.** Phase 6 verified on iOS; Android verification pending (Phase 10). NEXT (after commit): Phase 9 — v3 removal & release prep.
 
 ---
 
@@ -88,7 +88,7 @@ These were agreed with the maintainer. IDs are referenced throughout the phases.
 - **C9 — CI.** GitHub Actions workflow: lint, typecheck, test, build. Runs on push + PR.
 - **C12 — Single internal list abstraction.** One internal code path parameterized over FlatList/SectionList instead of duplicated branches, so logic (renderCell wrapping, scroll handling, preview) exists once. Public `useSectionList` prop unchanged.
 
-Also in core scope: **migration guide** (`docs/MIGRATION.md`) and **docs site** (Phase 9 — optional, may be deferred to 4.1 if the maintainer prefers; ask before starting Phase 9).
+Also in core scope: **migration guide** (`docs/MIGRATION.md`) and **docs site** (Phase 8 — Docusaurus; reordered ahead of v3 removal at user request 2026-06-13).
 
 ---
 
@@ -106,10 +106,10 @@ Goal: `v4` branch builds an empty-but-valid TypeScript library with CI green.
 - [x] `src/` stubs: `index.ts`, `SwipeRow.tsx`, `SwipeListView.tsx`, `types.ts`, `constants.ts`, `deprecations.ts` — compiling placeholders only
 - [x] **C9:** `.github/workflows/ci.yml` — install (`npm ci --legacy-peer-deps`), lint, typecheck, test, build; Node 20
 - [x] Update `.gitignore` (`lib/`, example artifacts), `.npmignore` removed in favor of `files`
-- [x] Do **not** delete v3 `components/`, `types/`, `lib/`, `SwipeListExample/` yet — they are the reference implementation during the rewrite; deletion happens in Phase 8 *(see deviation below re: `lib/`)*
+- [x] Do **not** delete v3 `components/`, `types/`, `lib/`, `SwipeListExample/` yet — they are the reference implementation during the rewrite; deletion happens in Phase 9 *(see deviation below re: `lib/`)*
 
 Phase 1 notes / deviations:
-- **`lib/` untracked early** (was scheduled for Phase 8 deletion): bob writes build output to `lib/`, so the tracked v3 `lib/index.js` (4-line re-export) would dirty the worktree on every build. Removed from git index and disk; content lives in git history (master) and is mirrored by `src/index.ts`. v3 reference code (`components/`, `types/`) untouched.
+- **`lib/` untracked early** (was scheduled for Phase 9 deletion): bob writes build output to `lib/`, so the tracked v3 `lib/index.js` (4-line re-export) would dirty the worktree on every build. Removed from git index and disk; content lives in git history (master) and is mirrored by `src/index.ts`. v3 reference code (`components/`, `types/`) untouched.
 - **`yarn.lock` → `package-lock.json`** (user-confirmed 2026-06-10; revisit package manager later). Repo standardizes on npm: all plan commands are npm, CI uses `npm ci --legacy-peer-deps` (requires package-lock). Stale v3 yarn.lock deleted.
 - `deprecations.ts` is a real (tiny) `warnOnce` implementation rather than an empty stub — it is the natural compiling placeholder; tests come in Phase 5.
 - Smoke test `src/__tests__/index.test.ts` added so `npm test` exercises the jest/babel/RNGH/Reanimated-mock pipeline instead of passing on zero tests.
@@ -221,13 +221,13 @@ Verify: `npm test` passes, coverage on `src/` reasonable (no hard gate). User ve
 
 ### Phase 6 — Example app  ☑
 
-Goal: manual regression suite + showcase. Replaces `SwipeListExample/` (deleted in Phase 8).
+Goal: manual regression suite + showcase. Replaces `SwipeListExample/` (deleted in Phase 9).
 
 - [x] `example/`: managed Expo app (SDK 54, RN 0.81, Reanimated 4.1, RNGH 2.28), TypeScript, metro config resolving the library source from the repo root (`watchFolders` + `resolveRequest` — see notes)
 - [x] Port all 8 v3 examples from `SwipeListExample/examples/` to TS: `basic`, `sectionlist`, `per_row_config`, `standalone_row`, `swipe_to_delete`, `swipe_value_based_ui`, `actions`, `close_row_manually`
 - [x] `swipe_value_based_ui` ported twice: legacy `onSwipeValueChange` version (`swipe_value_based_ui_legacy.tsx`) AND new C1 `swipeAnimatedValue` + `useAnimatedStyle` version (`swipe_value_based_ui_reanimated.tsx`) — this is the flagship migration example
 - [x] New example: accessibility demo (C6) — screen-reader actions (standalone row with action log + list)
-- [x] **TEMPORARY v3/v4 runtime toggle** for the side-by-side comparison: `example/lib-switch.tsx` re-exports either the v4 source (`../src`) or the frozen v3 reference (`../components`); Metro resolves the package name to the switch, so all examples run unmodified on both implementations. Toggle in the App header remounts the active example. The two v4-only examples (SwipeValueShared, Accessibility) show a notice in v3 mode. **Removed in Phase 8** (depends on `components/`, which Phase 8 deletes).
+- [x] **TEMPORARY v3/v4 runtime toggle** for the side-by-side comparison: `example/lib-switch.tsx` re-exports either the v4 source (`../src`) or the frozen v3 reference (`../components`); Metro resolves the package name to the switch, so all examples run unmodified on both implementations. Toggle in the App header remounts the active example. The two v4-only examples (SwipeValueShared, Accessibility) show a notice in v3 mode. **Removed in Phase 9** (depends on `components/`, which Phase 9 deletes).
 - [x] Manual verification checklist executed on **iOS** (swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list) — user-confirmed 2026-06-13
 - [ ] **Manual verification on Android still outstanding** — deferred at user request; tracked in the Phase 10 manual-review checklist
 - [x] Record spring-feel comparison vs v3 using the in-app v3/v4 toggle — spring mapping corrected to RN Origami conversion (see §4 / §6); user-confirmed feel matches v3 on iOS
@@ -249,7 +249,7 @@ Verify: every example runs without redbox on both platforms; behavior matches v3
 
 ### Phase 7 — Docs & migration guide  ☑
 
-- **Author all markdown Docusaurus-friendly** (so Phase 9 is lift-and-deploy): relative intra-doc links (no GitHub-blob URLs), no repo-only path assumptions, ATX `#` headings with a single H1 per file, fenced code blocks with language tags, assets referenced by relative path. Keep README/CHANGELOG as standard GitHub/npm markdown; the migration + API docs are the ones Phase 9 ingests.
+- **Author all markdown Docusaurus-friendly** (so Phase 8 is lift-and-deploy): relative intra-doc links (no GitHub-blob URLs), no repo-only path assumptions, ATX `#` headings with a single H1 per file, fenced code blocks with language tags, assets referenced by relative path. Keep README/CHANGELOG as standard GitHub/npm markdown; the migration + API docs are the ones Phase 8 ingests.
 - [x] `docs/MIGRATION.md`: finalized — removed living-draft banner, filled the §5 `onSwipeValueChange` → `swipeAnimatedValue` before/after recipe (links to the legacy/reanimated example pair); all 8 breaking-change sections complete, no _TBD_ markers remain
 - [x] `CHANGELOG.md`: created with the 4.0.0 entry — internals (TS/RNGH2/Reanimated3/C12/Origami spring), additions (C1 `swipeAnimatedValue`, C6 a11y, tooling/CI, example app), and all 8 breaking changes
 - [x] README rewrite: v4 install (peer deps + Babel plugin + `GestureHandlerRootView`), quick start, links to the API docs + migration guide, CI badge; replaced the stale v2/ListView banner and `SwipeListExample` run instructions with the Expo `example/` app
@@ -263,7 +263,31 @@ Phase 7 notes / deviations:
 
 Verify: phase committed as code-complete; thorough docs read-through tracked in Phase 10.
 
-### Phase 8 — v3 removal & release prep  ☐
+### Phase 8 — Docs site  ☑
+
+> **Reordered before v3 removal (2026-06-13, user request):** building the site now,
+> while the v3 reference (`components/`) and the example app's v3/v4 toggle still
+> exist, is harmless and lets the docs site progress before the destructive cleanup.
+> v3 removal + release prep moved to Phase 9.
+>
+> **Tool locked (2026-06-13): Docusaurus.** Chosen over VitePress/Nextra/Starlight for React+MDX (live examples / Snack embeds), built-in versioned docs (v3/v4/4.1), free GitHub Pages deploy, and RN-ecosystem familiarity (RN, RNGH, Reanimated all use it). Phase 7 markdown is authored Docusaurus-friendly so this phase is lift-and-deploy, not a rewrite.
+
+- [x] Docusaurus 3.10.1 static site in `website/` (docs-only mode), deployed via GitHub Pages action (`.github/workflows/docs.yml`)
+- [x] Pages: Getting started (`docs/intro.md`), SwipeListView API, SwipeRow API, Guides (actions / per-row / manual-close), Examples (`docs/examples.md` — example-app file table + Snack link), Migration v3→v4 — all build and render
+- [x] CI job builds the site on every PR/push touching `docs/`/`website/`; uploads + deploys to GitHub Pages **only on `master`**
+
+Phase 8 notes / deviations:
+- **Docs-only site that reads the repo's top-level `../docs`** (single source of truth — same files GitHub renders), via the docs preset `path: '../docs'`, `routeBasePath: '/'`. No content duplicated into `website/`.
+- Config hand-authored (not `create-docusaurus`) and kept as **`.js`** (`docusaurus.config.js`, `sidebars.js`) so no TS/ts-node toolchain is needed to build. Manual sidebar so the shared docs need **no Docusaurus frontmatter** (keeps them clean on GitHub) — the one exception is `docs/intro.md`, which carries a single `slug: /` line so it becomes the site home (otherwise nothing maps to `/` and `onBrokenLinks: 'throw'` fails on the navbar/footer root links).
+- `markdown.format: 'detect'` → `.md` parsed as CommonMark (raw HTML passes through), so the existing HTML-heavy prop tables (`<code>`, `&#124;`) render without MDX/JSX parsing errors.
+- **Two new shared docs added**: `docs/intro.md` (Getting started — install + quick start, also linked from README) and `docs/examples.md` (example-app overview).
+- The two **example-source** links in `actions.md` / `per-row-behavior.md` were converted from repo-relative (`../example/...`) to absolute GitHub `blob/master` URLs — they point at source files, not doc pages, so they would 404 as site routes. Intra-doc `.md` links remain relative (work in both GitHub and the site).
+- Favicon reused from `example/assets/favicon.png`. Snack link is still the v3 Snack (noted in `examples.md`); refresh post-release.
+- `website/node_modules`, `build`, `.docusaurus` gitignored; `website/package-lock.json` committed (CI `npm ci` + cache key depend on it).
+
+Verify: `npm run build` in `website/` succeeds with zero warnings; all 8 routes + sitemap generated. User reviews rendered site (`npm run serve` / `npm start`) → commit. Deploy wiring lands but only fires on `master`.
+
+### Phase 9 — v3 removal & release prep  ☐
 
 - [ ] **Android manual verification is a release gate** — see the Phase 10 manual-review checklist. The v3/v4 toggle is removed in *this* phase, so do the Android pass (and any v3 spring-feel comparison) **before** deleting `components/` / `lib-switch.tsx` below.
 - [ ] Delete `components/`, `types/`, `lib/` (committed v3 build output), `bin/dev.js` (v3 dev script), `SwipeListExample/`, `.flowconfig` remnants, old eslint files if superseded
@@ -275,21 +299,13 @@ Verify: phase committed as code-complete; thorough docs read-through tracked in 
 
 Verify: pack contents + fresh install. User verifies → commit. **Publishing/pushing only on explicit user request.**
 
-### Phase 9 — Docs site (optional core — confirm with user before starting)  ☐
-
-> **Tool locked (2026-06-13): Docusaurus.** Chosen over VitePress/Nextra/Starlight for React+MDX (live examples / Snack embeds), built-in versioned docs (v3/v4/4.1), free GitHub Pages deploy, and RN-ecosystem familiarity (RN, RNGH, Reanimated all use it). Phase 7 markdown is authored Docusaurus-friendly so this phase is lift-and-deploy, not a rewrite.
-
-- [ ] Docusaurus static site in `website/`, deployed via GitHub Pages action
-- [ ] Pages: Getting started, SwipeRow API, SwipeListView API, Migration v3→v4, Examples (embed expo snack links where possible)
-- [ ] CI job to build site; deploy on master/main merges only
-
 ### Phase 10 — Manual review & sign-off (final)  ☐
 
 The running checklist of things the **user must manually review/verify** before
 4.0.0 ships. Items land here from earlier phases as they are deferred; add more as
 they come up. Each box is checked only by the user.
 
-- [ ] **Android manual verification** — run the full example-app checklist on Android (emulator or device): swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list; confirm spring feel matches v3. (Deferred from Phase 6; iOS already verified 2026-06-13. Do this while the v3/v4 toggle still exists — Phase 8 removes it.)
+- [ ] **Android manual verification** — run the full example-app checklist on Android (emulator or device): swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list; confirm spring feel matches v3. (Deferred from Phase 6; iOS already verified 2026-06-13. Do this while the v3/v4 toggle still exists — Phase 9 removes it.)
 - [ ] **Documentation & migration guide review** — read through README, `CHANGELOG.md`, `docs/MIGRATION.md`, and `docs/*.md` for accuracy/completeness against the shipped v4 API. (Authored in Phase 7.)
 
 ---

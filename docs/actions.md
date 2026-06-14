@@ -28,4 +28,4 @@ Also there are additional props passed to the Visible and Hidden row components
 - `leftActionState` - boolean value of left action state
 - `rightActionState` - boolean value of right action state
 
-See the [actions example](../example/examples/actions.tsx) for reference.
+See the [actions example](https://github.com/jemise111/react-native-swipe-list-view/blob/master/example/examples/actions.tsx) for reference.
