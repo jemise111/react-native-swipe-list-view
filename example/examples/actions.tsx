@@ -1,14 +1,8 @@
 /**
- * Port of the v3 actions example. Under v4 the injected `swipeAnimatedValue` is
- * a Reanimated SharedValue, so the trash-icon scale uses `useAnimatedStyle`
+ * Port of the v3 actions example. The injected `swipeAnimatedValue` is a
+ * Reanimated SharedValue, so the trash-icon scale uses `useAnimatedStyle`
  * instead of `.interpolate`. The row-height/row-action animations stay on
  * user-land RN Animated, as in v3.
- *
- * The Phase-6 v3/v4 toggle (see lib-switch) means this example may also receive
- * the v3 `swipeAnimatedValue` (an RN `Animated.Value`). A SharedValue can't be
- * captured by a `useAnimatedStyle` worklet without crashing, so the trash icon
- * picks its render path by detecting the injected value's type — keeping the
- * example version-agnostic.
  */
 import { useState } from 'react';
 import {
@@ -90,67 +84,6 @@ function VisibleItem(props: VisibleItemProps) {
     );
 }
 
-// v4 injects a Reanimated SharedValue (`.value` is a number); v3 injects an
-// RN Animated.Value (no numeric `.value`). Used to pick the trash render path.
-function isSharedValue(v: unknown): boolean {
-    return !!v && typeof (v as { value?: unknown }).value === 'number';
-}
-
-// v4 path: drive the trash scale off the SharedValue on the UI thread.
-function ReanimatedTrash({
-    swipeAnimatedValue,
-}: {
-    swipeAnimatedValue: SwipeRowChildInjectedProps['swipeAnimatedValue'];
-}) {
-    const trashStyle = useAnimatedStyle(() => ({
-        transform: [
-            {
-                scale: interpolate(
-                    swipeAnimatedValue?.value ?? 0,
-                    [-90, -45],
-                    [1, 0],
-                    Extrapolation.CLAMP
-                ),
-            },
-        ],
-    }));
-    return (
-        <Reanimated.View style={[styles.trash, trashStyle]}>
-            <Image source={require('../images/trash.png')} style={styles.trash} />
-        </Reanimated.View>
-    );
-}
-
-// v3 path: the injected value is an RN Animated.Value; use `.interpolate`.
-function LegacyTrash({
-    swipeAnimatedValue,
-}: {
-    // Typed as the v4 SharedValue, but at runtime this is an Animated.Value.
-    swipeAnimatedValue: SwipeRowChildInjectedProps['swipeAnimatedValue'];
-}) {
-    const animatedValue = swipeAnimatedValue as unknown as Animated.Value;
-    return (
-        <Animated.View
-            style={[
-                styles.trash,
-                {
-                    transform: [
-                        {
-                            scale: animatedValue.interpolate({
-                                inputRange: [-90, -45],
-                                outputRange: [1, 0],
-                                extrapolate: 'clamp',
-                            }),
-                        },
-                    ],
-                },
-            ]}
-        >
-            <Image source={require('../images/trash.png')} style={styles.trash} />
-        </Animated.View>
-    );
-}
-
 type HiddenItemProps = SwipeRowChildInjectedProps & {
     rowActionAnimatedValue: Animated.Value;
     rowHeightAnimatedValue: Animated.Value;
@@ -168,6 +101,19 @@ function HiddenItemWithActions(props: HiddenItemProps) {
         onClose,
         onDelete,
     } = props;
+
+    const trashStyle = useAnimatedStyle(() => ({
+        transform: [
+            {
+                scale: interpolate(
+                    swipeAnimatedValue?.value ?? 0,
+                    [-90, -45],
+                    [1, 0],
+                    Extrapolation.CLAMP
+                ),
+            },
+        ],
+    }));
 
     if (rightActionActivated) {
         Animated.spring(rowActionAnimatedValue, {
@@ -210,15 +156,12 @@ function HiddenItemWithActions(props: HiddenItemProps) {
                         style={[styles.backRightBtn, styles.backRightBtnRight]}
                         onPress={onDelete}
                     >
-                        {isSharedValue(swipeAnimatedValue) ? (
-                            <ReanimatedTrash
-                                swipeAnimatedValue={swipeAnimatedValue}
+                        <Reanimated.View style={[styles.trash, trashStyle]}>
+                            <Image
+                                source={require('../images/trash.png')}
+                                style={styles.trash}
                             />
-                        ) : (
-                            <LegacyTrash
-                                swipeAnimatedValue={swipeAnimatedValue}
-                            />
-                        )}
+                        </Reanimated.View>
                     </TouchableOpacity>
                 </Animated.View>
             )}

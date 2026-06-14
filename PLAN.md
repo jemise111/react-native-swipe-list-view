@@ -10,7 +10,7 @@
 > (`v4`) starts from scratch off `master` (v3.2.9). Do not copy code from `v4-rewrite`;
 > the "Known pitfalls" section below already captures the useful lessons from it.
 
-**Status:** Phases 1–8 + Phase 10 complete. Phase 10 manual sign-off done (2026-06-13): Android verified on-device (iOS verified in Phase 6) and docs/migration + rendered Docusaurus site reviewed. Only **Phase 9 — v3 removal & release prep** remains. **Phase order (2026-06-13 reorder): docs site = Phase 8, v3 removal & release prep = Phase 9, manual review = Phase 10.** NEXT: Phase 9 — delete v3 `components/`/`types/`/`SwipeListExample/`, remove the example v3/v4 toggle, pack audit + fresh-install test, version/tag readiness, prerelease decision.
+**Status:** Phase 9 (v3 removal & release prep) code-complete, awaiting commit go-ahead. Deleted v3 (`components/`, `types/`, `bin/`, `SwipeListExample/` — 76 files); removed the example v3/v4 toggle (lib-switch + App toggle UI + metro repoint + prop-types) and simplified `actions.tsx` to the single v4 path; added `CHANGELOG.md` to the tarball; dated CHANGELOG `2026-06-13`; README maintenance-note placeholder + docs-site link. Verified: `npm ci`/build/`npm test` (92) green, `npm pack --dry-run` = lib+src+README+LICENSE+CHANGELOG. **REMAINING (user, release-gating): write the README maintenance note, enable GitHub Pages, decide the `4.0.0-rc.0` prerelease.** All phases 1–8 + 10 complete. NEXT (after commit): user-owned release steps — no publish/push without explicit request.
 
 ---
 
@@ -287,17 +287,28 @@ Phase 8 notes / deviations:
 
 Verify: `npm run build` in `website/` succeeds with zero warnings; all 8 routes + sitemap generated. User reviews rendered site (`npm run serve` / `npm start`) → commit. Deploy wiring lands but only fires on `master`.
 
-### Phase 9 — v3 removal & release prep  ☐
+### Phase 9 — v3 removal & release prep  ◐
 
-- [ ] **Android manual verification is a release gate** — see the Phase 10 manual-review checklist. The v3/v4 toggle is removed in *this* phase, so do the Android pass (and any v3 spring-feel comparison) **before** deleting `components/` / `lib-switch.tsx` below.
-- [ ] Delete `components/`, `types/`, `lib/` (committed v3 build output), `bin/dev.js` (v3 dev script), `SwipeListExample/`, `.flowconfig` remnants, old eslint files if superseded
-- [ ] Remove the Phase 6 v3/v4 toggle (depends on `components/`): delete `example/lib-switch.tsx`, drop the toggle UI + `v4OnlyModes` notice from `example/App.tsx`, point the metro `resolveRequest` back at `workspaceRoot/src/index.ts`, and uninstall `prop-types` from the example
-- [ ] `npm pack --dry-run` — confirm tarball contains exactly `lib/`, `src/`, README, LICENSE, CHANGELOG
-- [ ] Fresh-clone install test: `npm ci && npm run build && npm test`
-- [ ] Tag readiness checklist: version 4.0.0 in package.json, CHANGELOG dated, migration guide linked from README
-- [ ] Decide npm `next` dist-tag prerelease (recommend `4.0.0-rc.0` on `next` first) — ask user
+- [x] **Android manual verification** done in Phase 10 (2026-06-13) **before** this phase deleted the toggle — order preserved.
+- [x] Delete `components/`, `types/`, `bin/dev.js` (only file in `bin/`, so removed `bin/`), `SwipeListExample/`. `lib/` was already untracked (Phase 1) — it is gitignored bob output, left on disk. `.flowconfig` absent. (76 tracked files removed.)
+- [x] Remove the Phase 6 v3/v4 toggle: deleted `example/lib-switch.tsx`, dropped the toggle UI + `v4OnlyModes` notice from `example/App.tsx` (key is now just `mode`), repointed metro `resolveRequest` at `workspaceRoot/src/index.ts`, removed `prop-types` from `example/package.json`
+- [x] `npm pack --dry-run` — tarball = `lib/` (commonjs+module+typescript) + `src/` + `package.json` + README + LICENSE + CHANGELOG (55 files, 51 kB). Added `CHANGELOG.md` to the `files` whitelist (npm does not auto-include it).
+- [x] Fresh-clone install test: `npm ci --legacy-peer-deps && npm run build && npm test` — install clean (0 vuln), build clean, 92 tests pass
+- [x] Tag readiness: version `4.0.0` in package.json ✓, CHANGELOG dated `2026-06-13` ✓, migration guide linked from README ✓
+- [x] **Maintenance / absence note** — decided (2026-06-14) to put this in a pinned **GitHub Discussions announcement** (post-merge), NOT the README: a durable README line would go stale, a dated Discussion won't. README placeholder removed.
+- [x] README: added "📖 Full documentation" link to the GitHub Pages site
+- [x] package.json polish for the npm page: `homepage` (docs site), `bugs` (issues), `repository.url` normalized to `git+…​.git`
+- [ ] One-time (user, repo admin): enable GitHub Pages with Source = "GitHub Actions" so `docs.yml` can deploy on `master`
+- [ ] Decide npm `next` dist-tag prerelease (recommend `4.0.0-rc.0` on `next` first) — **ask user (no publish without explicit request)**
 
-Verify: pack contents + fresh install. User verifies → commit. **Publishing/pushing only on explicit user request.**
+Phase 9 notes / deviations:
+- `lib/` was already untracked since Phase 1 (bob build output) — nothing to delete from git; left on disk.
+- `bin/` contained only `dev.js`, so the whole directory was removed.
+- **`example/examples/actions.tsx` simplified**: the Phase-6 dual trash-icon path (`isSharedValue` + `ReanimatedTrash`/`LegacyTrash`) existed only to survive the v3 toggle. With v3 gone, `swipeAnimatedValue` is always a SharedValue, so it was reverted to the single inline `useAnimatedStyle` path. Example typechecks.
+- `example/package-lock.json` still lists `prop-types` (stale, harmless — example is not published); refreshed on the next `npm install` in `example/`.
+- Added `CHANGELOG.md` to package `files` so it ships in the tarball.
+
+Verify: pack contents + fresh install (done, green). REMAINING (user): write the README maintenance note, enable GitHub Pages, decide on the `4.0.0-rc.0` prerelease. User verifies → commit. **Publishing/pushing only on explicit user request.**
 
 ### Phase 10 — Manual review & sign-off (final)  ☑
 

@@ -9,6 +9,7 @@
     "files": [
         "lib/",
         "src/",
+        "CHANGELOG.md",
         "!**/__tests__"
     ],
     "sideEffects": false,
@@ -23,7 +24,11 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/jemise111/react-native-swipe-list-view"
+        "url": "git+https://github.com/jemise111/react-native-swipe-list-view.git"
+    },
+    "homepage": "https://jemise111.github.io/react-native-swipe-list-view/",
+    "bugs": {
+        "url": "https://github.com/jemise111/react-native-swipe-list-view/issues"
     },
     "license": "MIT",
     "keywords": [

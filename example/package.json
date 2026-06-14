@@ -5,7 +5,6 @@
   "dependencies": {
     "expo": "^54.0.35",
     "expo-status-bar": "~3.0.9",
-    "prop-types": "^15.8.1",
     "react": "19.1.0",
     "react-native": "0.81.5",
     "react-native-gesture-handler": "~2.28.0",
