@@ -1,0 +1,24 @@
+{
+    "permissions": {
+        "allow": [
+            "Bash(npm run typecheck)",
+            "Bash(npm run typecheck:*)",
+            "Bash(npm run lint)",
+            "Bash(npm run lint:*)",
+            "Bash(npm run build)",
+            "Bash(npm run fix)",
+            "Bash(npm test)",
+            "Bash(npm test:*)",
+            "Bash(npx tsc:*)",
+            "Bash(npx eslint:*)",
+            "Bash(npx jest:*)",
+            "Bash(git status)",
+            "Bash(git status:*)",
+            "Bash(git diff:*)",
+            "Bash(git log:*)",
+            "Bash(git show:*)",
+            "Bash(git branch:*)",
+            "Bash(git ls-tree:*)"
+        ]
+    }
+}

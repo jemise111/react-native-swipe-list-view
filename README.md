@@ -1,83 +1,91 @@
-[![npm](https://img.shields.io/npm/v/react-native-swipe-list-view.svg)](https://www.npmjs.com/package/react-native-swipe-list-view) [![npm](https://img.shields.io/npm/dm/react-native-swipe-list-view.svg)](https://www.npmjs.com/package/react-native-swipe-list-view)
+[![npm](https://img.shields.io/npm/v/react-native-swipe-list-view.svg)](https://www.npmjs.com/package/react-native-swipe-list-view) [![npm](https://img.shields.io/npm/dm/react-native-swipe-list-view.svg)](https://www.npmjs.com/package/react-native-swipe-list-view) [![CI](https://github.com/jemise111/react-native-swipe-list-view/actions/workflows/ci.yml/badge.svg)](https://github.com/jemise111/react-native-swipe-list-view/actions/workflows/ci.yml)
 
 # react-native-swipe-list-view
-****
---------
 
-```<SwipeListView>``` is a vertical ListView with rows that swipe open and closed. Handles default native behavior such as closing rows when ListView is scrolled or when other rows are opened.
+`<SwipeListView>` is a vertical `FlatList` (or `SectionList`) with rows that swipe
+open and closed. It handles the expected native behavior: closing rows when the
+list scrolls or when another row is opened.
 
-Also includes ```<SwipeRow>``` if you want to use a swipeable row outside of the ```<SwipeListView>```
+It also exports `<SwipeRow>` for using a swipeable row on its own.
 
---------
-🔥🔥 BREAKING CHANGES 🔥🔥
+📖 **Full documentation:** <https://jemise111.github.io/react-native-swipe-list-view/>
 
-For use with RN 0.60+ please use react-native-swipe-list-view@2.0.0+
+---
 
-RN 0.60 and RNSLV 2.0.0 deprecate the use of ListView entirely, please see [`example.js`](https://github.com/jemise111/react-native-swipe-list-view/blob/master/SwipeListExample/example.js) for examples and see the [migrating-to-flatlist doc](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/migrating-to-flatlist.md) for a migration guide if you aren't already using `FlatList`.
+## v4
 
-The `useFlatList` prop is no longer required, as `FlatList` is the default ListView used.
+v4 is a full rewrite on **TypeScript**, **react-native-gesture-handler v2**, and
+**react-native-reanimated v3** — gestures and animation now run on the UI thread.
+The component API is prop-for-prop compatible with v3 apart from a short list of
+breaking changes (new peer deps, removed dead ListView props, a changed
+`swipeGestureEnded` payload, and more).
 
-
---------
-
-## Example
-
-![](https://media.giphy.com/media/WrmrvmwMnvvmzN3ZpX/giphy.gif)
-
-Try it out! https://snack.expo.io/@jemise111/react-native-swipe-list-view
-
-([What's a Snack?](https://blog.expo.io/sketch-a-playground-for-react-native-16b2401f44a2))
+**Upgrading from v3?** Read the **[Migration guide](./docs/MIGRATION.md)**.
 
 ## Installation
 
 ```bash
-npm install --save react-native-swipe-list-view
+npm install react-native-swipe-list-view
+npm install react-native-gesture-handler react-native-reanimated
 ```
 
-## Running the example
+`react-native-gesture-handler` and `react-native-reanimated` are **peer
+dependencies** (≥2.14.0 and ≥3.6.0). After installing them:
 
-The application under ./SwipeListExample will produce the above example. To run execute the following:
+1. Add the Reanimated Babel plugin (must be **last** in the list) to
+   `babel.config.js`:
 
-* ```git clone https://github.com/jemise111/react-native-swipe-list-view.git```
-* ```cd react-native-swipe-list-view```
-* ```cd SwipeListExample```
-* ```yarn```
-* ```cd ios```
-* ```pod install```
-* ```cd ..```
-* ```react-native run-ios | react-native run-android```
+   ```js
+   module.exports = {
+       presets: ['module:@react-native/babel-preset'],
+       plugins: ['react-native-reanimated/plugin'],
+   };
+   ```
 
-> Android: If you get the [following error](https://github.com/facebook/react-native/issues/25629#issuecomment-511209583) `SwipeListExample/android/app/debug.keystore' not found for signing config 'debug'.`:
-> ```bash
-> cd android/app/ && keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
-> // answer the questions
-> cd ../..
-> ```
+2. Wrap your app root in `GestureHandlerRootView`:
 
-## Usage
+   ```jsx
+   import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-```javascript
+   export default function App() {
+       return (
+           <GestureHandlerRootView style={{ flex: 1 }}>
+               {/* ... */}
+           </GestureHandlerRootView>
+       );
+   }
+   ```
+
+3. Rebuild the native app (both are native modules).
+
+See the official setup guides for
+[gesture-handler](https://docs.swmansion.com/react-native-gesture-handler/docs/fundamentals/installation)
+and
+[reanimated](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started).
+
+**Requirements:** react ≥18, react-native ≥0.73.
+
+## Quick start
+
+```jsx
 import { SwipeListView } from 'react-native-swipe-list-view';
 
-//... note: your data array objects MUST contain a key property 
-//          or you must pass a keyExtractor to the SwipeListView to ensure proper functionality
-//          see: https://reactnative.dev/docs/flatlist#keyextractor
-
-  this.state.listViewData = Array(20)
-    .fill("")
+// Each data item must have a `key`, or pass a `keyExtractor` to the list:
+// https://reactnative.dev/docs/flatlist#keyextractor
+const data = Array(20)
+    .fill('')
     .map((_, i) => ({ key: `${i}`, text: `item #${i}` }));
 
-//...
-render() {
+function MyList() {
     return (
         <SwipeListView
-            data={this.state.listViewData}
-            renderItem={ (data, rowMap) => (
+            data={data}
+            renderItem={(rowData, rowMap) => (
                 <View style={styles.rowFront}>
-                    <Text>I am {data.item.text} in a SwipeListView</Text>
+                    <Text>I am {rowData.item.text} in a SwipeListView</Text>
                 </View>
             )}
-            renderHiddenItem={ (data, rowMap) => (
+            renderHiddenItem={(rowData, rowMap) => (
                 <View style={styles.rowBack}>
                     <Text>Left</Text>
                     <Text>Right</Text>
@@ -86,65 +94,47 @@ render() {
             leftOpenValue={75}
             rightOpenValue={-75}
         />
-    )
+    );
 }
 ```
 
-*See ```example.js``` for full usage guide (including using ```<SwipeRow>``` by itself)*
-
-#### Note:
-
-If your row is touchable (TouchableOpacity, TouchableHighlight, etc.)  with an ```onPress``` function make sure ```renderItem``` returns the Touchable as the topmost element.
-
-GOOD:
-```javascript
-renderItem={ data => (
-    <TouchableHighlight onPress={this.doSomething.bind(this)}>
-        <View>
-            <Text>I am {data.item} in a SwipeListView</Text>
-        </View>
-    </TouchableHighlight>
-)}
-```
-BAD:
-```javascript
-renderItem={ data => (
-    <View>
-        <TouchableHighlight onPress={this.doSomething.bind(this)}>
-            <Text>I am {data.item} in a SwipeListView</Text>
-        </TouchableHighlight>
-    </View>
-)}
-```
+> **Touchable rows:** if your row is a `Touchable*` with an `onPress`, make sure
+> `renderItem` returns the `Touchable` as the **topmost** element, otherwise the
+> press and the swipe gesture will conflict.
+>
+> ```jsx
+> // Good
+> renderItem={data => (
+>     <TouchableHighlight onPress={doSomething}>
+>         <View><Text>{data.item.text}</Text></View>
+>     </TouchableHighlight>
+> )}
+> ```
 
 ## Component APIs
 
-[`<SwipeListView />`](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeListView.md)
+- [`<SwipeListView />`](./docs/SwipeListView.md)
+- [`<SwipeRow />`](./docs/SwipeRow.md)
 
-[`<SwipeRow />`](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/SwipeRow.md)
+## Guides
 
-## Flatlist / SectionList support
+- [Migration v3 → v4](./docs/MIGRATION.md)
+- [Manually closing rows](./docs/manually-closing-rows.md)
+- [Per-row behavior](./docs/per-row-behavior.md)
+- [Actions (swipe-to-delete / status changes)](./docs/actions.md)
 
-`SwipeListView` now supports `FlatList` and `SectionList`! (as of v1.0.0)
+## Example app
 
-Please see the [migrating-to-flatlist doc](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/migrating-to-flatlist.md) for all details.
-And see [`example.js`](https://github.com/jemise111/react-native-swipe-list-view/blob/master/SwipeListExample/example.js) for a full usage example.
+A managed Expo app under [`example/`](./example) showcases every feature: basic
+list, `SectionList`, per-row config, standalone `SwipeRow`, swipe-to-delete,
+swipe-value-driven UI (both the legacy `onSwipeValueChange` and the recommended
+`swipeAnimatedValue` approach), actions, manual close, and accessibility.
 
-## Also see `docs/` for help with
- * [Manually Closing Rows](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/manually-closing-rows.md)
- * [Per Row Behavior](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/per-row-behavior.md)
- * [Actions](https://github.com/jemise111/react-native-swipe-list-view/blob/master/docs/actions.md)
-
-## And the `examples/` folder for examples on
- * Swipe to Delete (also see "Actions" for an alternative way to achieve this)
- * Per Row Behavior
- * UI Based on Swipe Values
- * Actions
-
-## Core Support
-
-RN Core added a SwipeList component as of [v0.27.0](https://github.com/facebook/react-native/releases/tag/v0.27.0)
-It is actively being worked on and has no documentation yet. So I will continue to maintain this component until a future date.
+```bash
+cd example
+npm install
+npx expo start
+```
 
 ## License
 

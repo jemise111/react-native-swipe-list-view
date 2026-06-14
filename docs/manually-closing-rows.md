@@ -13,11 +13,11 @@ Where each ```row_key``` is the same key used by the `FlatList` taken either fro
 Each row's ref has a public method called ```closeRow``` that will swipe the row closed. So you can do something like:
 ```javascript
 <SwipeListView
-    renderHiddenItem={ (rowData, rowMap) => {
+    renderHiddenItem={ (rowData, rowMap) => (
         <TouchableOpacity onPress={ () => rowMap[rowData.item.key].closeRow() }>
             <Text>I close the row</Text>
         </TouchableOpacity>
-    }}
+    )}
 />
 ```
 
