@@ -10,7 +10,7 @@
 > (`v4`) starts from scratch off `master` (v3.2.9). Do not copy code from `v4-rewrite`;
 > the "Known pitfalls" section below already captures the useful lessons from it.
 
-**Status:** Phase 9 (v3 removal & release prep) code-complete, awaiting commit go-ahead. Deleted v3 (`components/`, `types/`, `bin/`, `SwipeListExample/` — 76 files); removed the example v3/v4 toggle (lib-switch + App toggle UI + metro repoint + prop-types) and simplified `actions.tsx` to the single v4 path; added `CHANGELOG.md` to the tarball; dated CHANGELOG `2026-06-13`; README maintenance-note placeholder + docs-site link. Verified: `npm ci`/build/`npm test` (92) green, `npm pack --dry-run` = lib+src+README+LICENSE+CHANGELOG. **REMAINING (user, release-gating): write the README maintenance note, enable GitHub Pages, decide the `4.0.0-rc.0` prerelease.** All phases 1–8 + 10 complete. NEXT (after commit): user-owned release steps — no publish/push without explicit request.
+**Status:** ALL PHASES COMPLETE (1–10). Phase 9 committed (`4193030`); v3 removed, example toggle gone, release prep done. Prerelease chosen: `4.0.0-rc.0` on npm `next` (version bumped, CHANGELOG headed `[4.0.0-rc.0]`). Maintenance note → pinned GitHub Discussions announcement post-merge (not README). **NEXT: open PR `v4` → `master` and HOLD** (per user). Remaining user-owned release steps after PR: enable GitHub Pages (Source = GitHub Actions); confirm npm owner access; merge; tag `v4.0.0-rc.0` + GitHub Release; `npm publish --tag next` (user-run, OTP); smoke-test; post Discussions announcement; promote `next`→`latest` after soak. **No publish/push from here without explicit request.**
 
 ---
 
@@ -299,7 +299,7 @@ Verify: `npm run build` in `website/` succeeds with zero warnings; all 8 routes 
 - [x] README: added "📖 Full documentation" link to the GitHub Pages site
 - [x] package.json polish for the npm page: `homepage` (docs site), `bugs` (issues), `repository.url` normalized to `git+…​.git`
 - [ ] One-time (user, repo admin): enable GitHub Pages with Source = "GitHub Actions" so `docs.yml` can deploy on `master`
-- [ ] Decide npm `next` dist-tag prerelease (recommend `4.0.0-rc.0` on `next` first) — **ask user (no publish without explicit request)**
+- [x] Prerelease decided (2026-06-14): ship **`4.0.0-rc.0` on the npm `next` dist-tag** first, promote to `latest` after a soak. `package.json` version bumped to `4.0.0-rc.0`; CHANGELOG heading set to `[4.0.0-rc.0]`. **(Publish itself is user-run with OTP — no publish/push from here.)**
 
 Phase 9 notes / deviations:
 - `lib/` was already untracked since Phase 1 (bob build output) — nothing to delete from git; left on disk.

@@ -1,6 +1,6 @@
 {
     "name": "react-native-swipe-list-view",
-    "version": "4.0.0",
+    "version": "4.0.0-rc.0",
     "description": "A FlatList/SectionList with rows that swipe open and closed",
     "main": "lib/commonjs/index.js",
     "module": "lib/module/index.js",
