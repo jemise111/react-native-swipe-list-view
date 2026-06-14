@@ -10,7 +10,7 @@
 > (`v4`) starts from scratch off `master` (v3.2.9). Do not copy code from `v4-rewrite`;
 > the "Known pitfalls" section below already captures the useful lessons from it.
 
-**Status:** Phase 8 (Docusaurus docs site) code-complete, awaiting user review + commit go-ahead. Hand-authored docs-only Docusaurus 3.10.1 site in `website/` reading the repo's `../docs`; added `docs/intro.md` + `docs/examples.md`; GitHub Pages deploy workflow (`.github/workflows/docs.yml`, master-only). `npm run build` clean, all routes generated. Phase 7 committed (`5364652`). **Phases reordered (2026-06-13): docs site = Phase 8, v3 removal & release prep = Phase 9, manual review = Phase 10.** Phase 6 verified on iOS; Android verification pending (Phase 10). NEXT (after commit): Phase 9 — v3 removal & release prep.
+**Status:** Phases 1–8 + Phase 10 complete. Phase 10 manual sign-off done (2026-06-13): Android verified on-device (iOS verified in Phase 6) and docs/migration + rendered Docusaurus site reviewed. Only **Phase 9 — v3 removal & release prep** remains. **Phase order (2026-06-13 reorder): docs site = Phase 8, v3 removal & release prep = Phase 9, manual review = Phase 10.** NEXT: Phase 9 — delete v3 `components/`/`types/`/`SwipeListExample/`, remove the example v3/v4 toggle, pack audit + fresh-install test, version/tag readiness, prerelease decision.
 
 ---
 
@@ -229,7 +229,7 @@ Goal: manual regression suite + showcase. Replaces `SwipeListExample/` (deleted 
 - [x] New example: accessibility demo (C6) — screen-reader actions (standalone row with action log + list)
 - [x] **TEMPORARY v3/v4 runtime toggle** for the side-by-side comparison: `example/lib-switch.tsx` re-exports either the v4 source (`../src`) or the frozen v3 reference (`../components`); Metro resolves the package name to the switch, so all examples run unmodified on both implementations. Toggle in the App header remounts the active example. The two v4-only examples (SwipeValueShared, Accessibility) show a notice in v3 mode. **Removed in Phase 9** (depends on `components/`, which Phase 9 deletes).
 - [x] Manual verification checklist executed on **iOS** (swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list) — user-confirmed 2026-06-13
-- [ ] **Manual verification on Android still outstanding** — deferred at user request; tracked in the Phase 10 manual-review checklist
+- [x] **Manual verification on Android** — user-confirmed 2026-06-13 (see Phase 10)
 - [x] Record spring-feel comparison vs v3 using the in-app v3/v4 toggle — spring mapping corrected to RN Origami conversion (see §4 / §6); user-confirmed feel matches v3 on iOS
 
 Phase 6 notes / deviations:
@@ -299,14 +299,14 @@ Verify: `npm run build` in `website/` succeeds with zero warnings; all 8 routes 
 
 Verify: pack contents + fresh install. User verifies → commit. **Publishing/pushing only on explicit user request.**
 
-### Phase 10 — Manual review & sign-off (final)  ☐
+### Phase 10 — Manual review & sign-off (final)  ☑
 
 The running checklist of things the **user must manually review/verify** before
 4.0.0 ships. Items land here from earlier phases as they are deferred; add more as
 they come up. Each box is checked only by the user.
 
-- [ ] **Android manual verification** — run the full example-app checklist on Android (emulator or device): swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list; confirm spring feel matches v3. (Deferred from Phase 6; iOS already verified 2026-06-13. Do this while the v3/v4 toggle still exists — Phase 9 removes it.)
-- [ ] **Documentation & migration guide review** — read through README, `CHANGELOG.md`, `docs/MIGRATION.md`, and `docs/*.md` for accuracy/completeness against the shipped v4 API. (Authored in Phase 7.)
+- [x] **Android manual verification** — full example-app checklist on Android (swipe open/close both directions, thresholds, preview, close-on-scroll, close-all, actions activation, standalone row, section list; spring feel matches v3). User-confirmed 2026-06-13. (iOS verified earlier in Phase 6.)
+- [x] **Documentation & migration guide review** — README, `CHANGELOG.md`, `docs/MIGRATION.md`, `docs/*.md`, and the rendered Docusaurus site reviewed against the shipped v4 API. User-confirmed 2026-06-13.
 
 ---
 
