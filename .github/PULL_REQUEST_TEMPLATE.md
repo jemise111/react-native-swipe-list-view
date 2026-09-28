@@ -1,7 +1,9 @@
 Thanks for submitting a pull request!
 
-**Please confirm you have linted your code and fixed any issues:**
+**Please confirm your changes pass the checks:**
 
-* [ ] I ran `yarn run fix` on my PR and fixed any formatting issues
+* [ ] `npm run typecheck`, `npm run lint`, `npm test` and `npm run build` pass
+* [ ] Docs (`docs/`) and `CHANGELOG.md` (under `## [Unreleased]`) are updated if behavior changed
+* [ ] Tested in the example app (`example/`), noting platform(s) below
 
 **Please provide information on what your PR achieves and any issues that it addresses:**
