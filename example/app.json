@@ -7,7 +7,8 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jemise111.example"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,6 +24,9 @@
     },
     "experiments": {
       "tsconfigPaths": false
-    }
+    },
+    "plugins": [
+      "expo-status-bar"
+    ]
   }
 }
