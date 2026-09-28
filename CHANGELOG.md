@@ -4,11 +4,9 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.0.0-rc.0] - 2026-06-14
+## [4.0.0] - 2026-09-28
 
-First prerelease of 4.0.0, published on the npm `next` dist-tag. The entry below
-is the full 4.0.0 changelog; the date/heading are promoted to `[4.0.0]` when the
-final release ships.
+No library changes since `4.0.0-rc.0` (2026-06-14).
 
 A from-scratch rewrite. The public component API is prop-for-prop compatible with
 v3 except where listed under **Breaking changes**. See
@@ -74,4 +72,5 @@ v3 except where listed under **Breaking changes**. See
    SwipeListView owns the scroll handler for close-on-scroll bookkeeping. Object
    handlers log a one-time dev warning and are ignored.
 
+[4.0.0]: https://github.com/jemise111/react-native-swipe-list-view/releases/tag/v4.0.0
 [4.0.0-rc.0]: https://github.com/jemise111/react-native-swipe-list-view/releases/tag/v4.0.0-rc.0
