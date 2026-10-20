@@ -40,6 +40,9 @@ cd example && npx expo run:ios --device "$UDID" > "$SIM_OUT/metro.log" 2>&1 </de
   `xcrun simctl launch "$UDID" com.jemise111.example`.
 - Metro resolves `react-native-swipe-list-view` to `../src` (see
   `example/metro.config.js`), so library edits hot-reload; no `npm run build` needed.
+- To test what consumers actually get (Metro resolves `main` →
+  `lib/commonjs`), run `npm run build` and start Metro with `RNSLV_ENTRY=lib`.
+  Do this for changes to worklets, exports, or build config (#652).
 - Don't open deep links with `simctl openurl` — iOS shows an "Open in…?"
   system alert that idb cannot tap.
 - If the app shows a red error screen, read it (screenshot) and the Metro log
