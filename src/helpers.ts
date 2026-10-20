@@ -1,6 +1,11 @@
 // Pure functions ported from v3 components/SwipeRow.js. All are worklets so the
 // gesture-release path can run them on the UI thread; they behave identically
 // when called from JS (tests).
+//
+// Keep these as `export const` arrows, not `export function` declarations: the
+// worklets plugin rewrites a worklet declaration into a non-hoisted `var`, and
+// the CommonJS build assigns `exports.x = x` at the top of the file — so
+// declarations would be exported as `undefined` (#652).
 import { MAX_VELOCITY_CONTRIBUTION } from './constants';
 
 /**
@@ -15,12 +20,12 @@ import { MAX_VELOCITY_CONTRIBUTION } from './constants';
  * mapping produced a slow, sluggish close/snap). With the defaults this gives
  * stiffness ~230.2, damping ~22, mass 1 — identical feel to v3.
  */
-export function springConfigFromV3(
+export const springConfigFromV3 = (
     friction: number = 7,
     tension: number = 40,
     restSpeedThreshold: number = 0.001,
     restDisplacementThreshold: number = 0.001
-) {
+) => {
     'worklet';
     return {
         stiffness: (tension - 30) * 3.62 + 194,
@@ -29,22 +34,22 @@ export function springConfigFromV3(
         restSpeedThreshold,
         restDisplacementThreshold,
     };
-}
+};
 
 /**
  * v3 handlePanResponderEnd velocity projection. `vx` must be in px/ms (the
  * PanResponder unit) — RNGH reports px/s, so divide by 1000 before calling.
  */
-export function projectedExtraPixels(
+export const projectedExtraPixels = (
     rightOpenValue: number,
     swipeToOpenVelocityContribution: number,
     vx: number
-): number {
+): number => {
     'worklet';
     const possibleExtraPixels = rightOpenValue * swipeToOpenVelocityContribution;
     const clampedVelocity = Math.min(vx, MAX_VELOCITY_CONTRIBUTION);
     return possibleExtraPixels * (clampedVelocity / MAX_VELOCITY_CONTRIBUTION);
-}
+};
 
 export interface ReleaseTargetInput {
     currentTranslateX: number;
@@ -71,7 +76,9 @@ export interface ReleaseTarget {
  * the opening branch (swiping further right) and the closing branch (swiping
  * back) is v3 behavior, ported verbatim.
  */
-export function rightSwipeReleaseTarget(input: ReleaseTargetInput): ReleaseTarget {
+export const rightSwipeReleaseTarget = (
+    input: ReleaseTargetInput
+): ReleaseTarget => {
     'worklet';
     let toValue = 0;
     let actionSide: 'left' | 'right' | undefined;
@@ -107,7 +114,7 @@ export function rightSwipeReleaseTarget(input: ReleaseTargetInput): ReleaseTarge
         }
     }
     return { toValue, actionSide };
-}
+};
 
 /**
  * v3 handleLeftSwipe — release while translateX < 0. Ported verbatim,
@@ -115,7 +122,9 @@ export function rightSwipeReleaseTarget(input: ReleaseTargetInput): ReleaseTarge
  * rightOpenValue, and the activation threshold is scaled by
  * swipeToClosePercent only on that branch).
  */
-export function leftSwipeReleaseTarget(input: ReleaseTargetInput): ReleaseTarget {
+export const leftSwipeReleaseTarget = (
+    input: ReleaseTargetInput
+): ReleaseTarget => {
     'worklet';
     let toValue = 0;
     let actionSide: 'left' | 'right' | undefined;
@@ -150,4 +159,4 @@ export function leftSwipeReleaseTarget(input: ReleaseTargetInput): ReleaseTarget
         }
     }
     return { toValue, actionSide };
-}
+};
