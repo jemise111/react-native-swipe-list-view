@@ -4,6 +4,17 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- `SwipeRow` crashing with `TypeError: undefined is not a function` when Metro
+  resolves the published CommonJS build (the default `main` entry) and the app
+  runs the Reanimated/worklets Babel plugin. Worklet helpers are no longer
+  exported as `undefined`, and the pan gesture callbacks now carry explicit
+  `'worklet'` directives so they run on the UI thread from the CommonJS build
+  too. ([#652](https://github.com/jemise111/react-native-swipe-list-view/issues/652))
+
 ## [4.0.0] - 2026-09-28
 
 No library changes since `4.0.0-rc.0` (2026-06-14).

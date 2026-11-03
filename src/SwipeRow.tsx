@@ -360,7 +360,11 @@ const SwipeRowInner = forwardRef<SwipeRowRef, SwipeRowProps<unknown>>(
                         directionalDistanceChangeThreshold,
                     ])
                     .failOffsetY([-10, 10])
+                    // Explicit 'worklet' directives: the plugin's auto-workletizing
+                    // only spots a bare `Gesture.Pan()` chain, which the CommonJS
+                    // build rewrites to `_reactNativeGestureHandler.Gesture` (#652).
                     .onStart(() => {
+                        'worklet';
                         if (isForceClosing.value) {
                             return;
                         }
@@ -375,6 +379,7 @@ const SwipeRowInner = forwardRef<SwipeRowRef, SwipeRowProps<unknown>>(
                         }
                     })
                     .onUpdate(event => {
+                        'worklet';
                         if (isForceClosing.value) {
                             return;
                         }
@@ -394,6 +399,7 @@ const SwipeRowInner = forwardRef<SwipeRowRef, SwipeRowProps<unknown>>(
                         translateX.value = newDX;
                     })
                     .onEnd((event, success) => {
+                        'worklet';
                         if (success) {
                             runOnJS(fireSwipeGestureEnded)({
                                 translateX: translateX.value,
