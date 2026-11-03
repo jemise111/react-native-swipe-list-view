@@ -35,7 +35,9 @@ udid() {
     if [ -z "$id" ]; then
         id=$(xcrun simctl list devices available | grep -E 'iPhone' | grep -oE '[0-9A-F-]{36}' | head -1)
         xcrun simctl boot "$id" >/dev/null
-        open -a Simulator
+        # Xcode 27 replaced Simulator.app with DeviceHub.app.
+        open -a Simulator 2>/dev/null ||
+            open -a "$(xcode-select -p)/../Applications/DeviceHub.app"
     fi
     idb connect "$id" >/dev/null 2>&1 || true
     echo "$id"

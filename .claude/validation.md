@@ -119,7 +119,20 @@ In the PR body, list each validation step and what was observed (e.g. "Basic:
 swipe row 0 left → Close/Delete revealed; opening row 2 auto-closed row 0"),
 platforms and versions (Expo SDK, RN, device/OS), and the Metro warning delta.
 
-## 9. Clean up
+## 9. Troubleshooting
+
+- `SimulatorKit is required for HID interactions` (taps/swipes fail, `labels`
+  may still work): the idb companion predates your Xcode. `brew upgrade
+  idb-companion` (Xcode 27 moved `SimulatorKit.framework` to
+  `Contents/SharedFrameworks`; companion 1.7.7+ handles it).
+- `Cannot run accessibility commands … as it is not booted` right after the
+  simulator rebooted: idb's companion kept stale state — `pkill -f
+  idb_companion`, then rerun (`sim.sh udid` reconnects).
+- Can't see the simulator: Xcode 27+ has no Simulator.app; open **DeviceHub**
+  (`open -a "$(xcode-select -p)/../Applications/DeviceHub.app"`) and pick the
+  device whose UDID `sim.sh udid` prints.
+
+## 10. Clean up
 
 Stop background Metro/build tasks you started, remove temporary debug code,
 and never commit `example/ios` / `example/android` (gitignored).
