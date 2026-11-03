@@ -6,6 +6,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [4.0.1] - 2026-11-03
+
 ### Fixed
 
 - `SwipeRow` crashing with `TypeError: undefined is not a function` when Metro
@@ -83,5 +85,6 @@ v3 except where listed under **Breaking changes**. See
    SwipeListView owns the scroll handler for close-on-scroll bookkeeping. Object
    handlers log a one-time dev warning and are ignored.
 
+[4.0.1]: https://github.com/jemise111/react-native-swipe-list-view/releases/tag/v4.0.1
 [4.0.0]: https://github.com/jemise111/react-native-swipe-list-view/releases/tag/v4.0.0
 [4.0.0-rc.0]: https://github.com/jemise111/react-native-swipe-list-view/releases/tag/v4.0.0-rc.0
