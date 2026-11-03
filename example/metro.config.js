@@ -22,14 +22,18 @@ config.resolver.nodeModulesPaths = [path.resolve(projectRoot, 'node_modules')];
 
 // Resolve the library import to its TypeScript source so Metro/Babel compile it
 // from source (worklets plugin included) instead of pulling the built `lib/`.
-// Set RNSLV_ENTRY=lib to resolve the built CommonJS entry instead — what Metro
-// picks for real consumers via `main` (run `npm run build` first).
+// RNSLV_ENTRY switches this for testing what consumers get:
+//   lib      the built CommonJS entry — what Metro picks via `main`
+//            (run `npm run build` first)
+//   package  no override: resolve normally from example/node_modules, e.g. an
+//            `npm pack` tarball installed with `npm install --no-save`
+const entry = process.env.RNSLV_ENTRY;
 const libraryEntry =
-    process.env.RNSLV_ENTRY === 'lib'
+    entry === 'lib'
         ? path.join(workspaceRoot, 'lib', 'commonjs', 'index.js')
         : path.join(workspaceRoot, 'src', 'index.ts');
 config.resolver.resolveRequest = (context, moduleName, platform) => {
-    if (moduleName === 'react-native-swipe-list-view') {
+    if (moduleName === 'react-native-swipe-list-view' && entry !== 'package') {
         return {
             type: 'sourceFile',
             filePath: libraryEntry,

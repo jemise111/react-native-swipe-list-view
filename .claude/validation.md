@@ -43,6 +43,9 @@ cd example && npx expo run:ios --device "$UDID" > "$SIM_OUT/metro.log" 2>&1 </de
 - To test what consumers actually get (Metro resolves `main` →
   `lib/commonjs`), run `npm run build` and start Metro with `RNSLV_ENTRY=lib`.
   Do this for changes to worklets, exports, or build config (#652).
+  `RNSLV_ENTRY=package` drops the override entirely so Metro resolves the
+  package from `example/node_modules` — used by `/release` to run an
+  `npm pack` tarball installed with `npm install --no-save`.
 - Don't open deep links with `simctl openurl` — iOS shows an "Open in…?"
   system alert that idb cannot tap.
 - If the app shows a red error screen, read it (screenshot) and the Metro log

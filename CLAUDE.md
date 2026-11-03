@@ -29,6 +29,9 @@ npm run build                    # bob build -> lib/
   implement, validate in the example app, open a PR.
 - `/maintenance [focus]` — audit deps / Expo SDK / CI / deprecations, do one
   focused update, validate, open a PR; file issues for the rest.
-- Both validate per `.claude/validation.md` using `.claude/scripts/sim.sh`.
+- `/release [version]` — local checks, smoke-test the packed tarball in the
+  example, open the release PR, then hand off merge/publish/tag commands to the
+  user (never publishes itself).
+- All validate per `.claude/validation.md` using `.claude/scripts/sim.sh`.
 - Issue labels: `ready` / `needs-design`, `size:S|M|L`, `breaking` (major
   versions only), `maintenance`. Milestones: 4.1, 4.2, 5.0.
